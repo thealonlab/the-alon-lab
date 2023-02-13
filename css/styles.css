@@ -1,0 +1,16 @@
+.lab-title {
+	font-weight: 300;
+	color: #6f6f6f;
+}
+
+.logo {
+	width:180px;
+
+}
+.card {
+  border:1;
+  border-radius:0.5rem;
+}
+.carousel-inner > .item > img, .carousel-inner > .item > a > img {
+    width: 100%;
+}
