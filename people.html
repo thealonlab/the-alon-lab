@@ -24,7 +24,7 @@
       <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
         <li class="nav-item px-3"> <a class="nav-link" href="index.html">Home </a> </li>
         <li class="nav-item px-3"> <a class="nav-link disabled" href="research.html">Research</a> </li>
-        <li class="nav-item px-3"> <a class="nav-link active disabled" href="people.html">Lab members<span class="visually-hidden-focusable">(current)</span></a> </li>
+        <li class="nav-item px-3"> <a class="nav-link active" href="people.html">Lab members<span class="visually-hidden-focusable">(current)</span></a> </li>
         <li class="nav-item px-3"> <a class="nav-link " href="publications.html">Publications</a> </li>
         <li class="nav-item px-3"> <a class="nav-link " href="positions.html">Positions</a> </li>
         <li class="nav-item px-3"> <a class="nav-link disabled" href="contact.html">Contact</a> </li>
@@ -48,28 +48,64 @@
       <h3 class="text-bg-body-secondary">Lab members</h3>
     </div>
   </div>
-
-  <div class="row row-cols-1 py-3">
-	  <div class="col col-md-6 col-lg-4 text-center mx-auto">
-		  <div class="card">
-			  <img class="rounded-circle shadow mx-auto pt-2" style="width:150px;" src="images/Assaf_small.webp" alt="Assaf Alon">
-			  <div class="card-body">
-			  <h5 class="card-title">Assaf Alon, PhD</h5></div>
-			  <h6 class="card-subtitle text-dark-emphasis">Principal investigator</h6>
-			  <p class="card-text pt-2"><a class="text-decoration-none text-primary-emphasis" href="mailto:assaf.alon@yale.edu">assaf<img src="images/dot_symbol.svg" alt="">alon<img src="images/at_symbol.svg" alt="at" width="15">yale.edu</a></p>
-			  <p class="card-text text-start py-1 px-2">My lab studies the molecular basis of transmembrane protein function through the use of structural biology, pharmacology, and biochemistry. We study proteins important for human health and disease, with a specific focus on protein receptors that sense and respond to sex hormones and other sterols.</p>
-		  </div>
-	  </div>
+</div>
+<!-- cards -->
+<div class="container bg-body-secondary">
+  <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 g-4 pt-3 pb-5">
+    <div class="col">
+      <div class="card h-100"> <img src="images/Assaf_small.webp" alt="Assaf" class="card-img-top">
+        <div class="card-body mx-auto">
+          <h5 class="card-title">Assaf Alon, PhD</h5>
+          <h6 class="card-subtitle text-dark-emphasis">Principal investigator</h6>
+          <p class="card-text text-primary-emphasis">assaf.alon<img src="images/at_symbol.svg" alt="at" width="15"> yale.edu</p>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#Assaf_Modal"> info </button>
+          <a type="button" class="btn btn-outline-danger" href="documents/Assaf_biosketch_2023.pdf">Biosketch</a> </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100"> 
+        <img src="images/Serotonin.svg" alt="Serotonin" class="card-img-top">
+        <div class="card-body mx-auto"> 
+          <h5 class="card-title">This can be you!</h5> 
+          <h6 class="card-subtitle text-dark-emphasis">We are hiring</h6> 
+          <p class="card-text text-primary-emphasis">Check our open <a href="positions.html">positions</a></p> 
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100"> 
+        <img src="images/Dopamine.svg" alt="Dopamin" class="card-img-top">
+        <div class="card-body mx-auto"> 
+          <h5 class="card-title">This can be you!</h5> 
+          <h6 class="card-subtitle text-dark-emphasis">We are hiring</h6> 
+          <p class="card-text text-primary-emphasis">Check our open <a href="positions.html">positions</a></p> 
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+<!-- Modals -->
+<div class="modal fade" id="Assaf_Modal" tabindex="-1" aria-labelledby="Assaf Alon" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p>My lab studies how interesting and poorly understood membrane proteins sense and respond to the environment.</p>
+        <p>We study proteins through the lens of structural biology and pharmacology, aiming to both understand how they function on the molecuar level and to drug them in the context of human health and disease.</p>
+        <p>We are specifically interested in protein receptors that sense and respond to sex hormones and other various other sterols</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Footer -->
-	<footer class="bg-light text-center text-lg-start"> 
+<footer class="bg-light text-center text-lg-start">
   <div class="text-center p-3 text-bg-dark">&#169; Assaf Alon 2022</div>
-	
 </footer>
 <!-- Bootstrap core JavaScript --> 
 <!-- <script src="jquery/jquery.js"></script> --> 
-<!-- <script src="js/bootstrap.bundle.min.js"></script> -->
+<!-- <script src="js/bootstrap.bundle.min.js"></script> --> 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 </html>
