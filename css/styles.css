@@ -11,6 +11,3 @@
   border:1;
   border-radius:0.5rem;
 }
-.carousel-inner > .item > img, .carousel-inner > .item > a > img {
-    width: 100%;
-}
