@@ -11,3 +11,14 @@
   border:1;
   border-radius:0.5rem;
 }
+.animate-opacity {
+	animation:opac 1s
+}
+@keyframes opac{
+	from {
+		opacity:0
+	} 
+	to {
+		opacity:1
+	}
+}
