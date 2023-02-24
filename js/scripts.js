@@ -1,52 +1,17 @@
-function fadeInPage() {
-  if (!window.AnimationEvent) {
-    return;
-  }
-  var fader = document.getElementById('fader');
-  fader.classList.add('fade-out');
+function defaultStructureRepresentation( component ){
+    // bail out if the component does not contain a structure
+    if( component.type !== "structure" ) return;
+    // add three representations
+    component.addRepresentation( "cartoon", {
+        aspectRatio: 3.0,
+        scale: 1.5
+    } );
+    component.addRepresentation( "licorice", {
+        sele: "hetero and not ( water or ion )",
+        multipleBond: true
+    } );
+    component.addRepresentation( "spacefill", {
+        sele: "water or ion",
+        scale: 0.5
+    } );
 }
-
-
-document.addEventListener('DOMContentLoaded', function () {
-
-
-  if (!window.AnimationEvent) {
-    return;
-  }
-
-  var anchors = document.getElementsByTagName('a');
-  for (var idx = 0; idx < anchors.length; idx += 1) {
-    if (anchors[idx].hostname !== window.location.hostname
-      || anchors[idx].pathname === window.location.pathname) {
-      continue;
-    }
-
-
-    anchors[idx].addEventListener('click', function (event) {
-      var fader = document.getElementById('fader'),
-        anchor = event.currentTarget;
-
-      var listener = function () {
-        window.location = anchor.href;
-        fader.removeEventListener('animationend', listener);
-      };
-      fader.addEventListener('animationend', listener);
-
-      event.preventDefault();
-
-      fader.classList.add('fade-in');
-    });
-  }
-});
-
-
-window.addEventListener('pageshow', function (event) {
-  if (!event.persisted) {
-    return;
-  }
-  var fader = document.getElementById('fader');
-  fader.classList.remove('fade-in');
-});
-
-
-// JavaScript Document
