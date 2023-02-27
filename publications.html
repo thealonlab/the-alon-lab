@@ -22,11 +22,20 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-        <li class="nav-item px-3"> <a class="nav-link" href="index.html">Home </a> </li>
+        <li class="nav-item px-3"> <a class="nav-link active" href="index.html">Home<span class="visually-hidden-focusable">(current)</span></a> </li>
         <li class="nav-item px-3"> <a class="nav-link" href="research.html">Research</a> </li>
         <li class="nav-item px-3"> <a class="nav-link" href="people.html">Lab members</a> </li>
-        <li class="nav-item px-3"> <a class="nav-link active" href="publications.html">Publications<span class="visually-hidden-focusable">(current)</span></a> </li>
-        <li class="nav-item px-3"> <a class="nav-link" href="positions.html">Positions</a> </li>
+        <li class="nav-item px-3"> <a class="nav-link" href="publications.html">Publications</a> </li>
+		<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Positions
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li><a class="dropdown-item" href="positions.html">General</a></li>
+            <li><a class="dropdown-item" href="positions-postbac.html">Research Associate</a></li>
+            <li><a class="dropdown-item" href="#">Postdoc</a></li>
+          </ul>
+        </li>
         <li class="nav-item px-3"> <a class="nav-link" href="contact.html">Contact</a> </li>
       </ul>
     </div>
@@ -44,12 +53,14 @@
 
 <!-- Page Content -->
 <div class="container bg-body-secondary animate-opacity">
+<!--page title-->
   <div class="row">
     <div class="col py-3 text-center">
       <h3 class="text-bg-body-secondary">Publications</h3>
       <h6><a class="text-decoration-none text-muted" href="https://www.ncbi.nlm.nih.gov/myncbi/1R_B6vwLTh1/bibliography/public/" target="_blank">Click here for a full publication list</a></h6>
     </div>
   </div>
+	<!--authorship-->
  <div class="row">
     <div class="col-1"></div>
 	 <div class="col-10">
@@ -61,6 +72,8 @@
 	 </div>
     <div class="col-1"></div>
     </div>
+	<!--publication list-->
+	
   <div class="row">
     <div class="col px-2 px-md-3 px-lg-5">
       <ul class="list-group list-group-flush">
