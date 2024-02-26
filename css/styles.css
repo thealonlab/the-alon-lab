@@ -2,10 +2,6 @@
 	font-weight: 300;
 	color: #6f6f6f;
 }
-
-.logo {
-	width:400px;
-	}
 .card {
   border:1;
   border-radius:0.5rem;
@@ -20,4 +16,21 @@
 	to {
 		opacity:1
 	}
+}
+.logo {
+  width: 400px; /* Default size for larger screens */
+}
+
+/* For tablets or smaller screens */
+@media (max-width: 768px) {
+  .logo {
+    width: 300px; /* Smaller size for smaller screens */
+  }
+}
+
+/* For mobile devices */
+@media (max-width: 480px) {
+  .logo {
+    width: 200px; /* Even smaller size for mobile screens */
+  }
 }
