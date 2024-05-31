@@ -34,3 +34,10 @@
     width: 200px; /* Even smaller size for mobile screens */
   }
 }
+
+/* Add the new CSS for carousel images */
+.carousel-item img {
+    height: 500px; /* Set the desired height */
+    object-fit: cover; /* Ensures the image covers the assigned height and maintains aspect ratio */
+    width: 100%; /* Ensures the image takes the full width of the carousel item */
+}
