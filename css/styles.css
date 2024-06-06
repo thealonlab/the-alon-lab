@@ -37,7 +37,20 @@
 
 /* Add the new CSS for carousel images */
 .carousel-item img {
-    height: 500px; /* Set the desired height */
-    object-fit: cover; /* Ensures the image covers the assigned height and maintains aspect ratio */
     width: 100%; /* Ensures the image takes the full width of the carousel item */
+    object-fit: cover; /* Ensures the image covers the assigned height and maintains aspect ratio */
+}
+
+/* For tablets or smaller screens */
+@media (max-width: 768px) {
+  .carousel-item img {
+    height: 300px; /* Adjust height for smaller screens */
+  }
+}
+
+/* For mobile devices */
+@media (max-width: 480px) {
+  .carousel-item img {
+    height: 200px; /* Adjust height for mobile screens */
+  }
 }
