@@ -54,3 +54,7 @@
     height: 200px; /* Adjust height for mobile screens */
   }
 }
+
+.h5 {
+  text-decoration: none; /* Removes underline */
+}
