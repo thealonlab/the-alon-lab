@@ -58,3 +58,12 @@
 .h5 {
   text-decoration: none; /* Removes underline */
 }
+.blink {
+  animation: blinker 1s linear infinite;
+}
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
