@@ -59,80 +59,51 @@
 			<div class="container ">
 				<div class="row justify-content-md-center bg-body-secondary py-4">
 					<div class="col-auto px-4">
-						<h3 class="text-decoration-underline text-muted">Protocols</h3>						
+						<h3 class="text-decoration-underline text-muted">Media recipes</h3>						
 					</div>
 				</div>
 				<div class="row justify-content-left bg-body-secondary py-4">
 					<div class="col-auto px-4">
-						<h5 class="text-decoration-underline text-muted">MultiBacMam</h5>
 						<ul>
 							<li>
-								<a class="d-flex text-dark text-decoration-none" href="protocols/MultiBacMam/DH10EMBacVSV_transformation.pdf" target="_blank">DH10EMBac transformation</a>
-							</li>
-							<li>
-								<a class="d-flex text-dark text-decoration-none" href="protocols/MultiBacMam/bacmid_DNA_isolation.pdf" target="_blank">Isolation of bacmid DNA</a>
-							</li>
-						</ul>
-						<h5 class="text-decoration-underline text-muted">Calculators</h5>
-						<ul>
-							<li>
-								<a class="d-flex text-dark text-decoration-none" href="https://nb-diversity.streamlit.app/" target="_blank">Calculate nanobody library diversity</a>
-							</li>
-							<li>
-								<a class="d-flex text-dark text-decoration-none" href="https://hificalculator.streamlit.app/" target="_blank">Calculate NEB HiFi Assembly</a>
-							</li>
-						</ul>
-					</div>
-					<div class="col-auto px-4">
-						<h5 class="text-decoration-underline text-muted">Molecular biology</h5>
-						<ul>
-							<li>
-								<a class="d-flex text-dark text-decoration-none" href="protocols/Molecular_biology/Miniprep.pdf" target="_blank">Miniprep</a>
-							</li>
-							<li>
-								<a class="d-flex text-dark text-decoration-none" href="protocols/Molecular_biology/PCR_using_KAPA.pdf" target="_blank">KAPA PCR</a>
-							</li>
-							<li>
-								<a class="d-flex text-dark text-decoration-none" href="media_recipes.html" target="_blank">Media recipes</a>
-							</li>
-						</ul>
-					</div>
-					<div class="col-auto px-4">
-						<h5 class="text-decoration-underline text-muted">FPLC</h5>
-						<ul>
-							<li>
-								<a class="d-flex text-dark text-decoration-none" href="protocols/FPLC/BioRad_Sample_Pump.pdf" target="_blank">Using the sample pump</a>
-							</li>
-						</ul>
-						<h5 class="text-decoration-underline text-muted">Radioactive binding</h5>
-						<ul>
-							<li>
-								<a class="d-flex text-dark text-decoration-none" href="protocols/Radioactive/Brandel_harvester.pdf" target="_blank">Using the Brandel harvester</a>
-							</li>
-						</ul>
-					</div>
-					<div class="col-auto px-4">
-						<h5 class="text-decoration-underline text-muted">Cell Culture</h5>
-						<ul>
-							<li>
-								<a class="d-flex text-dark text-decoration-none" href="protocols/Cell_Culture/Fectopro_Transfection.pdf" target="_blank">Fectopro Transfection</a>
-							</li>
-						</ul>
-						<h5 class="text-decoration-underline text-muted">Crystallography</h5>
-						<ul>
-							<li>
-								<a class="d-flex text-dark text-decoration-none" href="protocols/crystallography/LCP_lipids.pdf" target="_blank">Preparing 9.9 MAG for LCP</a>
-							</li>
-							<li>
-								<a class="d-flex text-dark text-decoration-none" href="protocols/crystallography/lipids_different_than_MAG_9.9.pdf" target="_blank">Pointers for other MAG</a>
-							</li>
-							<li>
-								<a class="d-flex text-dark text-decoration-none" href="protocols/crystallography/Gryphon_calibration.pdf" target="_blank">Gryphon calibration</a>
+								<a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#TB">Terific Broth (TB)</a>
+								<!--a class="d-flex text-dark text-decoration-none" data-bs-toggle="modal" href="#" data-bs-target="#exampleModal">Terific Broth (TB)-->
 							</li>
 						</ul>
 					</div>
 				</div>
 			</div>
+
+
+        <!-- Modal Structure -->
+        <div class="modal fade" id="TB" tabindex="-1" aria-labelledby="TBLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Terific Broth (TB)</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+   						<p>Use the TB mix according to instructions and add:</p>
+						<ul>
+							<li>0.4% glycerol</li>
+						</ul>
+						<p><strong>After autoclave</strong> add:
+						<ul>
+							<li>0.1% - 1% glucose</li>
+							<li>10 mM MgSO<sub>4</sub></li>
+							<li>antibiotics</li>
+						</ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 		</article>
 	</main>
 	<!-- Footer -->
