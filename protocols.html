@@ -17,12 +17,23 @@
 
 <!-- Body -->
 <body class="bg-dark">
+	<!-- password check -->
 	<script>
-        var password = prompt("Enter the password to access this page:");
-        if (password !== "alonlab2022") {
-            alert("Incorrect password. Access denied.");
-            window.location.href = "index.html"; // Redirect to another page if the password is incorrect
-        }
+        document.addEventListener("DOMContentLoaded", function () {
+            // Check if the user is authenticated
+            if (!sessionStorage.getItem("authenticated")) {
+                // Prompt for password
+                var password = prompt("Enter the password to access this page:");
+                if (password === "alonlab2022") {
+                    // Store the authenticated state
+                    sessionStorage.setItem("authenticated", "true");
+                } else {
+                    // Redirect to another page if the password is incorrect
+                    alert("Access Denied");
+                    window.location.href = "index.html";
+                }
+            }
+        });
     </script>
 <!-- Navigation -->
 	<header>
