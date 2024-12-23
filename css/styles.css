@@ -66,4 +66,31 @@
     opacity: 0;
   }
 }
+/* Target the specific video container */
+#sigma-2-video-container .video-wrapper {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 20px; /* Add padding around the video */
+    background-color: #f8f9fa; /* Optional: Light background for contrast */
+    border-radius: 8px; /* Optional: Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Subtle shadow for better visibility */
+}
+
+/* Video element styling specific to the sigma-2 video */
+#sigma-2-video-container .video-element {
+    width: 100%;
+    height: auto;
+    max-height: 80vh; /* Prevents video from taking up full height */
+    display: block;
+    margin: 0 auto;
+    border: none;
+    border-radius: 8px; /* Matches the wrapper border radius */
+}
+
+/* Add padding to the entire container */
+#sigma-2-video-container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
 

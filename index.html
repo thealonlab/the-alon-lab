@@ -55,21 +55,31 @@
 			</div>
 		</section>
 		<!-- Page Content -->
-		<article id="content">
-			<div class="container bg-body-secondary ">
-				<div class="row pt-4">
-					<div class="col">
-						<!-- 16:9 aspect ratio -->
-						<div class="d-flex embed-responsive embed-responsive-16by9 justify-content-center">
-							<!--video controls="controls" poster="media/movie_0001.png">
-							<source src="media/sigma-2_social.mp4" type="video/mpeg">
-							<source src="media/sigma-2_web_optimized.mp4" type="video/mpeg">
-							<source src="media/sigma-2_social.webm" type="video/webm">Your browser does not support the video element. Kindly update it to latest version.</video--><iframe width="825" height="540" class="embed-responsive-item" src="https://youtube.com/embed/hbGoxEXKaPQ?loop=1&autoplay=1&mute=1&playlist=hbGoxEXKaPQ" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-						</div>
-					</div>
-				</div>
-			</div>
-		</article>
+<article id="content">
+    <div class="container bg-body-secondary py-4" id="sigma-2-video-container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <!-- Responsive video container -->
+                <div class="video-wrapper">
+                    <video
+                        autoplay
+                        loop
+                        muted
+                        controls
+                        preload="metadata"
+                        poster="media/movie_0001.png"
+                        class="video-element">
+                        <!-- Main MP4 video -->
+                        <source src="media/sigma-2_666p.mp4" type="video/mp4">
+                        <!-- Fallback text -->
+                        Your browser does not support the video tag. Please upgrade to a modern browser.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
 	</main>
 	<!-- Footer -->
 	<footer class="bg-dark text-center text-lg-start">
