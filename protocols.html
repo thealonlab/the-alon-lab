@@ -18,23 +18,34 @@
 <!-- Body -->
 <body class="bg-dark">
 	<!-- password check -->
-	<script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Check if the user is authenticated
-            if (!sessionStorage.getItem("authenticated")) {
-                // Prompt for password
-                var password = prompt("Enter the password to access this page:");
-                if (password === "alonlab2022") {
-                    // Store the authenticated state
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Predefined hashed password (SHA-256)
+        const hashedPassword = "d74cc945ec227005f1373bbeeec937ac6beccfd394edb65b278d461b84cfe2d2";
+
+        // Hashing function
+        async function hashPassword(password) {
+            const msgUint8 = new TextEncoder().encode(password); // Encode as UTF-8
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8); // Hash
+            const hashArray = Array.from(new Uint8Array(hashBuffer)); // Convert to byte array
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // Convert to hex
+        }
+
+        // Check authentication
+        if (!sessionStorage.getItem("authenticated")) {
+            const password = prompt("Enter the password to access this page:");
+            hashPassword(password).then(hash => {
+                if (hash === hashedPassword) {
                     sessionStorage.setItem("authenticated", "true");
                 } else {
-                    // Redirect to another page if the password is incorrect
                     alert("Access Denied");
                     window.location.href = "index.html";
                 }
-            }
-        });
-    </script>
+            });
+        }
+    });
+</script>
+
 <!-- Navigation -->
 	<header>
 		<nav aria-label="Main navigation" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
