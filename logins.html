@@ -88,6 +88,17 @@
 				        </ul>
 				    </div>
 				</div>
+				<div class="row justify-content-left bg-body-secondary py-4">
+				    <div class="col-md-4 px-4">
+				        <h5><a class="d-flex text-primary" href="https://www.idtdna.com" target="_blank">IDT</a></h5>
+				        <p class="text-wrap">We use IDT for synthesis of gene fragments (they are not cheap).</p>
+				        <ul>
+				            <li>Username: thealonlab</li>
+				            <li>Password: <span id="idtdna">password</span></li>
+				        </ul>
+				    </div>
+
+				</div>
 
 				<div class="row justify-content-md-left bg-body-secondary py-4">
 					<div class="col-auto px-4">
@@ -134,8 +145,8 @@
         const copyMap = {
             "azenta": "Alon_Lab22",
             "plasmidsaurus": "jke-hvd_XGD1xew4gbe",
-            "twist":"Alon_Lab-2022"
-
+            "twist":"Alon_Lab-2022",
+            "idtdna":"Yh!EwqA3.jYfAC7"
         };
 
         // If the copied element is in the copy map, replace the clipboard data
@@ -146,7 +157,7 @@
     });
 
     // Auto-select full content when clicked
-    document.querySelectorAll("#azenta, #plasmidsaurus,#twist").forEach(element => {
+    document.querySelectorAll("#azenta, #plasmidsaurus,#twist,#idtdna").forEach(element => {
         element.addEventListener("mousedown", function (event) {
             event.preventDefault();
             let range = document.createRange();
