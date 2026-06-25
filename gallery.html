@@ -308,43 +308,54 @@
 
         <!-- Slide 1 -->
         <div class="carousel-slide active" data-index="0">
-          <img src="gallery/2024_summer_lunch.jpg" alt="2024 Summer Lunch" />
+          <img src="gallery/2026_ASPET.jpeg" alt="2026_ASPET" />
           <div class="slide-caption">
-            <p class="text-white text-sm font-medium drop-shadow">2024 Summer Lunch</p>
+            <p class="text-white text-sm font-medium drop-shadow">2026 ASPET</p>
           </div>
         </div>
 
         <!-- Slide 2 -->
         <div class="carousel-slide" data-index="1">
+          <img src="gallery/2025_ASPET.jpg" alt="2025_ASPET" />
+          <div class="slide-caption">
+            <p class="text-white text-sm font-medium drop-shadow">2025 ASPET</p>
+          </div>
+        </div>
+
+
+        <!-- Slide 3 -->
+        <div class="carousel-slide" data-index="2">
+          <img src="gallery/freezer.jpg" alt="Freezer" />
+          <div class="slide-caption">
+            <p class="text-white text-sm font-medium drop-shadow">Freezer</p>
+          </div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="carousel-slide" data-index="3">
           <img src="gallery/in_lab_uniform.jpg" alt="In Lab Uniform" />
           <div class="slide-caption">
             <p class="text-white text-sm font-medium drop-shadow">In Lab Uniform</p>
           </div>
         </div>
 
-        <!-- Slide 3 -->
-        <div class="carousel-slide" data-index="2">
-          <img src="gallery/IMG_7490.jpg" alt="Lab Photo" />
-          <div class="slide-caption">
-            <p class="text-white text-sm font-medium drop-shadow">Lab Photo</p>
-          </div>
-        </div>
-
-        <!-- Slide 4 -->
-        <div class="carousel-slide" data-index="3">
-          <img src="gallery/retreat.jpg" alt="Lab Retreat" />
-          <div class="slide-caption">
-            <p class="text-white text-sm font-medium drop-shadow">Lab Retreat</p>
-          </div>
-        </div>
 
         <!-- Slide 5 -->
         <div class="carousel-slide" data-index="4">
-          <img src="gallery/ice.jpg" alt="Ice" />
+          <img src="gallery/2024_retreat.jpg" alt="2024 Pharmacology Retreat" />
           <div class="slide-caption">
-            <p class="text-white text-sm font-medium drop-shadow">Ice</p>
+            <p class="text-white text-sm font-medium drop-shadow">2024 Pharmacology Retreat</p>
           </div>
         </div>
+
+        <!-- Slide 6 -->
+        <div class="carousel-slide" data-index="5">
+          <img src="gallery/2024_summer_lunch.jpg" alt="2024 Summer Lunch" />
+          <div class="slide-caption">
+            <p class="text-white text-sm font-medium drop-shadow">2024 Summer Lunch</p>
+          </div>
+        </div>
+
 
         <!-- ← Add more slides here following the same pattern → -->
 
@@ -363,13 +374,13 @@
         </button>
 
         <!-- Dot indicators -->
-        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10"
-             id="dot-container">
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10" id="dot-container">
           <button class="dot active" data-dot="0" aria-label="Go to slide 1"></button>
           <button class="dot"        data-dot="1" aria-label="Go to slide 2"></button>
           <button class="dot"        data-dot="2" aria-label="Go to slide 3"></button>
           <button class="dot"        data-dot="3" aria-label="Go to slide 4"></button>
           <button class="dot"        data-dot="4" aria-label="Go to slide 5"></button>
+          <button class="dot"        data-dot="5" aria-label="Go to slide 6"></button>
         </div>
 
         <!-- Lightbox trigger (click image) -->
@@ -381,7 +392,7 @@
       <!-- Slide counter badge -->
       <div class="absolute top-3 right-3 bg-black/40 backdrop-blur-sm text-white
                   text-xs font-medium px-2.5 py-1 rounded-full z-10 pointer-events-none">
-        <span id="slide-counter">1</span> / <span id="slide-total">5</span>
+        <span id="slide-counter">1</span> / <span id="slide-total">6</span>
       </div>
 
     </div><!-- /relative wrapper -->
@@ -389,19 +400,22 @@
     <!-- ── Thumbnail Strip ── -->
     <div class="flex gap-3 mt-4 overflow-x-auto pb-1" id="thumb-strip">
       <button class="thumb-btn active" data-thumb="0" aria-label="Thumbnail 1">
-        <img src="gallery/2024_summer_lunch.jpg" alt="2024 Summer Lunch" />
+        <img src="gallery/2026_ASPET.jpeg" alt="2026 ASPET" />
       </button>
       <button class="thumb-btn" data-thumb="1" aria-label="Thumbnail 2">
-        <img src="gallery/in_lab_uniform.jpg" alt="In Lab Uniform" />
+        <img src="gallery/2025_ASPET.jpg" alt="2025 ASPET" />
       </button>
       <button class="thumb-btn" data-thumb="2" aria-label="Thumbnail 3">
-        <img src="gallery/IMG_7490.jpg" alt="Lab Photo" />
+        <img src="gallery/freezer.jpg" alt="Freezer" />
       </button>
       <button class="thumb-btn" data-thumb="3" aria-label="Thumbnail 4">
-        <img src="gallery/retreat.jpg" alt="Lab Retreat" />
+        <img src="gallery/in_lab_uniform.jpg" alt="In Lab Uniform" />
       </button>
       <button class="thumb-btn" data-thumb="4" aria-label="Thumbnail 5">
-        <img src="gallery/ice.jpg" alt="Ice" />
+        <img src="gallery/2024_retreat.jpg" alt="2024 Pharmacology Retreat" />
+      </button>
+      <button class="thumb-btn" data-thumb="5" aria-label="Thumbnail 6">
+        <img src="gallery/2024_summer_lunch.jpg" alt="2024 Summer Lunch" />
       </button>
       <!-- Add more thumbnails here to match new slides -->
     </div>
