@@ -1,102 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Head -->
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="The Alon lab at Yale Medical School">
-<meta name="author" content="Assaf Alon">
-<link rel="icon" type="image/x-icon" href="images/cholesterol_logo.svg" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>The Alon Lab</title>
-<!-- Bootstrap core CSS --> 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-<!-- My CSS -->
-<link href="css/styles.css" rel="stylesheet">
-</head>
-	
-<!-- Body -->
-<body class="bg-dark">
-<!-- Navigation -->
-	<header>
-		<nav aria-label="Main navigation" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-			<div class="container-fluid">
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-						<li class="nav-item px-3"> <a class="nav-link active" href="index.html">Home<span class="visually-hidden-focusable">(current)</span></a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="research.html">Research</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="people.html">Lab members</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="gallery.html">Gallery</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="publications.html">Publications</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="positions.html">Positions</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="contact.html">Contact</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="protocols.html">Protocols</a> </li>						
-						<!-- BlueSky Icon Link -->
-						<li class="nav-item px-3">
-							<a class="nav-link" href="https://bsky.app/profile/thealonlab.bsky.social" target="_blank" aria-label="BlueSky Profile">
-								<img src="https://bsky.app/static/apple-touch-icon.png" alt="BlueSky Profile" style="width: 20px; height: 20px; vertical-align: middle;">
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-	</header>
-	<main>
-		<!-- Banner -->
-		<section id="banner">
-			<div class="container pt-5">
-				<div class="row bg-white">
-					<div class="col ">
-						<img src="images/Alon_Lab_Logo.svg" alt="cholesterol logo" class="logo mt-3 mb-2 mx-auto d-block">
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- Page Content -->
-<article id="content">
-    <div class="container bg-body-secondary py-4" id="sigma-2-video-container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <!-- Responsive video container -->
-                <div class="video-wrapper">
-                    <video
-                        autoplay
-                        loop
-                        muted
-                        controls
-                        preload="metadata"
-                        poster="media/movie_0001.png"
-                        class="video-element">
-                        <!-- Main MP4 video -->
-                        <source src="media/sigma-2_666p.mp4" type="video/mp4">
-                        <!-- Fallback text -->
-                        Your browser does not support the video tag. Please upgrade to a modern browser.
-                    </video>
-                </div>
-            </div>
-        </div>
-    </div>
-</article>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="The Alon lab at Yale Medical School" />
+  <meta name="author" content="Assaf Alon" />
+  <title>The Alon Lab</title>
 
-	</main>
-	<!-- Footer -->
-	<footer class="bg-dark text-center text-lg-start">
-		<div class="container">
-			<div class="d-flex justify-content-center text-bg-dark p-2">Alon lab, SHM-B323, 333 Cedar St., New Haven, CT 06510</div>
-			<div class="d-flex justify-content-evenly p-2">
-				<a class="d-flex justify-content-end text-bg-dark" href="https://medicine.yale.edu/pharm/" target="_blank">Department of Pharmacology</a>
-				
-				<a class="d-flex justify-content-start text-bg-dark" href="https://medicine.yale.edu/" target="_blank">Yale School of Medicine</a><!--https://medicine.yale.edu/pharm/--> </div>
-    <!-- Copyright -->
-			<div class="d-flex justify-content-center text-bg-dark p-2">&#169; Assaf Alon 2024 </div>
-    <!-- Copyright -->
-		</div>
-	</footer>
-<!-- Bootstrap core JavaScript --> 
-<!-- <script src="jquery/jquery.js"></script> --> 
-<!-- <script src="js/bootstrap.bundle.min.js"></script> --> 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="images/cholesterol_logo.svg" />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            yale:        '#00356b',
+            'yale-light':'#286dc0',
+            'yale-pale': '#e8f0f9',
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+          },
+          keyframes: {
+            fadeIn: {
+              '0%':   { opacity: '0', transform: 'translateY(16px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.9s ease both',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* Smooth scroll */
+    html { scroll-behavior: smooth; }
+
+    /* Navbar link underline animation */
+    .nav-link-animated {
+      position: relative;
+      padding-bottom: 2px;
+    }
+    .nav-link-animated::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 0; height: 2px;
+      background-color: #a8c4e0;
+      transition: width 0.25s ease;
+    }
+    .nav-link-animated:hover::after,
+    .nav-link-animated.active::after {
+      width: 100%;
+    }
+
+    /* Video wrapper */
+    .video-wrapper {
+      position: relative;
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 4px 24px 0 rgba(0,53,107,0.08);
+    }
+    .video-element {
+      width: 100%;
+      height: auto;
+      max-height: 80vh;
+      display: block;
+      margin: 0 auto;
+      border-radius: 8px;
+    }
+
+    /* Logo responsive sizing */
+    .site-logo { width: 340px; }
+    @media (max-width: 768px) { .site-logo { width: 260px; } }
+    @media (max-width: 480px) { .site-logo { width: 180px; } }
+
+    /* Mobile menu open state */
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: block; }
+  </style>
+</head>
+
+<body class="bg-gray-50 font-sans text-gray-800 antialiased">
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="bg-yale fixed top-0 left-0 right-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+
+        <!-- Brand -->
+        <a href="index.html" class="flex items-center gap-2 text-white font-semibold text-lg tracking-wide hover:opacity-80 transition-opacity">
+          <img src="images/cholesterol_logo.svg" alt="Alon Lab logo" class="h-8 w-8" />
+          The Alon Lab
+        </a>
+
+        <!-- Desktop Nav -->
+        <div class="hidden lg:flex items-center gap-6 text-sm font-medium text-white">
+          <a href="index.html"         class="nav-link-animated active">Home</a>
+          <a href="research.html"      class="nav-link-animated">Research</a>
+          <a href="people.html"        class="nav-link-animated">Lab Members</a>
+          <a href="gallery.html"       class="nav-link-animated">Gallery</a>
+          <a href="publications.html"  class="nav-link-animated">Publications</a>
+          <a href="positions.html"     class="nav-link-animated">Positions</a>
+          <a href="contact.html"       class="nav-link-animated">Contact</a>
+          <a href="protocols.html"     class="nav-link-animated">Protocols</a>
+          <!-- BlueSky -->
+          <a href="https://bsky.app/profile/thealonlab.bsky.social" target="_blank" rel="noopener"
+             class="hover:opacity-75 transition-opacity" aria-label="BlueSky">
+            <img src="https://bsky.app/static/apple-touch-icon.png" alt="BlueSky" class="h-5 w-5 rounded-sm" />
+          </a>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button id="hamburger" aria-label="Toggle menu"
+          class="lg:hidden text-white focus:outline-none">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24">
+            <path id="hamburger-open"   stroke-linecap="round" stroke-linejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"/>
+            <path id="hamburger-close"  stroke-linecap="round" stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12" class="hidden"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="lg:hidden bg-yale border-t border-blue-800">
+      <div class="flex flex-col px-4 pb-4 pt-2 gap-3 text-sm font-medium text-white">
+        <a href="index.html"        class="hover:text-blue-200 transition-colors">Home</a>
+        <a href="research.html"     class="hover:text-blue-200 transition-colors">Research</a>
+        <a href="people.html"       class="hover:text-blue-200 transition-colors">Lab Members</a>
+        <a href="gallery.html"      class="hover:text-blue-200 transition-colors">Gallery</a>
+        <a href="publications.html" class="hover:text-blue-200 transition-colors">Publications</a>
+        <a href="positions.html"    class="hover:text-blue-200 transition-colors">Positions</a>
+        <a href="contact.html"      class="hover:text-blue-200 transition-colors">Contact</a>
+        <a href="protocols.html"    class="hover:text-blue-200 transition-colors">Protocols</a>
+        <a href="https://bsky.app/profile/thealonlab.bsky.social" target="_blank" rel="noopener"
+           class="flex items-center gap-2 hover:text-blue-200 transition-colors">
+          <img src="https://bsky.app/static/apple-touch-icon.png" alt="BlueSky" class="h-4 w-4 rounded-sm" />
+          BlueSky
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========== HERO / LOGO ========== -->
+  <header class="pt-24 pb-10 flex flex-col items-center text-center animate-fade-in">
+    <img
+      src="images/Alon_Lab_Logo.svg"
+      alt="Alon Lab Logo"
+      class="site-logo mb-4 drop-shadow-sm"
+    />
+    <h1 class="text-2xl sm:text-3xl font-light text-gray-500 tracking-wide">
+      Department of Pharmacology · Yale School of Medicine
+    </h1>
+  </header>
+
+  <!-- ========== VIDEO SECTION ========== -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 pb-20 animate-fade-in">
+    <div class="video-wrapper">
+      <video
+        class="video-element"
+        autoplay loop muted controls preload="metadata"
+        poster="media/movie_0001.png"
+      >
+        <source src="media/sigma-2_666p.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <!-- Optional caption -->
+    <p class="text-center text-sm text-gray-400 mt-3 italic">
+      Sigma-2 receptor — structural visualization
+    </p>
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="bg-yale text-white text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+
+      <!-- Address -->
+      <div class="text-center sm:text-left text-blue-100 leading-relaxed">
+        <p class="font-semibold text-white">Alon Lab</p>
+        <p>SHM-B323, 333 Cedar St.</p>
+        <p>New Haven, CT 06510</p>
+      </div>
+
+      <!-- Links -->
+      <div class="flex flex-col items-center sm:items-end gap-1 text-blue-200">
+        <a href="https://medicine.yale.edu/pharm/" target="_blank" rel="noopener"
+           class="hover:text-white transition-colors">
+          Department of Pharmacology
+        </a>
+        <a href="https://medicine.yale.edu/" target="_blank" rel="noopener"
+           class="hover:text-white transition-colors">
+          Yale School of Medicine
+        </a>
+        <p class="text-blue-300 text-xs mt-1">© Assaf Alon 2024</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ========== MOBILE MENU SCRIPT ========== -->
+  <script>
+    const hamburger     = document.getElementById('hamburger');
+    const mobileMenu    = document.getElementById('mobile-menu');
+    const iconOpen      = document.getElementById('hamburger-open');
+    const iconClose     = document.getElementById('hamburger-close');
+
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      iconOpen.classList.toggle('hidden');
+      iconClose.classList.toggle('hidden');
+    });
+  </script>
+
 </body>
 </html>

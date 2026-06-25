@@ -1,313 +1,1375 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Head -->
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="The Alon lab at Yale Medical School">
-<meta name="author" content="Assaf Alon">
-<link rel="icon" type="image/x-icon" href="images/cholesterol_logo.svg" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>The Alon Lab</title>
-<!-- Bootstrap core CSS --> 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-<!-- My CSS -->
-<link href="css/styles.css" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Publications — The Alon Lab at Yale School of Medicine" />
+  <meta name="author" content="Assaf Alon" />
+  <title>Publications · The Alon Lab</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="images/cholesterol_logo.svg" />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            yale:         '#00356b',
+            'yale-light': '#286dc0',
+            'yale-pale':  '#e8f0f9',
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+          },
+          keyframes: {
+            fadeIn: {
+              '0%':   { opacity: '0', transform: 'translateY(16px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.9s ease both',
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Dimensions & Altmetric badges -->
+  <script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
+  <script type="text/javascript" src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+
+    /* Navbar underline animation */
+    .nav-link-animated {
+      position: relative;
+      padding-bottom: 2px;
+    }
+    .nav-link-animated::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 0; height: 2px;
+      background-color: #a8c4e0;
+      transition: width 0.25s ease;
+    }
+    .nav-link-animated:hover::after,
+    .nav-link-animated.active::after { width: 100%; }
+
+    /* Mobile menu */
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: block; }
+
+    /* Section title accent */
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 3px;
+      background-color: #286dc0;
+      margin-top: 10px;
+      border-radius: 2px;
+    }
+
+    /* Publication card hover */
+    .pub-card {
+      transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .pub-card:hover {
+      box-shadow: 0 6px 24px rgba(0,53,107,0.09);
+      border-color: #286dc0;
+    }
+
+    /* Journal badge colors */
+    .badge-nature    { background-color: #e8f5e9; color: #2e7d32; }
+    .badge-science   { background-color: #fff3e0; color: #e65100; }
+    .badge-pnas      { background-color: #fce4ec; color: #c62828; }
+    .badge-cell      { background-color: #e3f2fd; color: #1565c0; }
+    .badge-default   { background-color: #f3f4f6; color: #374151; }
+
+    /* Altmetric / Dimensions badge sizing */
+    .altmetric-embed  { display: inline-block; }
+    .__dimensions_badge_embed__ { display: inline-block; }
+
+    /* Year group header */
+    .year-group {
+      position: sticky;
+      top: 64px;
+      z-index: 10;
+    }
+  </style>
 </head>
 
-<!-- Body -->
-<body class="bg-dark">
-<!-- Navigation -->
-	<header>
-		<nav aria-label="Main navigation" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-			<div class="container-fluid">
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-						<li class="nav-item px-3"> <a class="nav-link" href="index.html">Home</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="research.html">Research</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="people.html">Lab members</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="gallery.html">Gallery</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link active" href="publications.html">Publications<span class="visually-hidden-focusable">(current)</span></a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="positions.html">Positions</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="contact.html">Contact</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="protocols.html">Protocols</a> </li>						
-						<!-- BlueSky Icon Link -->
-						<li class="nav-item px-3">
-							<a class="nav-link" href="https://bsky.app/profile/thealonlab.bsky.social" target="_blank" aria-label="BlueSky Profile">
-								<img src="https://bsky.app/static/apple-touch-icon.png" alt="BlueSky Profile" style="width: 20px; height: 20px; vertical-align: middle;">
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-	</header>
-	<main>
-		<!-- Banner -->
-		<section id="banner">
-			<div class="container pt-5">
-				<div class="row bg-white">
-					<div class="col ">
-						<img src="images/Alon_Lab_Logo.svg" alt="cholesterol logo" class="logo mt-3 mb-2 mx-auto d-block">
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- Page Content -->
-		<article id="content">
-			<div class="container bg-body-secondary">
-				<!--page title-->
-				<div class="row">
-					<div class="col py-3 text-center">
-						<h3 class="text-bg-body-secondary">Publications</h3>
-						<h6><a class="text-decoration-none text-muted" href="https://www.ncbi.nlm.nih.gov/myncbi/1R_B6vwLTh1/bibliography/public/" target="_blank">Click here for a full publication list</a></h6>
-					</div>
-				</div>
-				<!--authorship-->
-				<div class="row">
-					<div class="col-1">
-					</div>
-					<div class="col-10">
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item bg-body-secondary">&dagger; denotes co-first authorship<br>&Dagger; denotes co-corresponding authorship</li>
-						</ul>
-					</div>
-					<div class="col-1">
-					</div>
-				</div>
-				<!--publication list-->
-				<div class="row">
-					<div class="col px-2 px-md-3 px-lg-5">
-					  <ul class="list-group list-group-flush">
-			
-					  	<!-- insert new reference here-->
+<body class="bg-gray-50 font-sans text-gray-800 antialiased">
 
-					  	<li class="list-group-item bg-body-secondary">
-        					<span class="fw-bold">Antagonistic nanobodies implicate mechanism of GSDMD pore formation and potential therapeutic application</span><br>
-        					Schiffelers LDJ, Tesfamariam YM, Jenster L, Diehl S, Binder SC, Normann S, Mayr J, Pritzl S, Hagelauer E, Kopp A, <span class="fw-bold">Alon A</span>, Geyer M, Ploegh HL, Schmidt FI<br>
-        					<span class="fw-bold fst-italic">Nature Communications</span><br>
-        					<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1038/s41467-024-52110-1" role="button" target="_blank">Link</a>
-        					<a class="btn btn-danger btn-sm" href="papers/s41467-024-52110-1.pdf" role="button" target="_blank">PDF</a>
-        					<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1038/s41467-024-52110-1" data-style="large_rectangle"></span></a>
-        					<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1038/s41467-024-52110-1"></span></a>
-        				</li>	
+  <!-- ========== NAVBAR ========== -->
+  <nav class="bg-yale fixed top-0 left-0 right-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
 
+        <!-- Brand -->
+        <a href="index.html"
+           class="flex items-center gap-2 text-white font-semibold text-lg tracking-wide hover:opacity-80 transition-opacity">
+          <img src="images/cholesterol_logo.svg" alt="Alon Lab logo" class="h-8 w-8" />
+          The Alon Lab
+        </a>
 
-					  	<li class="list-group-item bg-body-secondary">
-					  		<span class="fw-bold">AlphaFold2 structures guide prospective ligand discovery</span><br>
-					  		Lyu J, Kapolka N, Gumpper R, <span class="fw-bold">Alon A</span>, Wang L, Jain MK, Barros-Álvarez X, Sakamoto K, Kim Y, DiBerto J, Kim K, Glenn IS, Tummino TA, Huang S, Irwin JJ, Tarkhanova OO, Moroz Y, Skiniotis G, Kruse AC, Shoichet BK, Roth BL<br>
-					  		<span class="fw-bold fst-italic">Science</span>, 2024<br>
-					  		<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1126/science.adn6354" role="button" target="_blank">Link</a>
-					  		<a class="btn btn-danger btn-sm" href="papers/science_adn6354.pdf" role="button" target="_blank">PDF</a>
-					  		<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1126/science.adn6354" data-style="large_rectangle"></span></a>
-					  		<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1126/science.adn6354"></span></a>
-					  	</li>
+        <!-- Desktop Nav -->
+        <div class="hidden lg:flex items-center gap-6 text-sm font-medium text-white">
+          <a href="index.html"        class="nav-link-animated">Home</a>
+          <a href="research.html"     class="nav-link-animated">Research</a>
+          <a href="people.html"       class="nav-link-animated">Lab Members</a>
+          <a href="gallery.html"      class="nav-link-animated">Gallery</a>
+          <a href="publications.html" class="nav-link-animated active">Publications</a>
+          <a href="positions.html"    class="nav-link-animated">Positions</a>
+          <a href="contact.html"      class="nav-link-animated">Contact</a>
+          <a href="protocols.html"    class="nav-link-animated">Protocols</a>
+          <a href="https://bsky.app/profile/thealonlab.bsky.social"
+             target="_blank" rel="noopener" aria-label="BlueSky"
+             class="hover:opacity-75 transition-opacity">
+            <img src="https://bsky.app/static/apple-touch-icon.png"
+                 alt="BlueSky" class="h-5 w-5 rounded-sm" />
+          </a>
+        </div>
 
+        <!-- Hamburger -->
+        <button id="hamburger" aria-label="Toggle menu"
+                class="lg:hidden text-white focus:outline-none">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path id="hamburger-open"  stroke-linecap="round" stroke-linejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"/>
+            <path id="hamburger-close" stroke-linecap="round" stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12" class="hidden"/>
+          </svg>
+        </button>
+      </div>
+    </div>
 
-					  	<li class="list-group-item bg-body-secondary">
-							<span class="fw-bold">The SpoVA membrane complex is required for dipicolinic acid import during sporulation and export during germination</span><br>
-							Gao Y, Barajas-Ornelas RDC, Amon JD, Ramírez-Guadiana FH, <span class="fw-bold">Alon A</span>, Brock KP, Marks DS, Kruse AC, Rudner DZ<br>
-							<span class="fw-bold fst-italic">Genes Dev</span>, 2022, 36(9-10): 634-646 <br>
-							<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1101/gad.349488.122" role="button" target="_blank">Link</a>
-							<a class="btn btn-danger btn-sm" href="papers/gad.349488.122.pdf" role="button" target="_blank">PDF</a>
-							<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1101/gad.349488.122" data-style="large_rectangle"></span></a>
-							<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1101/gad.349488.122"></span></a>
-						  </li>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="lg:hidden bg-yale border-t border-blue-800">
+      <div class="flex flex-col px-4 pb-4 pt-2 gap-3 text-sm font-medium text-white">
+        <a href="index.html"        class="hover:text-blue-200 transition-colors">Home</a>
+        <a href="research.html"     class="hover:text-blue-200 transition-colors">Research</a>
+        <a href="people.html"       class="hover:text-blue-200 transition-colors">Lab Members</a>
+        <a href="gallery.html"      class="hover:text-blue-200 transition-colors">Gallery</a>
+        <a href="publications.html" class="hover:text-blue-200 transition-colors">Publications</a>
+        <a href="positions.html"    class="hover:text-blue-200 transition-colors">Positions</a>
+        <a href="contact.html"      class="hover:text-blue-200 transition-colors">Contact</a>
+        <a href="protocols.html"    class="hover:text-blue-200 transition-colors">Protocols</a>
+        <a href="https://bsky.app/profile/thealonlab.bsky.social"
+           target="_blank" rel="noopener"
+           class="flex items-center gap-2 hover:text-blue-200 transition-colors">
+          <img src="https://bsky.app/static/apple-touch-icon.png"
+               alt="BlueSky" class="h-4 w-4 rounded-sm" />
+          BlueSky
+        </a>
+      </div>
+    </div>
+  </nav>
 
-						<li class="list-group-item bg-body-secondary">
-							<span class="fw-bold">Structures of the σ<sub>2</sub> receptor enable docking for bioactive ligand discovery</span><br>
-							<span class="fw-bold">Alon A</span>&dagger;, Lyu J&dagger;, Braz JM&dagger;, Tummino TA, Craik V, O'Meara MJ, Webb CM, Radchenko DS, Moroz YS, Huang XP, Liu Y, Roth BL, Irwin JJ, Basbaum AI&Dagger;, Shoichet BK&Dagger;, Kruse AC&Dagger;<br>
-							<span class="fw-bold fst-italic">Nature</span>, 2021, 600(7890): 759-764 <br>
-							<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1038/s41586-021-04175-x" role="button" target="_blank">Link</a>
-							<a class="btn btn-danger btn-sm" href="papers/s41586-021-04175-x.pdf" role="button" target="_blank">PDF</a>
-							<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1038/s41586-021-04175-x" data-style="large_rectangle"></span></a>
-							<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1038/s41586-021-04175-x"></span></a>
-						  </li>
+  <!-- ========== PAGE HEADER ========== -->
+  <header class="pt-24 pb-8 bg-white border-b border-gray-200 animate-fade-in">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl sm:text-4xl font-bold text-yale section-title">Publications</h1>
+      <p class="mt-4 text-gray-500 font-light">
+        † co-first authorship &nbsp;·&nbsp; ‡ co-corresponding authorship
+      </p>
+      <div class="mt-4">
+        <a href="https://www.ncbi.nlm.nih.gov/myncbi/assaf.alon.1/bibliography/public/"
+           target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 px-5 py-2.5 bg-yale text-white text-sm
+                  font-medium rounded-lg hover:bg-yale-light transition-colors">
+          <!-- NCBI icon -->
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13
+                     C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477
+                     14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477
+                     18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          </svg>
+          Full list on NCBI MyBibliography
+        </a>
+      </div>
+    </div>
+  </header>
 
-						<li class="list-group-item bg-body-secondary">
-							<span class="fw-bold">The Spliced Leader RNA Silencing (SLS) Pathway in Trypanosoma brucei Is Induced by Perturbations of Endoplasmic Reticulum, Golgi Complex, or Mitochondrial Protein Factors: Functional Analysis of SLS-Inducing Kinase PK3</span><br>
-							Okalang U, Mualem Bar-Ner B, Rajan KS, Friedman N, Aryal S, Egarmina K, Hope R, Khazanov N, Senderowitz H, <span class="fw-bold">Alon A</span>, Fass D, Michaeli S<br>
-							<span class="fw-bold fst-italic">mBio</span>, 2021, 12(6): e0260221<br>
-							<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1128/mBio.02602-21" role="button" target="_blank">Link</a>
-							<a class="btn btn-danger btn-sm" href="papers/mBio.02602-21.pdf" role="button" target="_blank">PDF</a>
-							<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1128/mBio.02602-21" data-style="large_rectangle"></span></a>
-							<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1128/mBio.02602-21"></span></a>
-						  </li>
+  <!-- ========== PUBLICATION LIST ========== -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-fade-in space-y-10">
 
-						<li class="list-group-item bg-body-secondary">
-							<span class="fw-bold">Dormant spores sense amino acids through the B subunits of their germination receptors</span><br>
-							Artzi L, <span class="fw-bold">Alon A</span>, Brock KP, Green AG, Tam A, Ramírez-Guadiana FH, Marks D, Kruse A, Rudner DZ<br>
-							<span class="fw-bold fst-italic">Nat Commun</span>, 2021, 12(1): 6842<br>
-							<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1038/s41467-021-27235-2" role="button" target="_blank">Link</a>
-							<a class="btn btn-danger btn-sm" href="papers/s41467-021-27235-2.pdf" role="button" target="_blank">PDF</a>
-							<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1038/s41467-021-27235-2" data-style="large_rectangle"></span></a>
-							<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1038/s41467-021-27235-2"></span></a>
-						  </li>
+    <!-- ─── 2024 ─────────────────────────────────────────────── -->
+    <div>
+      <div class="year-group bg-gray-50 py-2 mb-4">
+        <h2 class="text-lg font-bold text-yale border-l-4 border-yale-light pl-3">2024</h2>
+      </div>
+      <div class="space-y-4">
 
-						<li class="list-group-item bg-body-secondary">
-							<span class="fw-bold">Drug-induced phospholipidosis confounds drug repurposing for SARS-CoV-2</span> <br>
-							Tummino TA&dagger;, Rezelj VV&dagger;, Fischer B&dagger;, Fischer A&dagger;, O'Meara MJ, Monel B, Vallet T, White KM, Zhang Z, <span class="fw-bold">Alon A</span>, Schadt H, O'Donnell HR, Lyu J, Rosales R, McGovern BL, Rathnasinghe R, Jangra S, Schotsaert M, Galarneau JR, Krogan NJ, Urban L, Shokat KM, Kruse AC, García-Sastre A, Schwartz O, et al.<br>
-							<span class="fw-bold fst-italic">Science</span>, 2021, 373(6554): 541-547<br>
-							<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1126/science.abi4708" role="button" target="_blank">Link</a>
-							<a class="btn btn-danger btn-sm" href="papers/science.abi4708.pdf" role="button" target="_blank">PDF</a>
-							<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1126/science.abi4708" data-style="large_rectangle"></span></a>
-							<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1126/science.abi4708"></span></a>
-						  </li>
+        <!-- Pub 1 -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <span class="badge-default text-xs font-semibold px-2.5 py-1 rounded-full">
+              Nat Commun
+            </span>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1038/s41467-024-52110-1"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1038/s41467-024-52110-1"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            Antagonistic nanobodies implicate mechanism of GSDMD pore formation and potential
+            therapeutic application
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-3">
+            Schiffelers LDJ, Tesfamariam YM, Jenster L, Diehl S, Binder SC, Normann S, Mayr J,
+            Pritzl S, Hagelauer E, Kopp A, <strong>Alon A</strong>, Geyer M, Ploegh HL, Schmidt FI
+          </p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1038/s41467-024-52110-1" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/s41467-024-52110-1.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
 
-						<li class="list-group-item bg-body-secondary">
-							<span class="fw-bold">COVID-19: Famotidine, Histamine, Mast Cells, and Mechanisms</span><br>
-							Malone RW, Tisdall P, Fremont-Smith P, Liu Y, Huang XP, White KM, Miorin L, Moreno E, <span class="fw-bold">Alon A</span>, Delaforge E, Hennecker CD, Wang G, Pottel J, Blair RV, Roy CJ, Smith N, Hall JM, Tomera KM, Shapiro G, Mittermaier A, Kruse AC, García-Sastre A, Roth BL, Glasspool-Malone J, Ricke DO<br>
-							<span class="fw-bold fst-italic">Front Pharmacol</span>, 2021, 12: 633680<br>
-							<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.3389/fphar.2021.633680" role="button" target="_blank">Link</a>
-							<a class="btn btn-danger btn-sm" href="papers/fphar.2021.633680.pdf" role="button" target="_blank">PDF</a>
-							<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.3389/fphar.2021.633680" data-style="large_rectangle"></span></a>
-							<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.3389/fphar.2021.633680"></span></a>
-						  </li>
+        <!-- Pub 2 -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <span class="badge-science text-xs font-semibold px-2.5 py-1 rounded-full">
+              Science
+            </span>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1126/science.adn6354"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1126/science.adn6354"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            AlphaFold2 structures guide prospective ligand discovery
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-3">
+            Lyu J, Kapolka N, Gumpper R, <strong>Alon A</strong>, Wang L, Jain MK,
+            Barros-Álvarez X, Sakamoto K, Kim Y, DiBerto J, Kim K, Glenn IS, Tummino TA,
+            Huang S, Irwin JJ, Tarkhanova OO, Moroz Y, Skiniotis G, Kruse AC, Shoichet BK, Roth BL
+          </p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1126/science.adn6354" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/science_adn6354.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
 
-						<li class="list-group-item bg-body-secondary">
-							<span class="fw-bold"><span class="fst-italic">cis</span>-Proline mutants of quiescin sulfhydryl oxidase 1 with altered redox properties undermine extracellular matrix integrity and cell adhesion in fibroblast cultures</span><br>
-							Javitt G&dagger;, Grossman-Haham I&dagger;, <span class="fw-bold">Alon A</span>, Resnick E, Mutsafi Y, Ilani T, Fass D<br>
-							<span class="fw-bold fst-italic">Protein Sci</span>, 2019, 28(1): 228-238<br>
-							<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1002/pro.3537" role="button" target="_blank">Link</a>
-							<a class="btn btn-danger btn-sm" href="papers/pro.3537.pdf" role="button" target="_blank">PDF</a>
-							<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1002/pro.3537" data-style="large_rectangle"></span></a>
-							<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1002/pro.3537"></span></a>
-						  </li>
+      </div>
+    </div>
 
-						<li class="list-group-item bg-body-secondary">
-							<span class="fw-bold">Identification of the gene that codes for the σ<sub>2</sub> receptor</span><br>
-							<span class="fw-bold">Alon A</span>&dagger;, Schmidt HR&dagger;, Wood MD&dagger;, Sahn JJ, Martin SF, Kruse AC<br>
-							<span class="fw-bold fst-italic">Proc Natl Acad Sci U S A</span>, 2017, 114(27): 7160-7165<br>
-							<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1073/pnas.1705154114" role="button" target="_blank">Link</a>
-							<a class="btn btn-danger btn-sm" href="papers/pnas.1705154114.pdf" role="button" target="_blank">PDF</a>
-							<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1073/pnas.1705154114" data-style="large_rectangle"></span></a>
-							<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1073/pnas.1705154114"></span></a>
-						  </li>
+    <!-- ─── 2022 ─────────────────────────────────────────────── -->
+    <div>
+      <div class="year-group bg-gray-50 py-2 mb-4">
+        <h2 class="text-lg font-bold text-yale border-l-4 border-yale-light pl-3">2022</h2>
+      </div>
+      <div class="space-y-4">
 
-						<li class="list-group-item bg-body-secondary">
-							<span class="fw-bold">Structural Perspectives on Sigma-1 Receptor Function</span><br>
-							<span class="fw-bold">Alon A</span>, Schmidt H, Zheng S, Kruse AC<br>
-							<span class="fw-bold fst-italic">Adv Exp Med Biol</span>, 2017, 964: 5-13<br>
-							<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1007/978-3-319-50174-1_2" role="button" target="_blank">Link</a>
-							<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1007/978-3-319-50174-1_2" data-style="large_rectangle"></span></a>
-							<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1007/978-3-319-50174-1_2"></span></a>
-						  </li>
+        <!-- Pub 3 -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <span class="badge-default text-xs font-semibold px-2.5 py-1 rounded-full">
+              Genes Dev
+            </span>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1101/gad.349488.122"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1101/gad.349488.122"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            The SpoVA membrane complex is required for dipicolinic acid import during sporulation
+            and export during germination
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-1">
+            Gao Y, Barajas-Ornelas RDC, Amon JD, Ramírez-Guadiana FH, <strong>Alon A</strong>,
+            Brock KP, Marks DS, Kruse AC, Rudner DZ
+          </p>
+          <p class="text-xs text-gray-400 mb-3">36(9-10): 634–646</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1101/gad.349488.122" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/gad.349488.122.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
 
-						<li class="list-group-item bg-body-secondary">
-							<span class="fw-bold">AbDesign: An algorithm for combinatorial backbone design guided by natural conformations and sequences</span><br>
-							Lapidoth GD, Baran D, Pszolla GM, Norn C, <span class="fw-bold">Alon A</span>, Tyka MD, Fleishman SJ<br>
-							<span class="fw-bold fst-italic">Proteins</span>, 2015, 83(8): 1385-406<br>
-							<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1002/prot.24779" role="button" target="_blank">Link</a>
-							<a class="btn btn-danger btn-sm" href="papers/prot.24779.pdf" role="button" target="_blank">PDF</a>
-							<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1002/prot.24779" data-style="large_rectangle"></span></a>
-							<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1002/prot.24779"></span></a>
-						  </li>
+      </div>
+    </div>
 
+    <!-- ─── 2021 ─────────────────────────────────────────────── -->
+    <div>
+      <div class="year-group bg-gray-50 py-2 mb-4">
+        <h2 class="text-lg font-bold text-yale border-l-4 border-yale-light pl-3">2021</h2>
+      </div>
+      <div class="space-y-4">
 
-						<li class="list-group-item bg-body-secondary">
-							<span class="fw-bold">An inhibitory antibody blocks the first step in the dithiol/disulfide relay mechanism of the enzyme QSOX1</span><br>
-							Grossman I, <span class="fw-bold">Alon A</span>, Ilani T, Fass D<br>
-							<span class="fw-bold fst-italic">J Mol Biol</span>, 2013, 425(22): 4366-78<br>
-							<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1016/j.jmb.2013.07.011" role="button" target="_blank">Link</a>
-							<a class="btn btn-danger btn-sm" href="papers/j.jmb.2013.07.011.pdf" role="button" target="_blank">PDF</a>
-							<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1016/j.jmb.2013.07.011" data-style="large_rectangle"></span></a>
-							<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1016/j.jmb.2013.07.011"></span></a>
-						  </li>
+        <!-- Pub 4 — Nature (sigma-2) -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6
+                        ring-1 ring-yale-light ring-opacity-40">
+          <!-- Highlighted: first-author Nature paper -->
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="badge-nature text-xs font-semibold px-2.5 py-1 rounded-full">
+                Nature
+              </span>
+              <span class="bg-yale text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+                ★ Featured
+              </span>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1038/s41586-021-04175-x"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1038/s41586-021-04175-x"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            Structures of the σ₂ receptor enable docking for bioactive ligand discovery
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-1">
+            <strong>Alon A</strong>†, Lyu J†, Braz JM†, Tummino TA, Craik V, O'Meara MJ,
+            Webb CM, Radchenko DS, Moroz YS, Huang XP, Liu Y, Roth BL, Irwin JJ,
+            Basbaum AI‡, Shoichet BK‡, Kruse AC‡
+          </p>
+          <p class="text-xs text-gray-400 mb-3">600(7890): 759–764</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1038/s41586-021-04175-x" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/s41586-021-04175-x.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
 
-						<li class="list-group-item bg-body-secondary">
-							<span class="fw-bold">A secreted disulfide catalyst controls extracellular matrix composition and function</span><br>
-							Ilani T, <span class="fw-bold">Alon A</span>, Grossman I, Horowitz B, Kartvelishvily E, Cohen SR, Fass D<br>
-							<span class="fw-bold fst-italic">Science</span>, 2013, 341(6141): 74-6<br>
-							<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1126/science.1238279" role="button" target="_blank">Link</a>
-							<a class="btn btn-danger btn-sm" href="papers/science.1238279.pdf" role="button" target="_blank">PDF</a>
-							<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1126/science.1238279" data-style="large_rectangle"></span></a>
-							<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1126/science.1238279"></span></a>
-						  </li>
+        <!-- Pub 5 — mBio -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <span class="badge-default text-xs font-semibold px-2.5 py-1 rounded-full">mBio</span>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1128/mBio.02602-21"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1128/mBio.02602-21"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            The Spliced Leader RNA Silencing (SLS) Pathway in <em>Trypanosoma brucei</em> Is
+            Induced by Perturbations of Endoplasmic Reticulum, Golgi Complex, or Mitochondrial
+            Protein Factors: Functional Analysis of SLS-Inducing Kinase PK3
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-1">
+            Okalang U, Mualem Bar-Ner B, Rajan KS, Friedman N, Aryal S, Egarmina K, Hope R,
+            Khazanov N, Senderowitz H, <strong>Alon A</strong>, Fass D, Michaeli S
+          </p>
+          <p class="text-xs text-gray-400 mb-3">12(6): e0260221</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1128/mBio.02602-21" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/mBio.02602-21.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
 
-						<li class="list-group-item bg-body-secondary">
-							<span class="fw-bold">Phylogenetics and enzymology of plant quiescin sulfhydryl oxidase</span><br>
-							Limor-Waisberg K, <span class="fw-bold">Alon A</span>, Mehlman T, Fass D<br>
-							<span class="fw-bold fst-italic">FEBS Lett</span>, 2012, 586(23): 4119-25<br>
-							<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1016/j.febslet.2012.10.003" role="button" target="_blank">Link</a>
-							<a class="btn btn-danger btn-sm" href="papers/j.febslet.2012.10.003.pdf" role="button" target="_blank">PDF</a>
-							<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1016/j.febslet.2012.10.003" data-style="large_rectangle"></span></a>
-							<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1016/j.febslet.2012.10.003"></span></a>
-						  </li>
+        <!-- Pub 6 — Nat Commun (spores) -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <span class="badge-default text-xs font-semibold px-2.5 py-1 rounded-full">
+              Nat Commun
+            </span>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1038/s41467-021-27235-2"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1038/s41467-021-27235-2"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            Dormant spores sense amino acids through the B subunits of their germination receptors
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-1">
+            Artzi L, <strong>Alon A</strong>, Brock KP, Green AG, Tam A, Ramírez-Guadiana FH,
+            Marks D, Kruse A, Rudner DZ
+          </p>
+          <p class="text-xs text-gray-400 mb-3">12(1): 6842</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1038/s41467-021-27235-2" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/s41467-021-27235-2.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
 
-						<li class="list-group-item bg-body-secondary">
-							<span class="fw-bold">Exploring ORFan domains in giant viruses: structure of mimivirus sulfhydryl oxidase R596</span><br>
-							Hakim M, Ezerina D, <span class="fw-bold">Alon A</span>, Vonshak O, Fass D<br>			  
-							<span class="fw-bold fst-italic">PLoS One</span>, 2012, 7(11): e50649<br>
-							<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1371/journal.pone.0050649" role="button" target="_blank">Link</a>
-							<a class="btn btn-danger btn-sm" href="papers/journal.pone.0050649.pdf" role="button" target="_blank">PDF</a>
-							<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1371/journal.pone.0050649" data-style="large_rectangle"></span></a>
-							<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1371/journal.pone.0050649"></span></a>
-						  </li>
+        <!-- Pub 7 — Science (COVID) -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <span class="badge-science text-xs font-semibold px-2.5 py-1 rounded-full">
+              Science
+            </span>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1126/science.abi4708"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1126/science.abi4708"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            Drug-induced phospholipidosis confounds drug repurposing for SARS-CoV-2
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-1">
+            Tummino TA†, Rezelj VV†, Fischer B†, Fischer A†, O'Meara MJ, Monel B, Vallet T,
+            White KM, Zhang Z, <strong>Alon A</strong>, Schadt H, et al.
+          </p>
+          <p class="text-xs text-gray-400 mb-3">373(6554): 541–547</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1126/science.abi4708" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/science.abi4708.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
 
-						<li class="list-group-item bg-body-secondary">
-							<span class="fw-bold">The dynamic disulphide relay of quiescin sulphydryl oxidase</span><br>
-							<span class="fw-bold">Alon A</span>, Grossman I, Gat Y, Kodali VK, DiMaio F, Mehlman T, Haran G, Baker D, Thorpe C, Fass D<br>
-							<span class="fw-bold fst-italic">Nature</span>, 2012, 488(7411): 414-8<br>
-							<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1038/nature11267" role="button" target="_blank">Link</a>
-							<a class="btn btn-danger btn-sm" href="papers/nature11267.pdf" role="button" target="_blank">PDF</a>
-							<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1038/nature11267" data-style="large_rectangle"></span></a>
-							<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1038/nature11267"></span></a>
-						  </li>
+        <!-- Pub 8 — Front Pharmacol -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <span class="badge-default text-xs font-semibold px-2.5 py-1 rounded-full">
+              Front Pharmacol
+            </span>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.3389/fphar.2021.633680"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.3389/fphar.2021.633680"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            COVID-19: Famotidine, Histamine, Mast Cells, and Mechanisms
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-1">
+            Malone RW, Tisdall P, Fremont-Smith P, Liu Y, Huang XP, White KM, Miorin L,
+            Moreno E, <strong>Alon A</strong>, Delaforge E, et al.
+          </p>
+          <p class="text-xs text-gray-400 mb-3">12: 633680</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.3389/fphar.2021.633680" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/fphar.2021.633680.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
 
-						<li class="list-group-item bg-body-secondary">
-							<span class="fw-bold">Improved molecular replacement by density- and energy-guided protein structure optimization</span><br>
-							DiMaio F, Terwilliger TC, Read RJ, Wlodawer A, Oberdorfer G, Wagner U, Valkov E, <span class="fw-bold">Alon A</span>, Fass D, Axelrod HL, Das D, Vorobiev SM, Iwaï H, Pokkuluri PR, Baker D<br>
-							<span class="fw-bold fst-italic">Nature</span>, 2011, 473(7348): 540-3<br>
-							<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1038/nature09964" role="button" target="_blank">Link</a>
-							<a class="btn btn-danger btn-sm" href="papers/nature09964.pdf" role="button" target="_blank">PDF</a>
-							<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1038/nature09964" data-style="large_rectangle"></span></a>
-							<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1038/nature09964"></span></a>
-						  </li>
+      </div>
+    </div>
 
-						<li class="list-group-item bg-body-secondary">
-							<span class="fw-bold">QSOX contains a pseudo-dimer of functional and degenerate sulfhydryl oxidase domains</span><br>
-							<span class="fw-bold">Alon A</span>, Heckler EJ, Thorpe C, Fass D<br>
-							<span class="fw-bold fst-italic">FEBS Lett</span>, 2010, 584(8): 1521-5<br>
-							<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1016/j.febslet.2010.03.001" role="button" target="_blank">Link</a>
-							<a class="btn btn-danger btn-sm" href="papers/j.febslet.2010.03.001.pdf" role="button" target="_blank">PDF</a>
-							<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1016/j.febslet.2010.03.001" data-style="large_rectangle"></span></a>
-							<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1016/j.febslet.2010.03.001"></span></a>
-						  </li>
+    <!-- ─── 2019 ─────────────────────────────────────────────── -->
+    <div>
+      <div class="year-group bg-gray-50 py-2 mb-4">
+        <h2 class="text-lg font-bold text-yale border-l-4 border-yale-light pl-3">2019</h2>
+      </div>
+      <div class="space-y-4">
 
-						<li class="list-group-item bg-body-secondary pb-4">
-							<span class="fw-bold">Human quiescin-sulfhydryl oxidase, QSOX1: probing internal redox steps by mutagenesis</span><br>
-							Heckler EJ, <span class="fw-bold">Alon A</span>, Fass D, Thorpe C<br>
-							<span class="fw-bold fst-italic">Biochemistry</span>, 2008, 47(17): 4955-63<br>
-							<a class="btn btn-primary btn-sm" href="http://dx.doi.org/10.1021/bi702522q" role="button" target="_blank">Link</a>
-							<a class="btn btn-danger btn-sm" href="papers/bi702522q.pdf" role="button" target="_blank">PDF</a>
-							<a class="btn"><span class="__dimensions_badge_embed__" data-doi="10.1021/bi702522q" data-style="large_rectangle"></span></a>
-							<a class="btn"><span class="altmetric-embed" data-badge-type='donut' data-doi="10.1021/bi702522q"></span></a>
-						  </li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</article>
-	</main>
-	<!-- Footer -->
-	<footer class="bg-dark text-center text-lg-start">
-		<div class="container">
-			<div class="d-flex justify-content-center text-bg-dark p-2">Alon lab, SHM-B323, 333 Cedar St., New Haven, CT 06510</div>
-			<div class="d-flex justify-content-evenly p-2">
-				<a class="d-flex justify-content-end text-bg-dark" href="https://medicine.yale.edu/pharm/" target="_blank">Department of Pharmacology</a>
-				
-				<a class="d-flex justify-content-start text-bg-dark" href="https://medicine.yale.edu/" target="_blank">Yale School of Medicine</a><!--https://medicine.yale.edu/pharm/--> </div>
-    <!-- Copyright -->
-			<div class="d-flex justify-content-center text-bg-dark p-2">&#169; Assaf Alon 2024 </div>
-    <!-- Copyright -->
-		</div>
-	</footer>
-<!-- Bootstrap core JavaScript --> 
-<!-- <script src="jquery/jquery.js"></script> --> 
-<!-- <script src="js/bootstrap.bundle.min.js"></script> --> 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-<script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
-<script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script>
+        <!-- Pub 9 — Protein Sci -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <span class="badge-default text-xs font-semibold px-2.5 py-1 rounded-full">
+              Protein Sci
+            </span>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1002/pro.3537"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1002/pro.3537"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            <em>cis</em>-Proline mutants of quiescin sulfhydryl oxidase 1 with altered redox
+            properties undermine extracellular matrix integrity and cell adhesion in fibroblast
+            cultures
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-1">
+            Javitt G†, Grossman-Haham I†, <strong>Alon A</strong>, Resnick E, Mutsafi Y,
+            Ilani T, Fass D
+          </p>
+          <p class="text-xs text-gray-400 mb-3">28(1): 228–238</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1002/pro.3537" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/pro.3537.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- ─── 2017 ─────────────────────────────────────────────── -->
+    <div>
+      <div class="year-group bg-gray-50 py-2 mb-4">
+        <h2 class="text-lg font-bold text-yale border-l-4 border-yale-light pl-3">2017</h2>
+      </div>
+      <div class="space-y-4">
+
+        <!-- Pub 10 — PNAS (sigma-2 gene) -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6
+                        ring-1 ring-yale-light ring-opacity-40">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="badge-pnas text-xs font-semibold px-2.5 py-1 rounded-full">PNAS</span>
+              <span class="bg-yale text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+                ★ Featured
+              </span>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1073/pnas.1705154114"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1073/pnas.1705154114"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            Identification of the gene that codes for the σ₂ receptor
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-1">
+            <strong>Alon A</strong>†, Schmidt HR†, Wood MD†, Sahn JJ, Martin SF, Kruse AC
+          </p>
+          <p class="text-xs text-gray-400 mb-3">114(27): 7160–7165</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1073/pnas.1705154114" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/pnas.1705154114.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
+
+        <!-- Pub 11 — Adv Exp Med Biol -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <span class="badge-default text-xs font-semibold px-2.5 py-1 rounded-full">
+              Adv Exp Med Biol
+            </span>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1007/978-3-319-50174-1_2"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1007/978-3-319-50174-1_2"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            Structural Perspectives on Sigma-1 Receptor Function
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-1">
+            <strong>Alon A</strong>, Schmidt H, Zheng S, Kruse AC
+          </p>
+          <p class="text-xs text-gray-400 mb-3">964: 5–13</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1007/978-3-319-50174-1_2" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- ─── 2015 ─────────────────────────────────────────────── -->
+    <div>
+      <div class="year-group bg-gray-50 py-2 mb-4">
+        <h2 class="text-lg font-bold text-yale border-l-4 border-yale-light pl-3">2015</h2>
+      </div>
+      <div class="space-y-4">
+
+        <!-- Pub 12 — Proteins -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <span class="badge-default text-xs font-semibold px-2.5 py-1 rounded-full">
+              Proteins
+            </span>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1002/prot.24779"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1002/prot.24779"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            AbDesign: An algorithm for combinatorial backbone design guided by natural conformations
+            and sequences
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-1">
+            Lapidoth GD, Baran D, Pszolla GM, Norn C, <strong>Alon A</strong>, Tyka MD,
+            Fleishman SJ
+          </p>
+          <p class="text-xs text-gray-400 mb-3">83(8): 1385–406</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1002/prot.24779" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/prot.24779.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- ─── 2013 ─────────────────────────────────────────────── -->
+    <div>
+      <div class="year-group bg-gray-50 py-2 mb-4">
+        <h2 class="text-lg font-bold text-yale border-l-4 border-yale-light pl-3">2013</h2>
+      </div>
+      <div class="space-y-4">
+
+        <!-- Pub 13 — J Mol Biol -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <span class="badge-default text-xs font-semibold px-2.5 py-1 rounded-full">
+              J Mol Biol
+            </span>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1016/j.jmb.2013.07.011"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1016/j.jmb.2013.07.011"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            An inhibitory antibody blocks the first step in the dithiol/disulfide relay mechanism
+            of the enzyme QSOX1
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-1">
+            Grossman I, <strong>Alon A</strong>, Ilani T, Fass D
+          </p>
+          <p class="text-xs text-gray-400 mb-3">425(22): 4366–78</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1016/j.jmb.2013.07.011" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/j.jmb.2013.07.011.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
+
+        <!-- Pub 14 — Science (QSOX) -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6
+                        ring-1 ring-yale-light ring-opacity-40">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="badge-science text-xs font-semibold px-2.5 py-1 rounded-full">
+                Science
+              </span>
+              <span class="bg-yale text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+                ★ Featured
+              </span>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1126/science.1238279"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1126/science.1238279"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            A secreted disulfide catalyst controls extracellular matrix composition and function
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-1">
+            Ilani T, <strong>Alon A</strong>, Grossman I, Horowitz B, Kartvelishvily E,
+            Cohen SR, Fass D
+          </p>
+          <p class="text-xs text-gray-400 mb-3">341(6141): 74–76</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1126/science.1238279" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/science.1238279.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- ─── 2012 ─────────────────────────────────────────────── -->
+    <div>
+      <div class="year-group bg-gray-50 py-2 mb-4">
+        <h2 class="text-lg font-bold text-yale border-l-4 border-yale-light pl-3">2012</h2>
+      </div>
+      <div class="space-y-4">
+
+        <!-- Pub 15 — FEBS Lett (plant QSOX) -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <span class="badge-default text-xs font-semibold px-2.5 py-1 rounded-full">
+              FEBS Lett
+            </span>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1016/j.febslet.2012.10.003"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1016/j.febslet.2012.10.003"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            Phylogenetics and enzymology of plant quiescin sulfhydryl oxidase
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-1">
+            Limor-Waisberg K, <strong>Alon A</strong>, Mehlman T, Fass D
+          </p>
+          <p class="text-xs text-gray-400 mb-3">586(23): 4119–25</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1016/j.febslet.2012.10.003" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/j.febslet.2012.10.003.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
+
+        <!-- Pub 16 — PLoS One -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <span class="badge-default text-xs font-semibold px-2.5 py-1 rounded-full">
+              PLoS One
+            </span>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1371/journal.pone.0050649"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1371/journal.pone.0050649"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            Exploring ORFan domains in giant viruses: structure of mimivirus sulfhydryl oxidase R596
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-1">
+            Hakim M, Ezerina D, <strong>Alon A</strong>, Vonshak O, Fass D
+          </p>
+          <p class="text-xs text-gray-400 mb-3">7(11): e50649</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1371/journal.pone.0050649" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/journal.pone.0050649.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
+
+        <!-- Pub 17 — Nature (QSOX dynamic disulfide) -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6
+                        ring-1 ring-yale-light ring-opacity-40">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="badge-nature text-xs font-semibold px-2.5 py-1 rounded-full">
+                Nature
+              </span>
+              <span class="bg-yale text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+                ★ Featured
+              </span>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1038/nature11267"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1038/nature11267"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            The dynamic disulphide relay of quiescin sulphydryl oxidase
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-1">
+            <strong>Alon A</strong>, Grossman I, Gat Y, Kodali VK, DiMaio F, Mehlman T,
+            Haran G, Baker D, Thorpe C, Fass D
+          </p>
+          <p class="text-xs text-gray-400 mb-3">488(7411): 414–418</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1038/nature11267" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/nature11267.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- ─── 2011 ─────────────────────────────────────────────── -->
+    <div>
+      <div class="year-group bg-gray-50 py-2 mb-4">
+        <h2 class="text-lg font-bold text-yale border-l-4 border-yale-light pl-3">2011</h2>
+      </div>
+      <div class="space-y-4">
+
+        <!-- Pub 18 — Nature (molecular replacement) -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6
+                        ring-1 ring-yale-light ring-opacity-40">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="badge-nature text-xs font-semibold px-2.5 py-1 rounded-full">
+                Nature
+              </span>
+              <span class="bg-yale text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+                ★ Featured
+              </span>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1038/nature09964"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1038/nature09964"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            Improved molecular replacement by density- and energy-guided protein structure
+            optimization
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-1">
+            DiMaio F, Terwilliger TC, Read RJ, Wlodawer A, Oberdorfer G, Wagner U, Valkov E,
+            <strong>Alon A</strong>, Fass D, Axelrod HL, et al.
+          </p>
+          <p class="text-xs text-gray-400 mb-3">473(7348): 540–543</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1038/nature09964" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/nature09964.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- ─── 2010 ─────────────────────────────────────────────── -->
+    <div>
+      <div class="year-group bg-gray-50 py-2 mb-4">
+        <h2 class="text-lg font-bold text-yale border-l-4 border-yale-light pl-3">2010</h2>
+      </div>
+      <div class="space-y-4">
+
+        <!-- Pub 19 — FEBS Lett (QSOX pseudo-dimer) -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <span class="badge-default text-xs font-semibold px-2.5 py-1 rounded-full">
+              FEBS Lett
+            </span>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1016/j.febslet.2010.03.001"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1016/j.febslet.2010.03.001"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            QSOX contains a pseudo-dimer of functional and degenerate sulfhydryl oxidase domains
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-1">
+            <strong>Alon A</strong>, Heckler EJ, Thorpe C, Fass D
+          </p>
+          <p class="text-xs text-gray-400 mb-3">584(8): 1521–1525</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1016/j.febslet.2010.03.001" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/j.febslet.2010.03.001.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- ─── 2008 ─────────────────────────────────────────────── -->
+    <div>
+      <div class="year-group bg-gray-50 py-2 mb-4">
+        <h2 class="text-lg font-bold text-yale border-l-4 border-yale-light pl-3">2008</h2>
+      </div>
+      <div class="space-y-4">
+
+        <!-- Pub 20 — Biochemistry -->
+        <article class="pub-card bg-white rounded-xl border border-gray-200 p-6">
+          <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <span class="badge-default text-xs font-semibold px-2.5 py-1 rounded-full">
+              Biochemistry
+            </span>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span class="__dimensions_badge_embed__"
+                    data-doi="10.1021/bi702522q"
+                    data-style="small_rectangle"
+                    data-hide-zero-citations="true"></span>
+              <div class="altmetric-embed"
+                   data-badge-type="donut"
+                   data-doi="10.1021/bi702522q"
+                   data-hide-no-mentions="true"
+                   data-badge-popover="right"></div>
+            </div>
+          </div>
+          <h3 class="text-base font-semibold text-gray-900 leading-snug mb-2">
+            Human quiescin-sulfhydryl oxidase, QSOX1: probing internal redox steps by mutagenesis
+          </h3>
+          <p class="text-sm text-gray-500 leading-relaxed mb-1">
+            Heckler EJ, <strong>Alon A</strong>, Fass D, Thorpe C
+          </p>
+          <p class="text-xs text-gray-400 mb-3">47(17): 4955–4963</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://doi.org/10.1021/bi702522q" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                         M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              DOI
+            </a>
+            <a href="papers/bi702522q.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8
+                         a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="bg-yale text-white text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8
+                flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-center sm:text-left text-blue-100 leading-relaxed">
+        <p class="font-semibold text-white">Alon Lab</p>
+        <p>SHM-B323, 333 Cedar St.</p>
+        <p>New Haven, CT 06510</p>
+      </div>
+      <div class="flex flex-col items-center sm:items-end gap-1 text-blue-200">
+        <a href="https://medicine.yale.edu/pharm/" target="_blank" rel="noopener"
+           class="hover:text-white transition-colors">Department of Pharmacology</a>
+        <a href="https://medicine.yale.edu/" target="_blank" rel="noopener"
+           class="hover:text-white transition-colors">Yale School of Medicine</a>
+        <p class="text-blue-300 text-xs mt-1">© Assaf Alon 2024</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script>
+    // ── Mobile menu ──────────────────────────────────────────────
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen   = document.getElementById('hamburger-open');
+    const iconClose  = document.getElementById('hamburger-close');
+
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      iconOpen.classList.toggle('hidden');
+      iconClose.classList.toggle('hidden');
+    });
+  </script>
+
 </body>
 </html>

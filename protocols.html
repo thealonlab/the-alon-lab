@@ -1,202 +1,1308 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Head -->
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="The Alon lab at Yale Medical School">
-<meta name="author" content="Assaf Alon">
-<link rel="icon" type="image/x-icon" href="images/cholesterol_logo.svg" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>The Alon Lab</title>
-<!-- Bootstrap core CSS --> 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-<!-- My CSS -->
-<link href="css/styles.css" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Protocols — The Alon Lab at Yale School of Medicine" />
+  <meta name="author" content="Assaf Alon" />
+  <title>Protocols · The Alon Lab</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="images/cholesterol_logo.svg" />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            yale:         '#00356b',
+            'yale-light': '#286dc0',
+            'yale-pale':  '#e8f0f9',
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+          },
+          keyframes: {
+            fadeIn: {
+              '0%':   { opacity: '0', transform: 'translateY(16px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.9s ease both',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+
+    .nav-link-animated {
+      position: relative;
+      padding-bottom: 2px;
+    }
+    .nav-link-animated::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 0; height: 2px;
+      background-color: #a8c4e0;
+      transition: width 0.25s ease;
+    }
+    .nav-link-animated:hover::after,
+    .nav-link-animated.active::after { width: 100%; }
+
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: block; }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 3px;
+      background-color: #286dc0;
+      margin-top: 10px;
+      border-radius: 2px;
+    }
+
+    /* Lock screen */
+    #lock-screen {
+      min-height: calc(100vh - 64px);
+    }
+
+    /* Protocol content */
+    #protocol-content { display: none; }
+    #protocol-content.unlocked { display: block; }
+
+    /* Protocol card hover */
+    .proto-card {
+      transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    }
+    .proto-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,53,107,0.10);
+      border-color: #286dc0;
+    }
+
+    /* Category colors */
+    .cat-dot-orders   { background-color: #6b7280; }
+    .cat-dot-primers  { background-color: #8b5cf6; }
+    .cat-dot-calc     { background-color: #3b82f6; }
+    .cat-dot-molbio   { background-color: #10b981; }
+    .cat-dot-purif    { background-color: #f59e0b; }
+    .cat-dot-fplc     { background-color: #14b8a6; }
+    .cat-dot-radio    { background-color: #ef4444; }
+    .cat-dot-cell     { background-color: #ec4899; }
+    .cat-dot-mbm      { background-color: #f97316; }
+    .cat-dot-xtal     { background-color: #a855f7; }
+
+    /* Search highlight */
+    mark {
+      background-color: #fef08a;
+      border-radius: 2px;
+      padding: 0 1px;
+    }
+
+    /* Filter chip */
+    .filter-chip {
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+    .filter-chip.active {
+      background-color: #00356b;
+      color: white;
+      border-color: #00356b;
+    }
+
+    /* External link cards (streamlit tools) */
+    .tool-card {
+      transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    }
+    .tool-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,53,107,0.10);
+      border-color: #286dc0;
+    }
+  </style>
 </head>
 
-<!-- Body -->
-<body class="bg-dark">
-	<!-- password check -->
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Predefined hashed password (SHA-256)
-        const hashedPassword = "d74cc945ec227005f1373bbeeec937ac6beccfd394edb65b278d461b84cfe2d2";
+<body class="bg-gray-50 font-sans text-gray-800 antialiased">
 
-        // Hashing function
-        async function hashPassword(password) {
-            const msgUint8 = new TextEncoder().encode(password); // Encode as UTF-8
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8); // Hash
-            const hashArray = Array.from(new Uint8Array(hashBuffer)); // Convert to byte array
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // Convert to hex
-        }
+  <!-- ========== NAVBAR ========== -->
+  <nav class="bg-yale fixed top-0 left-0 right-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
 
-        // Check authentication
-        if (!sessionStorage.getItem("authenticated")) {
-            const password = prompt("Enter the password to access this page:");
-            hashPassword(password).then(hash => {
-                if (hash === hashedPassword) {
-                    sessionStorage.setItem("authenticated", "true");
-                } else {
-                    alert("Access Denied");
-                    window.location.href = "index.html";
-                }
-            });
-        }
+        <a href="index.html"
+           class="flex items-center gap-2 text-white font-semibold text-lg tracking-wide
+                  hover:opacity-80 transition-opacity">
+          <img src="images/cholesterol_logo.svg" alt="Alon Lab logo" class="h-8 w-8" />
+          The Alon Lab
+        </a>
+
+        <div class="hidden lg:flex items-center gap-6 text-sm font-medium text-white">
+          <a href="index.html"        class="nav-link-animated">Home</a>
+          <a href="research.html"     class="nav-link-animated">Research</a>
+          <a href="people.html"       class="nav-link-animated">Lab Members</a>
+          <a href="gallery.html"      class="nav-link-animated">Gallery</a>
+          <a href="publications.html" class="nav-link-animated">Publications</a>
+          <a href="positions.html"    class="nav-link-animated">Positions</a>
+          <a href="contact.html"      class="nav-link-animated">Contact</a>
+          <a href="protocols.html"    class="nav-link-animated active">Protocols</a>
+          <a href="https://bsky.app/profile/thealonlab.bsky.social"
+             target="_blank" rel="noopener" aria-label="BlueSky"
+             class="hover:opacity-75 transition-opacity">
+            <img src="https://bsky.app/static/apple-touch-icon.png"
+                 alt="BlueSky" class="h-5 w-5 rounded-sm" />
+          </a>
+        </div>
+
+        <button id="hamburger" aria-label="Toggle menu"
+                class="lg:hidden text-white focus:outline-none">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24">
+            <path id="hamburger-open"  stroke-linecap="round" stroke-linejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"/>
+            <path id="hamburger-close" stroke-linecap="round" stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12" class="hidden"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="lg:hidden bg-yale border-t border-blue-800">
+      <div class="flex flex-col px-4 pb-4 pt-2 gap-3 text-sm font-medium text-white">
+        <a href="index.html"        class="hover:text-blue-200 transition-colors">Home</a>
+        <a href="research.html"     class="hover:text-blue-200 transition-colors">Research</a>
+        <a href="people.html"       class="hover:text-blue-200 transition-colors">Lab Members</a>
+        <a href="gallery.html"      class="hover:text-blue-200 transition-colors">Gallery</a>
+        <a href="publications.html" class="hover:text-blue-200 transition-colors">Publications</a>
+        <a href="positions.html"    class="hover:text-blue-200 transition-colors">Positions</a>
+        <a href="contact.html"      class="hover:text-blue-200 transition-colors">Contact</a>
+        <a href="protocols.html"    class="hover:text-blue-200 transition-colors">Protocols</a>
+        <a href="https://bsky.app/profile/thealonlab.bsky.social"
+           target="_blank" rel="noopener"
+           class="flex items-center gap-2 hover:text-blue-200 transition-colors">
+          <img src="https://bsky.app/static/apple-touch-icon.png"
+               alt="BlueSky" class="h-4 w-4 rounded-sm" />
+          BlueSky
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========== LOCK SCREEN ========== -->
+  <div id="lock-screen"
+       class="pt-16 flex items-center justify-center bg-gray-50 animate-fade-in">
+    <div class="w-full max-w-sm mx-auto px-4 py-16">
+
+      <div class="flex justify-center mb-6">
+        <div class="h-20 w-20 rounded-full bg-yale flex items-center justify-center shadow-lg">
+          <svg class="h-10 w-10 text-white" fill="none" stroke="currentColor"
+               stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0
+                     00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+        </div>
+      </div>
+
+      <h1 class="text-2xl font-bold text-center text-gray-900 mb-1">Lab Protocols</h1>
+      <p class="text-sm text-center text-gray-500 mb-8">
+        This page is restricted to Alon Lab members.<br />
+        Please enter the password to continue.
+      </p>
+
+      <form id="password-form" class="space-y-4" autocomplete="off">
+        <div class="relative">
+          <input
+            id="password-input"
+            type="password"
+            placeholder="Enter password"
+            autocomplete="current-password"
+            class="w-full px-4 py-3 pr-12 rounded-xl border border-gray-200 bg-white
+                   text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-yale-light
+                   focus:border-transparent transition"
+          />
+          <button type="button" id="toggle-pw"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400
+                         hover:text-gray-600 transition-colors"
+                  aria-label="Toggle password visibility">
+            <svg id="eye-open" class="h-5 w-5" fill="none" stroke="currentColor"
+                 stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943
+                       9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943
+                       -9.542-7z"/>
+            </svg>
+            <svg id="eye-closed" class="h-5 w-5 hidden" fill="none" stroke="currentColor"
+                 stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943
+                       -9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243
+                       4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532
+                       7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5
+                       c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132
+                       5.411m0 0L21 21"/>
+            </svg>
+          </button>
+        </div>
+
+        <p id="pw-error" class="hidden text-xs text-red-500 text-center font-medium">
+          Incorrect password. Please try again.
+        </p>
+
+        <button type="submit"
+                class="w-full py-3 bg-yale text-white text-sm font-semibold rounded-xl
+                       hover:bg-yale-light transition-colors shadow-sm">
+          Unlock Protocols
+        </button>
+      </form>
+
+      <p class="text-xs text-center text-gray-400 mt-6">
+        Contact
+        <a href="mailto:assaf.alon@yale.edu"
+           class="text-yale-light hover:text-yale transition-colors">
+          assaf.alon@yale.edu
+        </a>
+        for access.
+      </p>
+    </div>
+  </div>
+
+  <!-- ========== PROTOCOL CONTENT ========== -->
+  <div id="protocol-content">
+
+    <header class="pt-24 pb-8 bg-white border-b border-gray-200">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8
+                  flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-bold text-yale section-title">Protocols</h1>
+          <p class="mt-4 text-gray-500 font-light">
+            Internal lab protocols — Alon Lab members only.
+          </p>
+        </div>
+        <button id="lock-btn"
+                class="inline-flex items-center gap-2 px-4 py-2 border border-gray-200
+                       rounded-lg text-sm text-gray-500 hover:text-yale hover:border-yale
+                       transition-colors bg-white shadow-sm self-start sm:self-auto">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0
+                     00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+          Lock
+        </button>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+      <!-- Search + Filter -->
+      <div class="flex flex-col sm:flex-row gap-4 mb-6">
+        <div class="relative flex-1">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400"
+               fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <input id="proto-search" type="search" placeholder="Search protocols…"
+                 class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 bg-white
+                        text-sm shadow-sm focus:outline-none focus:ring-2
+                        focus:ring-yale-light focus:border-transparent transition" />
+        </div>
+        <div class="flex flex-wrap gap-2 items-center">
+          <button class="filter-chip active px-3 py-1.5 rounded-full border border-gray-200
+                         bg-white text-xs font-medium text-gray-600" data-cat="all">
+            All
+          </button>
+          <button class="filter-chip px-3 py-1.5 rounded-full border border-gray-200
+                         bg-white text-xs font-medium text-gray-600" data-cat="orders">
+            Orders
+          </button>
+          <button class="filter-chip px-3 py-1.5 rounded-full border border-gray-200
+                         bg-white text-xs font-medium text-gray-600" data-cat="primers">
+            Primers
+          </button>
+          <button class="filter-chip px-3 py-1.5 rounded-full border border-gray-200
+                         bg-white text-xs font-medium text-gray-600" data-cat="calc">
+            Calculators
+          </button>
+          <button class="filter-chip px-3 py-1.5 rounded-full border border-gray-200
+                         bg-white text-xs font-medium text-gray-600" data-cat="molbio">
+            Molecular Biology
+          </button>
+          <button class="filter-chip px-3 py-1.5 rounded-full border border-gray-200
+                         bg-white text-xs font-medium text-gray-600" data-cat="purif">
+            Protein Purification
+          </button>
+          <button class="filter-chip px-3 py-1.5 rounded-full border border-gray-200
+                         bg-white text-xs font-medium text-gray-600" data-cat="fplc">
+            FPLC
+          </button>
+          <button class="filter-chip px-3 py-1.5 rounded-full border border-gray-200
+                         bg-white text-xs font-medium text-gray-600" data-cat="radio">
+            Radioactive
+          </button>
+          <button class="filter-chip px-3 py-1.5 rounded-full border border-gray-200
+                         bg-white text-xs font-medium text-gray-600" data-cat="cell">
+            Cell Culture
+          </button>
+          <button class="filter-chip px-3 py-1.5 rounded-full border border-gray-200
+                         bg-white text-xs font-medium text-gray-600" data-cat="mbm">
+            MultiBacMam
+          </button>
+          <button class="filter-chip px-3 py-1.5 rounded-full border border-gray-200
+                         bg-white text-xs font-medium text-gray-600" data-cat="xtal">
+            Crystallography
+          </button>
+        </div>
+      </div>
+
+      <p id="results-count" class="text-xs text-gray-400 mb-6"></p>
+
+      <!-- ── Protocol Grid ── -->
+      <div id="proto-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
+        <!-- ══ ORDERS ══ -->
+        <a href="https://yaleedu-my.sharepoint.com/:x:/r/personal/assaf_alon_yale_edu/Documents/Lab_Stocks/Alon_Lab_Orders.xlsx?d=wc65547f321f94b3b964f1209fe808f57&csf=1&web=1&e=glRchg" target="_blank" rel="noopener"
+           class="proto-card tool-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="orders" data-title="Orders / Inventory Excel Sheet">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-orders mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-gray-600 bg-gray-100 px-2 py-0.5
+                         rounded-full ml-auto">Orders</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Orders / Inventory Excel Sheet
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                       M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            SharePoint
+          </p>
+        </a>
+
+        <a href="logins.html"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="orders" data-title="Logins">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-orders mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-gray-600 bg-gray-100 px-2 py-0.5
+                         rounded-full ml-auto">Orders</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Logins
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0
+                       00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            Internal Page
+          </p>
+        </a>
+
+        <!-- ══ PRIMERS ══ -->
+        <a href="https://yaleedu-my.sharepoint.com/:x:/g/personal/assaf_alon_yale_edu/EXTn5YCXthhJlYdSOOXv0lIBJsI96CVn5eJRSKlDKl2QKg?e=iLUhdp" target="_blank" rel="noopener"
+           class="proto-card tool-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="primers" data-title="Alon Lab Primer List">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-primers mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-violet-600 bg-violet-50 px-2 py-0.5
+                         rounded-full ml-auto">Primers</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Alon Lab Primer List
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                       M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            SharePoint
+          </p>
+        </a>
+
+        <a href="primers.html"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="primers" data-title="How to Order Primers">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-primers mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-violet-600 bg-violet-50 px-2 py-0.5
+                         rounded-full ml-auto">Primers</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            How to Order Primers
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            Internal Page
+          </p>
+        </a>
+
+        <!-- ══ CALCULATORS ══ -->
+        <a href="https://od-calculator.streamlit.app/" target="_blank" rel="noopener"
+           class="proto-card tool-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="calc" data-title="Calculate OD and When to Harvest">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-calc mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5
+                         rounded-full ml-auto">Calculator</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Calculate OD and When to Harvest
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                       M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            Streamlit App
+          </p>
+        </a>
+
+        <a href="https://hificalculator.streamlit.app/" target="_blank" rel="noopener"
+           class="proto-card tool-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="calc" data-title="Calculate NEB HiFi Assembly">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-calc mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5
+                         rounded-full ml-auto">Calculator</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Calculate NEB HiFi Assembly
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                       M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            Streamlit App
+          </p>
+        </a>
+
+        <a href="https://nb-diversity.streamlit.app/" target="_blank" rel="noopener"
+           class="proto-card tool-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="calc" data-title="Calculate Nanobody Library Diversity">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-calc mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5
+                         rounded-full ml-auto">Calculator</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Calculate Nanobody Library Diversity
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                       M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            Streamlit App
+          </p>
+        </a>
+
+        <!-- ══ MOLECULAR BIOLOGY ══ -->
+        <a href="protocols/Molecular_biology/Miniprep.pdf" target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="molbio" data-title="Miniprep">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-molbio mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5
+                         rounded-full ml-auto">Mol Bio</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Miniprep
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <a href="protocols/Molecular_biology/DNA_gel_extraction.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="molbio" data-title="DNA Gel Extraction">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-molbio mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5
+                         rounded-full ml-auto">Mol Bio</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            DNA Gel Extraction
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <a href="protocols/Molecular_biology/Reaction_cleanup.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="molbio" data-title="Reaction Cleanup">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-molbio mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5
+                         rounded-full ml-auto">Mol Bio</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Reaction Cleanup
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <a href="protocols/Molecular_biology/PCR_using_KAPA.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="molbio" data-title="KAPA PCR">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-molbio mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5
+                         rounded-full ml-auto">Mol Bio</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            KAPA PCR
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <a href="protocols/Molecular_biology/KLD_cloning.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="molbio" data-title="KLD Kit">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-molbio mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5
+                         rounded-full ml-auto">Mol Bio</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            KLD Kit
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <a href="protocols/Molecular_biology/DNA_Extraction_from_Baculovirus.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="molbio" data-title="DNA Extraction from Baculovirus">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-molbio mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5
+                         rounded-full ml-auto">Mol Bio</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            DNA Extraction from Baculovirus
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <a href="media_recipes.html"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="molbio" data-title="Media and Buffer Recipes">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-molbio mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5
+                         rounded-full ml-auto">Mol Bio</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Media and Buffer Recipes
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            Internal Page
+          </p>
+        </a>
+
+        <!-- ══ PROTEIN PURIFICATION ══ -->
+        <a href="protocols/purification/periplasm.pdf" target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="purif" data-title="Purification from Periplasm">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-purif mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-0.5
+                         rounded-full ml-auto">Purification</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Purification from Periplasm
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <a href="protocols/purification/Nitrogen_cavitation.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="purif" data-title="Nitrogen Cavitation">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-purif mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-0.5
+                         rounded-full ml-auto">Purification</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Nitrogen Cavitation
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <a href="protocols/purification/microfluidizer.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="purif" data-title="Using the Microfluidizer">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-purif mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-0.5
+                         rounded-full ml-auto">Purification</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Using the Microfluidizer
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <a href="protocols/purification/protein_resin_using_CNBr.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="purif" data-title="Coupling Proteins to Sepharose CNBr">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-purif mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-0.5
+                         rounded-full ml-auto">Purification</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Coupling Proteins to Sepharose CNBr
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <!-- ══ FPLC ══ -->
+        <a href="protocols/FPLC/BioRad_Sample_Pump.pdf" target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="fplc" data-title="Using the Sample Pump">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-fplc mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-teal-600 bg-teal-50 px-2 py-0.5
+                         rounded-full ml-auto">FPLC</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Using the Sample Pump
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <!-- ══ RADIOACTIVE BINDING ══ -->
+        <a href="protocols/Radioactive/Brandel_harvester.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="radio" data-title="Using the Brandel Harvester">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-radio mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-red-600 bg-red-50 px-2 py-0.5
+                         rounded-full ml-auto">Radioactive</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Using the Brandel Harvester
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <a href="protocols/Radioactive/Radioactive_swipe_test.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="radio" data-title="Radioactive Swipe Test Form">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-radio mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-red-600 bg-red-50 px-2 py-0.5
+                         rounded-full ml-auto">Radioactive</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Radioactive Swipe Test Form
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <a href="protocols/Radioactive/G-50_desalting_columns.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="radio" data-title="Preparing G-50 Desalting Columns">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-radio mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-red-600 bg-red-50 px-2 py-0.5
+                         rounded-full ml-auto">Radioactive</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Preparing G-50 Desalting Columns
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <a href="https://extract-cpm.streamlit.app/" target="_blank" rel="noopener"
+           class="proto-card tool-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="radio" data-title="Extract CPM from LS6500">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-radio mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-red-600 bg-red-50 px-2 py-0.5
+                         rounded-full ml-auto">Radioactive</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Extract CPM from LS6500
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                       M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            Streamlit App
+          </p>
+        </a>
+
+        <a href="https://cpm-to-nm.streamlit.app/" target="_blank" rel="noopener"
+           class="proto-card tool-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="radio" data-title="CPM to nM Calculator">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-radio mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-red-600 bg-red-50 px-2 py-0.5
+                         rounded-full ml-auto">Radioactive</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            CPM to nM Calculator
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                       M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            Streamlit App
+          </p>
+        </a>
+
+        <!-- ══ CELL CULTURE ══ -->
+        <a href="protocols/Cell_Culture/Fectopro_Transfection.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="cell" data-title="Fectopro Transfection">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-cell mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-pink-600 bg-pink-50 px-2 py-0.5
+                         rounded-full ml-auto">Cell Culture</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Fectopro Transfection
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <!-- ══ MULTIBACMAM ══ -->
+        <a href="protocols/MultiBacMam/DH10EMBacVSV_transformation.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="mbm" data-title="DH10EMBac Transformation">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-mbm mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-0.5
+                         rounded-full ml-auto">MultiBacMam</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            DH10EMBac Transformation
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <a href="protocols/MultiBacMam/bacmid_DNA_isolation.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="mbm" data-title="Isolation of Bacmid DNA">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-mbm mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-0.5
+                         rounded-full ml-auto">MultiBacMam</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Isolation of Bacmid DNA
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <a href="protocols/MultiBacMam/Bacmid_transfection_AA.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="mbm" data-title="Bacmid Transfection">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-mbm mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-0.5
+                         rounded-full ml-auto">MultiBacMam</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Bacmid Transfection
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <!-- ══ CRYSTALLOGRAPHY ══ -->
+        <a href="protocols/crystallography/LCP_lipids.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="xtal" data-title="Preparing 9.9 MAG for LCP">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-xtal mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-0.5
+                         rounded-full ml-auto">Crystallography</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Preparing 9.9 MAG for LCP
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <a href="protocols/crystallography/lipids_different_than_MAG_9.9.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="xtal" data-title="Pointers for Other MAG">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-xtal mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-0.5
+                         rounded-full ml-auto">Crystallography</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Pointers for Other MAG
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <a href="protocols/crystallography/Gryphon_calibration.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="xtal" data-title="Gryphon Calibration">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-xtal mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-0.5
+                         rounded-full ml-auto">Crystallography</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Gryphon Calibration
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+        <a href="protocols/crystallography/Gryphon_LCP_setup.pdf"
+           target="_blank" rel="noopener"
+           class="proto-card bg-white rounded-xl border border-gray-200 p-5
+                  flex flex-col gap-3 no-underline"
+           data-cat="xtal" data-title="Gryphon LCP Setup">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full cat-dot-xtal mt-1.5 flex-shrink-0"></span>
+            <span class="text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-0.5
+                         rounded-full ml-auto">Crystallography</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug proto-title">
+            Gryphon LCP Setup
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto flex items-center gap-1">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414
+                       A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            PDF Protocol
+          </p>
+        </a>
+
+      </div><!-- /proto-grid -->
+
+      <!-- No results -->
+      <div id="no-results" class="hidden text-center py-16">
+        <svg class="h-12 w-12 text-gray-300 mx-auto mb-4" fill="none"
+             stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <p class="text-gray-400 text-sm">No protocols found matching your search.</p>
+        <button onclick="resetSearch()"
+                class="mt-3 text-xs text-yale-light hover:text-yale transition-colors">
+          Clear search
+        </button>
+      </div>
+
+    </main>
+  </div><!-- /protocol-content -->
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="bg-yale text-white text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8
+                flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-center sm:text-left text-blue-100 leading-relaxed">
+        <p class="font-semibold text-white">Alon Lab</p>
+        <p>SHM-B323, 333 Cedar St.</p>
+        <p>New Haven, CT 06510</p>
+      </div>
+      <div class="flex flex-col items-center sm:items-end gap-1 text-blue-200">
+        <a href="https://medicine.yale.edu/pharm/" target="_blank" rel="noopener"
+           class="hover:text-white transition-colors">Department of Pharmacology</a>
+        <a href="https://medicine.yale.edu/" target="_blank" rel="noopener"
+           class="hover:text-white transition-colors">Yale School of Medicine</a>
+        <p class="text-blue-300 text-xs mt-1">© Assaf Alon 2024</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script>
+    // ── Mobile menu ──────────────────────────────────────────────
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen   = document.getElementById('hamburger-open');
+    const iconClose  = document.getElementById('hamburger-close');
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      iconOpen.classList.toggle('hidden');
+      iconClose.classList.toggle('hidden');
     });
-</script>
 
-<!-- Navigation -->
-	<header>
-		<nav aria-label="Main navigation" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-			<div class="container-fluid">
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-				        <li class="nav-item px-3"> <a class="nav-link" href="index.html">Home</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="research.html">Research</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="people.html">Lab members</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="gallery.html">Gallery</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="publications.html">Publications</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="positions.html">Positions</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="contact.html">Contact</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link active" href="protocols.html">Protocols<span class="visually-hidden-focusable">(current)</span></a></li>
-						<!-- BlueSky Icon Link -->
-						<li class="nav-item px-3">
-							<a class="nav-link" href="https://bsky.app/profile/thealonlab.bsky.social" target="_blank" aria-label="BlueSky Profile">
-								<img src="https://bsky.app/static/apple-touch-icon.png" alt="BlueSky Profile" style="width: 20px; height: 20px; vertical-align: middle;">
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-	</header>
-	<main>
-		<!-- Banner -->
-		<section id="banner">
-			<div class="container pt-5">
-				<div class="row bg-white">
-					<div class="col ">
-						<img src="images/Alon_Lab_Logo.svg" alt="cholesterol logo" class="logo mt-3 mb-2 mx-auto d-block">
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- Page Content -->
-		<article id="content">
-			<div class="container ">
-				<div class="row justify-content-md-center bg-body-secondary py-4">
-					<div class="col-auto px-4">
-						<h3 class="text-decoration-underline text-muted">Protocols</h3>						
-					</div>
-				</div>
-				<div class="row justify-content-left bg-body-secondary py-4">
-					<div class="col-auto px-4">
-						<h5 class="text-decoration-underline text-muted">Orders</h5>
-						<ul>
-							<li><a class="d-flex text-dark text-decoration-none" href="https://yaleedu-my.sharepoint.com/:x:/r/personal/assaf_alon_yale_edu/Documents/Lab_Stocks/Alon_Lab_Orders.xlsx?d=wc65547f321f94b3b964f1209fe808f57&csf=1&web=1&e=glRchg" target="_blank">Orders/inventory excel sheet</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="logins.html">Logins</a></li>
-						</ul>
-						<h5 class="text-decoration-underline text-muted">Primers</h5>
-						<ul>
-							<li>
-								<a class="d-flex text-dark text-decoration-none" href="https://yaleedu-my.sharepoint.com/:x:/g/personal/assaf_alon_yale_edu/EXTn5YCXthhJlYdSOOXv0lIBJsI96CVn5eJRSKlDKl2QKg?e=iLUhdp" target="_blank">Alon Lab Primer List</a>								
-							</li>
-							<li>
-								<a class="d-flex text-dark text-decoration-none" href="primers.html">How to order primers</a>
-							</li>
-						</ul>
-						<h5 class="text-decoration-underline text-muted">Calculators</h5>
-						<ul>
-							<li><a class="d-flex text-dark text-decoration-none" href="https://od-calculator.streamlit.app/" target="_blank">Calculate OD and when to harvest</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="https://hificalculator.streamlit.app/" target="_blank">Calculate NEB HiFi Assembly</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="https://nb-diversity.streamlit.app/" target="_blank">Calculate nanobody library diversity</a></li>
-						</ul>
-					</div>
-					<div class="col-auto px-4">
-						<h5 class="text-decoration-underline text-muted">Molecular biology</h5>
-						<ul>
-							<li><a class="d-flex text-dark text-decoration-none" href="protocols/Molecular_biology/Miniprep.pdf" target="_blank">Miniprep</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="protocols/Molecular_biology/DNA_gel_extraction.pdf" target="_blank">DNA gel extraction</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="protocols/Molecular_biology/Reaction_cleanup.pdf" target="_blank">Reaction cleanup</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="protocols/Molecular_biology/PCR_using_KAPA.pdf" target="_blank">KAPA PCR</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="protocols/Molecular_biology/KLD_cloning.pdf" target="_blank">KLD kit</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="protocols/Molecular_biology/DNA_Extraction_from_Baculovirus.pdf" target="_blank">DNA Extraction from Baculovirus</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="media_recipes.html" >Media and buffer recipes</a></li>
-						</ul>
-						<h5 class="text-decoration-underline text-muted">Protein purification</h5>
-						<ul>
-							<li><a class="d-flex text-dark text-decoration-none" href="protocols/purification/periplasm.pdf" target="_blank">Purification from periplasm</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="protocols/purification/Nitrogen_cavitation.pdf" target="_blank">Nitrogen cavitation</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="protocols/purification/microfluidizer.pdf" target="_blank">Using the microfluidizer</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="protocols/purification/protein_resin_using_CNBr.pdf" target="_blank">Coupling proteins to sepharose CNBr</a></li>
-						</ul>
+    // ── Password ─────────────────────────────────────────────────
+    const CORRECT_PASSWORD = 'alonlab'; // ← change to your actual password
 
-					</div>
-					<div class="col-auto px-4">
-						<h5 class="text-decoration-underline text-muted">FPLC</h5>
-						<ul>
-							<li>
-								<a class="d-flex text-dark text-decoration-none" href="protocols/FPLC/BioRad_Sample_Pump.pdf" target="_blank">Using the sample pump</a>
-							</li>
-						</ul>
-						<h5 class="text-decoration-underline text-muted">Radioactive binding</h5>
-						<ul>
-							<li><a class="d-flex text-dark text-decoration-none" href="protocols/Radioactive/Brandel_harvester.pdf" target="_blank">Using the Brandel harvester</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="protocols/Radioactive/Radioactive_swipe_test.pdf" target="_blank">Radioactive swipe test form</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="protocols/Radioactive/G-50_desalting_columns.pdf" target="_blank">Preparing G-50 desalting columns</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="https://extract-cpm.streamlit.app/" target="_blank">Extract CPM from LS6500</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="https://cpm-to-nm.streamlit.app/" target="_blank">CPM to nM calculator</a></li>
-							
-						</ul>
-					</div>
-					<div class="col-auto px-4">
-						<h5 class="text-decoration-underline text-muted">Cell Culture</h5>
-						<ul>
-							<li><a class="d-flex text-dark text-decoration-none" href="protocols/Cell_Culture/Fectopro_Transfection.pdf" target="_blank">Fectopro Transfection</a></li>
-						</ul>
-						<h5 class="text-decoration-underline text-muted">MultiBacMam</h5>
-						<ul>
-							<li>
-								<a class="d-flex text-dark text-decoration-none" href="protocols/MultiBacMam/DH10EMBacVSV_transformation.pdf" target="_blank">DH10EMBac transformation</a>
-							</li>
-							<li>
-								<a class="d-flex text-dark text-decoration-none" href="protocols/MultiBacMam/bacmid_DNA_isolation.pdf" target="_blank">Isolation of bacmid DNA</a>
-							</li>
-							<li>
-								<a class="d-flex text-dark text-decoration-none" href="protocols/MultiBacMam/Bacmid_transfection_AA.pdf" target="_blank">Bacmid transfection</a>
-							</li>
+    const lockScreen      = document.getElementById('lock-screen');
+    const protocolContent = document.getElementById('protocol-content');
+    const pwForm          = document.getElementById('password-form');
+    const pwInput         = document.getElementById('password-input');
+    const pwError         = document.getElementById('pw-error');
+    const lockBtn         = document.getElementById('lock-btn');
+    const togglePw        = document.getElementById('toggle-pw');
+    const eyeOpen         = document.getElementById('eye-open');
+    const eyeClosed       = document.getElementById('eye-closed');
 
-						</ul>
-						<h5 class="text-decoration-underline text-muted">Crystallography</h5>
-						<ul>
-							<li><a class="d-flex text-dark text-decoration-none" href="protocols/crystallography/LCP_lipids.pdf" target="_blank">Preparing 9.9 MAG for LCP</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="protocols/crystallography/lipids_different_than_MAG_9.9.pdf" target="_blank">Pointers for other MAG</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="protocols/crystallography/Gryphon_calibration.pdf" target="_blank">Gryphon calibration</a></li>
-							<li><a class="d-flex text-dark text-decoration-none" href="protocols/crystallography/Gryphon_LCP_setup.pdf" target="_blank">Gryphon LCP setup</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</article>
-	</main>
-	<!-- Footer -->
-	<footer class="bg-dark text-center text-lg-start">
-		<div class="container">
-			<div class="d-flex justify-content-center text-bg-dark p-2">Alon lab, SHM-B323, 333 Cedar St., New Haven, CT 06510</div>
-			<div class="d-flex justify-content-evenly p-2">
-				<a class="d-flex justify-content-end text-bg-dark" href="https://medicine.yale.edu/pharm/" target="_blank">Department of Pharmacology</a>
-				
-				<a class="d-flex justify-content-start text-bg-dark" href="https://medicine.yale.edu/" target="_blank">Yale School of Medicine</a><!--https://medicine.yale.edu/pharm/--> </div>
-    <!-- Copyright -->
-			<div class="d-flex justify-content-center text-bg-dark p-2">&#169; Assaf Alon 2024 </div>
-    <!-- Copyright -->
-		</div>
-	</footer>
-<!-- Bootstrap core JavaScript --> 
-<!-- <script src="jquery/jquery.js"></script> --> 
-<!-- <script src="js/bootstrap.bundle.min.js"></script> --> 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    if (sessionStorage.getItem('alonlab_auth') === 'true') unlock();
+
+    pwForm.addEventListener('submit', e => {
+      e.preventDefault();
+      if (pwInput.value === CORRECT_PASSWORD) {
+        sessionStorage.setItem('alonlab_auth', 'true');
+        pwError.classList.add('hidden');
+        unlock();
+      } else {
+        pwError.classList.remove('hidden');
+        pwInput.value = '';
+        pwInput.focus();
+        pwInput.classList.add('border-red-400');
+        setTimeout(() => pwInput.classList.remove('border-red-400'), 1500);
+      }
+    });
+
+    function unlock() {
+      lockScreen.style.display = 'none';
+      protocolContent.classList.add('unlocked');
+      updateCount();
+    }
+
+    lockBtn.addEventListener('click', () => {
+      sessionStorage.removeItem('alonlab_auth');
+      protocolContent.classList.remove('unlocked');
+      lockScreen.style.display = '';
+      pwInput.value = '';
+    });
+
+    togglePw.addEventListener('click', () => {
+      const isHidden = pwInput.type === 'password';
+      pwInput.type = isHidden ? 'text' : 'password';
+      eyeOpen.classList.toggle('hidden', isHidden);
+      eyeClosed.classList.toggle('hidden', !isHidden);
+    });
+
+    // ── Search + Filter ──────────────────────────────────────────
+    const protoSearch  = document.getElementById('proto-search');
+    const filterChips  = document.querySelectorAll('.filter-chip');
+    const protoCards   = document.querySelectorAll('.proto-card');
+    const noResults    = document.getElementById('no-results');
+    const resultsCount = document.getElementById('results-count');
+    let   activeCategory = 'all';
+
+    protoSearch.addEventListener('input', applyFilters);
+
+    filterChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        filterChips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        activeCategory = chip.dataset.cat;
+        applyFilters();
+      });
+    });
+
+    function applyFilters() {
+      const query = protoSearch.value.toLowerCase().trim();
+      let visible = 0;
+      protoCards.forEach(card => {
+        const title   = card.dataset.title.toLowerCase();
+        const cat     = card.dataset.cat;
+        const matchCat = activeCategory === 'all' || cat === activeCategory;
+        const matchQ   = !query || title.includes(query);
+        if (matchCat && matchQ) {
+          card.style.display = '';
+          visible++;
+          const titleEl = card.querySelector('.proto-title');
+          if (query) {
+            const re = new RegExp(`(${query})`, 'gi');
+            titleEl.innerHTML = card.dataset.title.replace(re, '<mark>$1</mark>');
+          } else {
+            titleEl.textContent = card.dataset.title;
+          }
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      noResults.classList.toggle('hidden', visible > 0);
+      updateCount(visible);
+    }
+
+    function updateCount(n) {
+      const total = protoCards.length;
+      const shown = n !== undefined ? n : total;
+      resultsCount.textContent = shown === total
+        ? `Showing all ${total} protocols`
+        : `Showing ${shown} of ${total} protocols`;
+    }
+
+    function resetSearch() {
+      protoSearch.value = '';
+      filterChips.forEach(c => c.classList.remove('active'));
+      document.querySelector('[data-cat="all"]').classList.add('active');
+      activeCategory = 'all';
+      applyFilters();
+    }
+  </script>
+
 </body>
 </html>

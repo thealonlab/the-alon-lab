@@ -1,198 +1,610 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Head -->
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="The Alon lab at Yale Medical School">
-<meta name="author" content="Assaf Alon">
-<link rel="icon" type="image/x-icon" href="images/cholesterol_logo.svg" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>The Alon Lab</title>
-<!-- Bootstrap core CSS --> 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-<!-- My CSS -->
-<link href="css/styles.css" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Positions — The Alon Lab at Yale School of Medicine" />
+  <meta name="author" content="Assaf Alon" />
+  <title>Positions · The Alon Lab</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="images/cholesterol_logo.svg" />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            yale:         '#00356b',
+            'yale-light': '#286dc0',
+            'yale-pale':  '#e8f0f9',
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+          },
+          keyframes: {
+            fadeIn: {
+              '0%':   { opacity: '0', transform: 'translateY(16px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.9s ease both',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+
+    /* Navbar underline animation */
+    .nav-link-animated {
+      position: relative;
+      padding-bottom: 2px;
+    }
+    .nav-link-animated::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 0; height: 2px;
+      background-color: #a8c4e0;
+      transition: width 0.25s ease;
+    }
+    .nav-link-animated:hover::after,
+    .nav-link-animated.active::after { width: 100%; }
+
+    /* Mobile menu */
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: block; }
+
+    /* Section title accent */
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 3px;
+      background-color: #286dc0;
+      margin-top: 10px;
+      border-radius: 2px;
+    }
+
+    /* Tab button */
+    .tab-btn {
+      position: relative;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #6b7280;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s ease, border-color 0.2s ease;
+      white-space: nowrap;
+      cursor: pointer;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+    }
+    .tab-btn:hover { color: #286dc0; }
+    .tab-btn.active {
+      color: #00356b;
+      border-bottom-color: #286dc0;
+      font-weight: 600;
+    }
+
+    /* Tab panel */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Position card hover */
+    .pos-card {
+      transition: box-shadow 0.25s ease, transform 0.25s ease;
+    }
+    .pos-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0,53,107,0.10);
+    }
+
+    /* Requirement list bullet */
+    .req-list li {
+      position: relative;
+      padding-left: 1.25rem;
+    }
+    .req-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      background-color: #286dc0;
+    }
+  </style>
 </head>
 
-<!-- Body -->
-<body class="bg-dark">
-<!-- Navigation -->
-	<header>
-		<nav aria-label="Main navigation" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-			<div class="container-fluid">
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-						<li class="nav-item px-3"> <a class="nav-link" href="index.html">Home</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="research.html">Research</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="people.html">Lab members</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="gallery.html">Gallery</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="publications.html">Publications</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link active" href="positions.html">Positions<span class="visually-hidden-focusable">(current)</span></a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="contact.html">Contact</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="protocols.html">Protocols</a> </li>						
-						<!-- BlueSky Icon Link -->
-						<li class="nav-item px-3">
-							<a class="nav-link" href="https://bsky.app/profile/thealonlab.bsky.social" target="_blank" aria-label="BlueSky Profile">
-								<img src="https://bsky.app/static/apple-touch-icon.png" alt="BlueSky Profile" style="width: 20px; height: 20px; vertical-align: middle;">
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-	</header>
-	<main>
-		<!-- Banner -->
-		<section id="banner">
-			<div class="container pt-5">
-				<div class="row bg-white">
-					<div class="col ">
-						<img src="images/Alon_Lab_Logo.svg" alt="cholesterol logo" class="logo mt-3 mb-2 mx-auto d-block">
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- Page Content -->
-		<article id="content">
-			<div class="container bg-body-secondary px-4 px-md-2 px-lg-0">
-				<div class="d-flex justify-content-center py-3">
-					<h3 class="blink text-bg-body-secondary">We are recruiting - apply today!</h3>
-				</div>
-				<div class="row pb-3">
-					<div class="col px-1 px-md-3 px-lg-5">
-						<p>Our lab is growing and we have many open positions to fill. We encourage enthusiastic scientists of all levels to apply. <br>
-							The Alon lab strives to provide a healthy, inclusive, and fun work environment.<br>
-							We value a collaborative approach to science and strong mentorship.</p>
-						<ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
-							<li class="nav-item" role="presentation">
-								<button class="nav-link active" id="postdoc-tab" data-bs-toggle="tab" data-bs-target="#postdoc" type="button" role="tab" aria-controls="postdoc" aria-selected="true">Postdoctoral researchers</button>
-							</li>
-							<li class="nav-item" role="presentation">
-								<button class="nav-link" id="graduate-tab" data-bs-toggle="tab" data-bs-target="#graduate" type="button" role="tab" aria-controls="graduate" aria-selected="false">Graduate students</button>
-							</li>
-							<!-- Postbac - dark for now
-							<li class="nav-item" role="presentation">
-								<button class="nav-link" id="postbac-tab" data-bs-toggle="tab" data-bs-target="#postbac" type="button" role="tab" aria-controls="postbac" aria-selected="false">Post-Grad associate</button>
-							</li>
-							-->
-							<li class="nav-item" role="presentation">
-								<button class="nav-link" id="undergraduate-tab" data-bs-toggle="tab" data-bs-target="#undergraduate" type="button" role="tab" aria-controls="undergraduate" aria-selected="false">Undergraduate students</button>
-							</li>
-						</ul>
-						<div class="tab-content" id="myTabContent">
-							<!--div class="tab-pane p-lg-5 p-md-4 p-3 fade show active" id="postdoc" role="tabpanel" aria-labelledby="postdoc-tab">
-			<p>Although we are not actively reqruiting for a postdoc position at the moment, we are always on the lookout for outstanding recently graduated scientists who are excited about structural biology and receptor pharmacology.</p>
-		  <p>Interested applicants should send a cover letter, CV, a 1-page research summary, and contact information for three references to Dr. Assaf Alon <a href="mailto:assaf.alon@yale.edu">(assaf.alon@yale.edu)</a></p>
-        </div-->
-							<div class="tab-pane p-lg-5 p-md-4 p-3 fade show active" id="postdoc" role="tabpanel" aria-labelledby="postdoc-tab">
-								<h2>
-									Postdoctoral Positions available at the Alon Lab
-								</h2>
-								<p>
-									The Alon lab at Yale Medical School has openings for outstanding and passionate recently graduated scientists who are excited about structural biology and receptor pharmacology. We seek individuals with a strong background in structural biology of membrane proteins, either cryo-EM or x-ray crystallography.
-								</p>
-								<p>
-								We are focused on gaining mechanistic insights into activation, complex formation, signaling, and ligand recognition of understudied membrane receptors involved in recognition of sterol signaling molecules. To this end we apply a multidisciplinary approach, combining structural biology, biophysics, pharmacology, drug discovery, and cell biology.
-							</p>
-								<p>
-								will have access to Yale’s exceptional resources for structural and cellular biology, and work in a vibrant and collaborative environment. The Alon Lab encourages career development through opportunities to lead collaborations, mentor junior trainees, and present research at international conferences.
-								<h3>
-									Qualifications:
-								</h3>
-								<p>Candidates must have a PhD degree or equivalent in biological sciences with not more than 1 year of postdoctoral training. Interested candidates should have training and experience in two or more of the following:
-								<ul>
-									<li>
-									Structural biology (X-ray or cryoEM)
-								</li>
-									<li>
-									Protein purification from mammalian/insect cell
-								</li>
-									<li>
-									Biochemical and biophysical techniques
-								</li>
-									<li>
-									Cell biology (experience with generating CRISPR KO lines is preferred)
-								</li>
-								</ul>
-								</p>
-								<h3>
-									Compensation:
-								</h3>
-								<p>
-								This position offers a competitive salary of $68,000/year, full healthcare benefits, and funding to attend conferences. Yale provides a vibrant postdoctoral community with resources to support family life, career development, and well-being. For information on postdoc salary, housing, the perks of living in New Haven, and more information please visit <a href="https://postdocs.yale.edu/" target="_blank">Yale office for postdoc affairs</a>
-							</p>
-							<h3>
-								Apply:
-							</h3>
-								<p>Interested applicants should send a cover letter, CV, a 1-page research summary, and contact information for three references to Dr. Assaf Alon <a href="mailto:assaf.alon@yale.edu">(assaf.alon@yale.edu)</a>
-								</p>
-							</div>
-						<div class="tab-pane fade p-lg-5 p-md-4 p-3" id="graduate" role="tabpanel" aria-labelledby="graduate-tab">
-							<p>We accept graduate students through the <a href="https://medicine.yale.edu/bbs/" target="_blank" class="text-decoration-none">Biological and Biomedical Sciences (BBS) program</a>. The lab is affiliated with the <a href="https://medicine.yale.edu/bbs/biochemistry/" target="_blank" class="text-decoration-none">Biochemistry, Quantitative Biology, Biophysics and Structural Biology (BQBS)</a> track as well as the <a href="https://medicine.yale.edu/bbs/molmed/" target="_blank" class="text-decoration-none">Translational Molecular Medicine, Pharmacology, and Physiology (TMMPP)</a> track.<br>
-            Students who are interested in rotating in the lab are encouraged to contact Assaf via email: <a href="mailto:assaf.alon@yale.edu">assaf.alon@yale.edu</a></p>
-        </div>
-        <div class="tab-pane fade p-lg-5 p-md-4 p-3" id="postbac" role="tabpanel" aria-labelledby="postbac-tab">
-			<p>The Alon lab starting in the Department of Pharmacology at Yale Medical School and has an opening for outstanding and passionate post-grad scientists interested in opportunities to gain research experience.</p>
-			<p>The <span class="fw-bold">main goal</span> of the Alon Lab is to gain new mechanistic insights into the function of membrane receptors for sterol hormones and other signaling molecules. We use a combination of structural biology, biochemistry, and pharmacology to study various understudied and interesting membrane protein targets.</p>
-			<p>Candidates should be self-motivated and be able to carry out experiments independently. Candidates will analyze results, and with guidance from the principal investigator design follow-up experiments. Candidates are also expected to support the maintenance and organization of the lab. The successful applicant will work closely with Dr. Alon and there will be ample learning and growth opportunities for those interested in biomedical research. We are seeking candidates who can provide at least a 1-year commitment.</p>
-    <h5 class="pt-2 text-decoration-underline">Responsibilities:</h5>
-    <ol class="list-group list-group-numbered list-group-flush">
-      <li class="list-group-item bg-body-secondary">Conduct research, working with the principal investigator to plan, perform experiments, and analyze results</li>
-      <li class="list-group-item bg-body-secondary">General lab maintenance, including organizing databases, maintaining stock solutions</li>
-      <li class="list-group-item bg-body-secondary">Maintain tissue culture cells</li>
-    </ol>
-    <h5 class="pt-2 text-decoration-underline">Required qualifications:</h5>
-    <ol class="list-group list-group-numbered list-group-flush">
-      <li class="list-group-item bg-body-secondary">A degree in biology, chemistry, biochemistry, or a related field</li>
-      <li class="list-group-item bg-body-secondary">Previous experience in basic science research</li>
-      <li class="list-group-item bg-body-secondary">Demonstrated record of academic achievement</li>
-      <li class="list-group-item bg-body-secondary">Enthusiastic, highly motivated, excellent organizational skills</li>
-      <!--li class="list-group-item"></li-->
-    </ol>
-    <h5 class="pt-2 text-decoration-underline">Preferred qualifications:</h5>
-    <ol class="list-group list-group-numbered list-group-flush">
-      <li class="list-group-item bg-body-secondary">Experience in protein biochemistry or structural biology is a plus</li>
-      <li class="list-group-item bg-body-secondary">Experience with basic molecular biology techniques such as PCR, DNA cloning, and construct design </li>
-      <li class="list-group-item bg-body-secondary">Previous experience working with <span class="fst-italic">e.coli</span>, insect cells, or mammalian cells</li>
-      <!--li class="list-group-item bg-body-secondary"></li-->
-    </ol>
-    <h5 class="pt-2 text-decoration-underline">To Apply:</h5>
-	  <p>Please send a cover letter describing interest in the position, CV, two reference letters, and transcript (unofficial transcript if candidate has not yet graduated) to Dr. Alon by <a href="mailto:assaf.alon@yale.edu">email</a></p>
+<body class="bg-gray-50 font-sans text-gray-800 antialiased">
 
-			
-			
-			
+  <!-- ========== NAVBAR ========== -->
+  <nav class="bg-yale fixed top-0 left-0 right-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+
+        <!-- Brand -->
+        <a href="index.html"
+           class="flex items-center gap-2 text-white font-semibold text-lg tracking-wide
+                  hover:opacity-80 transition-opacity">
+          <img src="images/cholesterol_logo.svg" alt="Alon Lab logo" class="h-8 w-8" />
+          The Alon Lab
+        </a>
+
+        <!-- Desktop Nav -->
+        <div class="hidden lg:flex items-center gap-6 text-sm font-medium text-white">
+          <a href="index.html"        class="nav-link-animated">Home</a>
+          <a href="research.html"     class="nav-link-animated">Research</a>
+          <a href="people.html"       class="nav-link-animated">Lab Members</a>
+          <a href="gallery.html"      class="nav-link-animated">Gallery</a>
+          <a href="publications.html" class="nav-link-animated">Publications</a>
+          <a href="positions.html"    class="nav-link-animated active">Positions</a>
+          <a href="contact.html"      class="nav-link-animated">Contact</a>
+          <a href="protocols.html"    class="nav-link-animated">Protocols</a>
+          <a href="https://bsky.app/profile/thealonlab.bsky.social"
+             target="_blank" rel="noopener" aria-label="BlueSky"
+             class="hover:opacity-75 transition-opacity">
+            <img src="https://bsky.app/static/apple-touch-icon.png"
+                 alt="BlueSky" class="h-5 w-5 rounded-sm" />
+          </a>
         </div>
-        <div class="tab-pane fade p-lg-5 p-md-4 p-3" id="undergraduate" role="tabpanel" aria-labelledby="undergraduate-tab">
-          <p>We have openings for students interested in learning to do research<br>Undergraduate summer projects are available<br>Please apply through the <a href="https://science.yalecollege.yale.edu/stem-fellowships/funding-stem-opportunities-yale/stars" target="_blank">STARS</a> program</p>
-        </div>
+
+        <!-- Hamburger -->
+        <button id="hamburger" aria-label="Toggle menu"
+                class="lg:hidden text-white focus:outline-none">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24">
+            <path id="hamburger-open"  stroke-linecap="round" stroke-linejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"/>
+            <path id="hamburger-close" stroke-linecap="round" stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12" class="hidden"/>
+          </svg>
+        </button>
       </div>
     </div>
-    <div class="text-center fst-italic">
-      <h6><a class="text-decoration-none link-secondary"  href="mailto:assaf.alon@yale.edu">please email Assaf for more information</a></h6>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="lg:hidden bg-yale border-t border-blue-800">
+      <div class="flex flex-col px-4 pb-4 pt-2 gap-3 text-sm font-medium text-white">
+        <a href="index.html"        class="hover:text-blue-200 transition-colors">Home</a>
+        <a href="research.html"     class="hover:text-blue-200 transition-colors">Research</a>
+        <a href="people.html"       class="hover:text-blue-200 transition-colors">Lab Members</a>
+        <a href="gallery.html"      class="hover:text-blue-200 transition-colors">Gallery</a>
+        <a href="publications.html" class="hover:text-blue-200 transition-colors">Publications</a>
+        <a href="positions.html"    class="hover:text-blue-200 transition-colors">Positions</a>
+        <a href="contact.html"      class="hover:text-blue-200 transition-colors">Contact</a>
+        <a href="protocols.html"    class="hover:text-blue-200 transition-colors">Protocols</a>
+        <a href="https://bsky.app/profile/thealonlab.bsky.social"
+           target="_blank" rel="noopener"
+           class="flex items-center gap-2 hover:text-blue-200 transition-colors">
+          <img src="https://bsky.app/static/apple-touch-icon.png"
+               alt="BlueSky" class="h-4 w-4 rounded-sm" />
+          BlueSky
+        </a>
+      </div>
     </div>
-  </div>
-</div>
-		</article>
-	</main>
-	<!-- Footer -->
-	<footer class="bg-dark text-center text-lg-start">
-		<div class="container">
-			<div class="d-flex justify-content-center text-bg-dark p-2">Alon lab, SHM-B323, 333 Cedar St., New Haven, CT 06510</div>
-			<div class="d-flex justify-content-evenly p-2">
-				<a class="d-flex justify-content-end text-bg-dark" href="https://medicine.yale.edu/pharm/" target="_blank">Department of Pharmacology</a>
-				
-				<a class="d-flex justify-content-start text-bg-dark" href="https://medicine.yale.edu/" target="_blank">Yale School of Medicine</a><!--https://medicine.yale.edu/pharm/--> </div>
-    <!-- Copyright -->
-			<div class="d-flex justify-content-center text-bg-dark p-2">&#169; Assaf Alon 2024 </div>
-    <!-- Copyright -->
-		</div>
-	</footer>
-<!-- Bootstrap core JavaScript --> 
-<!-- <script src="jquery/jquery.js"></script> --> 
-<!-- <script src="js/bootstrap.bundle.min.js"></script> --> 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  </nav>
+
+  <!-- ========== PAGE HEADER ========== -->
+  <header class="pt-24 pb-8 bg-white border-b border-gray-200 animate-fade-in">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl sm:text-4xl font-bold text-yale section-title">Open Positions</h1>
+      <p class="mt-4 text-lg text-gray-500 font-light max-w-2xl">
+        We are looking for passionate scientists to join our team. We welcome applications
+        from candidates with diverse backgrounds and experiences.
+      </p>
+    </div>
+  </header>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14 animate-fade-in">
+
+    <!-- ── Lab Overview Banner ── -->
+    <div class="bg-yale rounded-2xl p-8 mb-12 flex flex-col sm:flex-row
+                items-start sm:items-center gap-6">
+      <div class="h-14 w-14 rounded-2xl bg-white/10 flex items-center justify-center
+                  flex-shrink-0">
+        <svg class="h-7 w-7 text-white" fill="none" stroke="currentColor"
+             stroke-width="1.8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0
+                   00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0
+                   00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26
+                   1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414
+                   l5-5A2 2 0 009 10.172V5L8 4z"/>
+        </svg>
+      </div>
+      <div class="text-white">
+        <h2 class="text-xl font-bold mb-1">Join the Alon Lab</h2>
+        <p class="text-blue-100 text-sm leading-relaxed max-w-xl">
+          Our lab combines structural biology, pharmacology, biochemistry, cell biology,
+          and computational methods to study sterol synthesis, recognition, and signaling.
+          We are committed to fostering an inclusive, collaborative, and rigorous
+          scientific environment.
+        </p>
+      </div>
+    </div>
+
+    <!-- ── Tabs ── -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+
+      <!-- Tab bar -->
+      <div class="border-b border-gray-200 overflow-x-auto">
+        <div class="flex min-w-max px-2">
+          <button class="tab-btn active" data-tab="postdoc">
+            Postdoctoral Fellows
+          </button>
+          <button class="tab-btn" data-tab="gradstudent">
+            Graduate Students
+          </button>
+          <button class="tab-btn" data-tab="undergrad">
+            Undergraduates
+          </button>
+          <button class="tab-btn" data-tab="visiting">
+            Visiting Scientists
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Panel: Postdoctoral Fellows ── -->
+      <div class="tab-panel active p-8" id="panel-postdoc">
+        <div class="pos-card border border-gray-100 rounded-xl p-6 mb-6">
+
+          <!-- Status badge -->
+          <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+            <h3 class="text-lg font-bold text-gray-900">Postdoctoral Fellow</h3>
+            <span class="inline-flex items-center gap-1.5 bg-green-50 text-green-700
+                         text-xs font-semibold px-3 py-1 rounded-full">
+              <span class="h-1.5 w-1.5 rounded-full bg-green-500 inline-block"></span>
+              Accepting Applications
+            </span>
+          </div>
+
+          <p class="text-gray-600 text-sm leading-relaxed mb-6">
+            We are seeking highly motivated postdoctoral fellows with a strong background
+            in structural biology, biochemistry, cell biology, or a related field. The
+            successful candidate will have the opportunity to lead independent research
+            projects aimed at understanding the molecular mechanisms of sterol sensing
+            and signaling.
+          </p>
+
+          <!-- Requirements -->
+          <div class="mb-6">
+            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">
+              Requirements
+            </h4>
+            <ul class="req-list space-y-2 text-sm text-gray-600">
+              <li>PhD in biochemistry, biophysics, structural biology, cell biology,
+                  pharmacology, or a related field</li>
+              <li>Experience with one or more of: cryo-EM, X-ray crystallography,
+                  protein biochemistry, cell-based assays, or computational methods</li>
+              <li>Strong publication record demonstrating scientific productivity</li>
+              <li>Excellent written and verbal communication skills</li>
+              <li>Ability to work both independently and collaboratively</li>
+            </ul>
+          </div>
+
+          <!-- What we offer -->
+          <div class="mb-6">
+            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">
+              What We Offer
+            </h4>
+            <ul class="req-list space-y-2 text-sm text-gray-600">
+              <li>Competitive salary and benefits following NIH pay scale</li>
+              <li>Access to state-of-the-art cryo-EM and X-ray facilities at Yale</li>
+              <li>Mentorship focused on career development</li>
+              <li>Vibrant scientific community at Yale School of Medicine</li>
+              <li>Opportunity to publish in high-impact journals</li>
+            </ul>
+          </div>
+
+          <!-- How to apply -->
+          <div class="bg-yale-pale rounded-xl p-5">
+            <h4 class="text-sm font-semibold text-yale mb-2">How to Apply</h4>
+            <p class="text-sm text-gray-600 leading-relaxed mb-3">
+              Please send a single PDF containing (1) a cover letter describing your
+              research interests and career goals, (2) a CV including a list of
+              publications, and (3) contact information for three references to:
+            </p>
+            <a href="mailto:assaf.alon@yale.edu"
+               class="inline-flex items-center gap-2 px-5 py-2.5 bg-yale text-white
+                      text-sm font-medium rounded-lg hover:bg-yale-light transition-colors">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                   viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7
+                         a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              assaf.alon@yale.edu
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Panel: Graduate Students ── -->
+      <div class="tab-panel p-8" id="panel-gradstudent">
+        <div class="pos-card border border-gray-100 rounded-xl p-6 mb-6">
+
+          <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+            <h3 class="text-lg font-bold text-gray-900">Graduate Student</h3>
+            <span class="inline-flex items-center gap-1.5 bg-green-50 text-green-700
+                         text-xs font-semibold px-3 py-1 rounded-full">
+              <span class="h-1.5 w-1.5 rounded-full bg-green-500 inline-block"></span>
+              Accepting Rotations
+            </span>
+          </div>
+
+          <p class="text-gray-600 text-sm leading-relaxed mb-6">
+            We welcome graduate students from Yale's PhD programs, including the
+            Pharmacology, Biochemistry &amp; Biophysics, and Cell Biology programs.
+            Rotation students are encouraged to reach out to learn about ongoing
+            projects and arrange a visit.
+          </p>
+
+          <div class="mb-6">
+            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">
+              What You Will Learn
+            </h4>
+            <ul class="req-list space-y-2 text-sm text-gray-600">
+              <li>Structural biology techniques including cryo-EM and X-ray crystallography</li>
+              <li>Protein expression, purification, and biochemical characterization</li>
+              <li>Cell-based assays for membrane protein function</li>
+              <li>Computational methods for structure prediction and analysis</li>
+              <li>Scientific writing and presentation skills</li>
+            </ul>
+          </div>
+
+          <div class="bg-yale-pale rounded-xl p-5">
+            <h4 class="text-sm font-semibold text-yale mb-2">Interested?</h4>
+            <p class="text-sm text-gray-600 leading-relaxed mb-3">
+              Current Yale graduate students interested in rotating should reach out
+              directly. Please include a brief description of your research background
+              and interests.
+            </p>
+            <a href="mailto:assaf.alon@yale.edu"
+               class="inline-flex items-center gap-2 px-5 py-2.5 bg-yale text-white
+                      text-sm font-medium rounded-lg hover:bg-yale-light transition-colors">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                   viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7
+                         a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              assaf.alon@yale.edu
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Panel: Undergraduates ── -->
+      <div class="tab-panel p-8" id="panel-undergrad">
+        <div class="pos-card border border-gray-100 rounded-xl p-6 mb-6">
+
+          <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+            <h3 class="text-lg font-bold text-gray-900">Undergraduate Researcher</h3>
+            <span class="inline-flex items-center gap-1.5 bg-green-50 text-green-700
+                         text-xs font-semibold px-3 py-1 rounded-full">
+              <span class="h-1.5 w-1.5 rounded-full bg-green-500 inline-block"></span>
+              Accepting Applications
+            </span>
+          </div>
+
+          <p class="text-gray-600 text-sm leading-relaxed mb-6">
+            We are enthusiastic about training the next generation of scientists. Yale
+            undergraduates interested in gaining research experience in structural biology
+            and biochemistry are encouraged to apply. We offer both semester-long and
+            summer research positions.
+          </p>
+
+          <div class="mb-6">
+            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">
+              Requirements
+            </h4>
+            <ul class="req-list space-y-2 text-sm text-gray-600">
+              <li>Currently enrolled Yale undergraduate student</li>
+              <li>Strong interest in biochemistry, structural biology, or related fields</li>
+              <li>Ability to commit a minimum of 10 hours per week during the semester</li>
+              <li>Prior lab experience is a plus but not required</li>
+            </ul>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-4 mb-6">
+            <div class="bg-gray-50 rounded-xl p-4">
+              <h4 class="text-sm font-semibold text-gray-700 mb-2">
+                🎓 Academic Year
+              </h4>
+              <p class="text-xs text-gray-500 leading-relaxed">
+                Part-time research for course credit (CHEM or MCDB independent study).
+                Minimum 10 hrs/week commitment.
+              </p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-4">
+              <h4 class="text-sm font-semibold text-gray-700 mb-2">
+                ☀️ Summer Research
+              </h4>
+              <p class="text-xs text-gray-500 leading-relaxed">
+                Full-time summer research positions available. Funding through Yale
+                STARS, SURF, or similar programs encouraged.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-yale-pale rounded-xl p-5">
+            <h4 class="text-sm font-semibold text-yale mb-2">How to Apply</h4>
+            <p class="text-sm text-gray-600 leading-relaxed mb-3">
+              Send an email with your CV/resume and a brief paragraph describing your
+              interest in the lab and your availability.
+            </p>
+            <a href="mailto:assaf.alon@yale.edu"
+               class="inline-flex items-center gap-2 px-5 py-2.5 bg-yale text-white
+                      text-sm font-medium rounded-lg hover:bg-yale-light transition-colors">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                   viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7
+                         a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              assaf.alon@yale.edu
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Panel: Visiting Scientists ── -->
+      <div class="tab-panel p-8" id="panel-visiting">
+        <div class="pos-card border border-gray-100 rounded-xl p-6 mb-6">
+
+          <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+            <h3 class="text-lg font-bold text-gray-900">Visiting Scientist / Scholar</h3>
+            <span class="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700
+                         text-xs font-semibold px-3 py-1 rounded-full">
+              <span class="h-1.5 w-1.5 rounded-full bg-blue-500 inline-block"></span>
+              Inquire for Availability
+            </span>
+          </div>
+
+          <p class="text-gray-600 text-sm leading-relaxed mb-6">
+            We occasionally host visiting scientists, scholars, and high school students
+            for short-term research experiences. If you are interested in visiting the
+            lab, please reach out with a description of your background, research
+            interests, and proposed timeline.
+          </p>
+
+          <div class="mb-6">
+            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">
+              Who Should Apply
+            </h4>
+            <ul class="req-list space-y-2 text-sm text-gray-600">
+              <li>Scientists on sabbatical looking to learn new techniques</li>
+              <li>International students seeking short-term research exchange</li>
+              <li>Advanced high school students with demonstrated interest in science</li>
+              <li>Industry scientists interested in academic collaboration</li>
+            </ul>
+          </div>
+
+          <div class="bg-yale-pale rounded-xl p-5">
+            <h4 class="text-sm font-semibold text-yale mb-2">Get in Touch</h4>
+            <p class="text-sm text-gray-600 leading-relaxed mb-3">
+              Please send an email describing your background, the type of visit you are
+              interested in, and your proposed dates of stay.
+            </p>
+            <a href="mailto:assaf.alon@yale.edu"
+               class="inline-flex items-center gap-2 px-5 py-2.5 bg-yale text-white
+                      text-sm font-medium rounded-lg hover:bg-yale-light transition-colors">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                   viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7
+                         a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              assaf.alon@yale.edu
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tab container -->
+
+    <!-- ── Diversity & Inclusion note ── -->
+    <div class="mt-10 bg-white rounded-2xl shadow-sm border border-gray-100 p-8
+                flex flex-col sm:flex-row items-start gap-5">
+      <div class="h-12 w-12 rounded-xl bg-yale-pale flex items-center justify-center
+                  flex-shrink-0">
+        <svg class="h-6 w-6 text-yale-light" fill="none" stroke="currentColor"
+             stroke-width="1.8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283
+                   -.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283
+                   .356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016
+                   0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+        </svg>
+      </div>
+      <div>
+        <h3 class="text-base font-bold text-gray-900 mb-2">
+          Diversity, Equity &amp; Inclusion
+        </h3>
+        <p class="text-sm text-gray-600 leading-relaxed">
+          The Alon Lab is committed to creating an inclusive and supportive environment
+          for all members. We strongly encourage applications from individuals of all
+          backgrounds, including those from groups historically underrepresented in
+          science. Yale University is an equal opportunity employer.
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="bg-yale text-white text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8
+                flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-center sm:text-left text-blue-100 leading-relaxed">
+        <p class="font-semibold text-white">Alon Lab</p>
+        <p>SHM-B323, 333 Cedar St.</p>
+        <p>New Haven, CT 06510</p>
+      </div>
+      <div class="flex flex-col items-center sm:items-end gap-1 text-blue-200">
+        <a href="https://medicine.yale.edu/pharm/" target="_blank" rel="noopener"
+           class="hover:text-white transition-colors">Department of Pharmacology</a>
+        <a href="https://medicine.yale.edu/" target="_blank" rel="noopener"
+           class="hover:text-white transition-colors">Yale School of Medicine</a>
+        <p class="text-blue-300 text-xs mt-1">© Assaf Alon 2024</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script>
+    // ── Mobile menu ──────────────────────────────────────────────
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen   = document.getElementById('hamburger-open');
+    const iconClose  = document.getElementById('hamburger-close');
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      iconOpen.classList.toggle('hidden');
+      iconClose.classList.toggle('hidden');
+    });
+
+    // ── Tabs ─────────────────────────────────────────────────────
+    const tabBtns   = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Deactivate all
+        tabBtns.forEach(b  => b.classList.remove('active'));
+        tabPanels.forEach(p => p.classList.remove('active'));
+
+        // Activate clicked
+        btn.classList.add('active');
+        const target = document.getElementById(`panel-${btn.dataset.tab}`);
+        if (target) target.classList.add('active');
+      });
+    });
+
+    // ── Open tab from URL hash (e.g. positions.html#postdoc) ─────
+    const hash = window.location.hash.replace('#', '');
+    if (hash) {
+      const matchBtn = document.querySelector(`[data-tab="${hash}"]`);
+      if (matchBtn) matchBtn.click();
+    }
+  </script>
+
 </body>
 </html>

@@ -1,219 +1,647 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Head -->
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="The Alon lab at Yale Medical School">
-<meta name="author" content="Assaf Alon">
-<link rel="icon" type="image/x-icon" href="images/cholesterol_logo.svg" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>The Alon Lab</title>
-<!-- Bootstrap core CSS --> 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-<!-- My CSS -->
-<link href="css/styles.css" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Lab Members — The Alon Lab at Yale School of Medicine" />
+  <meta name="author" content="Assaf Alon" />
+  <title>Lab Members · The Alon Lab</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="images/cholesterol_logo.svg" />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            yale:         '#00356b',
+            'yale-light': '#286dc0',
+            'yale-pale':  '#e8f0f9',
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+          },
+          keyframes: {
+            fadeIn: {
+              '0%':   { opacity: '0', transform: 'translateY(16px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.9s ease both',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+
+    /* Navbar underline animation */
+    .nav-link-animated {
+      position: relative;
+      padding-bottom: 2px;
+    }
+    .nav-link-animated::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 0; height: 2px;
+      background-color: #a8c4e0;
+      transition: width 0.25s ease;
+    }
+    .nav-link-animated:hover::after,
+    .nav-link-animated.active::after { width: 100%; }
+
+    /* Mobile menu */
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: block; }
+
+    /* Section title accent */
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 3px;
+      background-color: #286dc0;
+      margin-top: 10px;
+      border-radius: 2px;
+    }
+
+    /* Member card hover */
+    .member-card {
+      transition: box-shadow 0.25s ease, transform 0.25s ease;
+      cursor: pointer;
+    }
+    .member-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,53,107,0.12);
+    }
+
+    /* Profile photo circle */
+    .profile-photo {
+      width: 128px;
+      height: 128px;
+      object-fit: cover;
+      border-radius: 9999px;
+      border: 4px solid #e8f0f9;
+      transition: border-color 0.25s ease;
+    }
+    .member-card:hover .profile-photo {
+      border-color: #286dc0;
+    }
+
+    /* Modal backdrop */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    /* Modal animation */
+    .modal-box {
+      animation: fadeIn 0.25s ease both;
+    }
+  </style>
 </head>
-	
-<!-- Body -->
-<body class="bg-dark">
-<!-- Navigation -->
-	<header>
-		<nav aria-label="Main navigation" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-			<div class="container-fluid">
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-						<li class="nav-item px-3"> <a class="nav-link" href="index.html">Home</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="research.html">Research</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link active" href="people.html">Lab members<span class="visually-hidden-focusable">(current)</span></a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="gallery.html">Gallery</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="publications.html">Publications</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="positions.html">Positions</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="contact.html">Contact</a> </li>
-            <li class="nav-item px-3"> <a class="nav-link" href="protocols.html">Protocols</a> </li>            
-            <!-- BlueSky Icon Link -->
-            <li class="nav-item px-3">
-              <a class="nav-link" href="https://bsky.app/profile/thealonlab.bsky.social" target="_blank" aria-label="BlueSky Profile">
-                <img src="https://bsky.app/static/apple-touch-icon.png" alt="BlueSky Profile" style="width: 20px; height: 20px; vertical-align: middle;">
-              </a>
-            </li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-	</header>
-	<main>
-		<!-- Banner -->
-		<section id="banner">
-			<div class="container pt-5">
-				<div class="row bg-white">
-					<div class="col ">
-						<img src="images/Alon_Lab_Logo.svg" alt="cholesterol logo" class="logo mt-3 mb-2 mx-auto d-block">
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- Page Content -->
-		<article id="content">
-<!-- heading -->
-			<div class="container bg-body-secondary ">
-				<div class="row">
-					<div class="col py-3 text-center">
-						<h3 class="text-bg-body-secondary">Lab members</h3>
-					</div>
-  </div>
-<!-- cards -->
-  <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 g-4 pt-3 pb-5">
-    <div class="col">
-      <div class="card h-100"> <img src="people/Assaf_small.webp" alt="Assaf" class="card-img-top">
-        <div class="card-body mx-auto">
-          <h5 class="card-title d-flex justify-content-center ">Assaf Alon, PhD</h5>
-          <h6 class="d-flex justify-content-center card-subtitle text-dark-emphasis">Principal investigator</h6>
-          <p class="card-text text-primary-emphasis d-flex justify-content-center "><a href="mailto:assaf.alon@yale.edu">assaf.alon@yale.edu</a></p>
-          <!-- Button trigger modal -->
-			<div class="text-center">
-          <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#Assaf_Modal">Info</button> <a type="button" class="btn btn-outline-danger btn-sm" href="documents/Assaf_biosketch.pdf">Biosketch</a>
-			</div>
-		  </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100"> 
-        <img src="people/Zifang.webp" alt="Zifang" class="card-img-top">
-        <div class="card-body mx-auto"> 
-          <h5 class="card-title d-flex justify-content-center">Zifang Deng</h5> 
-          <h6 class="card-subtitle text-dark-emphasis d-flex justify-content-center">Postdoctoral Associate</h6> 
-          <p class="card-text text-primary-emphasis d-flex justify-content-center "><a href="mailto:zifang.deng@yale.edu">zifang.deng@yale.edu</a></p>
-			<div class="text-center">
-          <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#zifang_Modal">Info</button>
-			</div>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100"> 
-        <img src="people/Qing.webp" alt="Qing" class="card-img-top">
-        <div class="card-body mx-auto"> 
-          <h5 class="card-title d-flex justify-content-center">Qing Bo</h5> 
-          <h6 class="card-subtitle text-dark-emphasis d-flex justify-content-center">Postdoctoral Associate</h6> 
-          <p class="card-text text-primary-emphasis d-flex justify-content-center "><a href="mailto:qing.bo@yale.edu">qing.bo@yale.edu</a></p>
-        </div>
-      </div>
-    </div>
-	  <div class="col">
-      <div class="card h-100"> 
-        <img src="people/Claire.webp" alt="Claire" class="card-img-top">
-        <div class="card-body mx-auto"> 
-          <h5 class="card-title d-flex justify-content-center">Claire Bryant</h5> 
-          <h6 class="card-subtitle text-dark-emphasis d-flex justify-content-center">Postgraduate Associate</h6> 
-          <p class="card-text text-primary-emphasis d-flex justify-content-center "><a href="mailto:claire.bryant@yale.edu">claire.bryant@yale.edu</a></p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100"> 
-        <img src="people/Yixi.webp" alt="Yixi" class="card-img-top">
-        <div class="card-body mx-auto"> 
-          <h5 class="card-title d-flex justify-content-center">Yixi Yang</h5> 
-          <h6 class="card-subtitle text-dark-emphasis d-flex justify-content-center">Undergraduate Student</h6> 
-          <p class="card-text text-primary-emphasis d-flex justify-content-center "><a href="mailto:yixi.yang@yale.edu">yixi.yang@yale.edu</a></p>
-        </div>
-      </div>
-  </div>
-    <div class="col">
-      <div class="card h-100"> 
-        <img src="people/Anthony.webp" alt="Anthony" class="card-img-top">
-        <div class="card-body mx-auto"> 
-          <h5 class="card-title d-flex justify-content-center">Anthony Vazquez</h5> 
-          <h6 class="card-subtitle text-dark-emphasis d-flex justify-content-center">Undergraduate Student</h6> 
-          <p class="card-text text-primary-emphasis d-flex justify-content-center "><a href="mailto:anthony.vazquez@yale.edu">anthony.vazquez@yale.edu</a></p>
-        </div>
-      </div>
-  </div>
 
-    <div class="col">
-      <div class="card h-100"> 
-        <img src="people/Justin.webp" alt="Justin" class="card-img-top">
-        <div class="card-body mx-auto"> 
-          <h5 class="card-title d-flex justify-content-center">Justin Mao</h5> 
-          <h6 class="card-subtitle text-dark-emphasis d-flex justify-content-center">Undergraduate Student</h6> 
-          <p class="card-text text-primary-emphasis d-flex justify-content-center "><a href="mailto:justin.mao@yale.edu">justin.mao@yale.edu</a></p>
+<body class="bg-gray-50 font-sans text-gray-800 antialiased">
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="bg-yale fixed top-0 left-0 right-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+
+        <!-- Brand -->
+        <a href="index.html"
+           class="flex items-center gap-2 text-white font-semibold text-lg tracking-wide hover:opacity-80 transition-opacity">
+          <img src="images/cholesterol_logo.svg" alt="Alon Lab logo" class="h-8 w-8" />
+          The Alon Lab
+        </a>
+
+        <!-- Desktop Nav -->
+        <div class="hidden lg:flex items-center gap-6 text-sm font-medium text-white">
+          <a href="index.html"        class="nav-link-animated">Home</a>
+          <a href="research.html"     class="nav-link-animated">Research</a>
+          <a href="people.html"       class="nav-link-animated active">Lab Members</a>
+          <a href="gallery.html"      class="nav-link-animated">Gallery</a>
+          <a href="publications.html" class="nav-link-animated">Publications</a>
+          <a href="positions.html"    class="nav-link-animated">Positions</a>
+          <a href="contact.html"      class="nav-link-animated">Contact</a>
+          <a href="protocols.html"    class="nav-link-animated">Protocols</a>
+          <a href="https://bsky.app/profile/thealonlab.bsky.social"
+             target="_blank" rel="noopener" aria-label="BlueSky"
+             class="hover:opacity-75 transition-opacity">
+            <img src="https://bsky.app/static/apple-touch-icon.png"
+                 alt="BlueSky" class="h-5 w-5 rounded-sm" />
+          </a>
         </div>
+
+        <!-- Hamburger -->
+        <button id="hamburger" aria-label="Toggle menu"
+                class="lg:hidden text-white focus:outline-none">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path id="hamburger-open"  stroke-linecap="round" stroke-linejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"/>
+            <path id="hamburger-close" stroke-linecap="round" stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12" class="hidden"/>
+          </svg>
+        </button>
       </div>
     </div>
- 
 
-	  
-</div>
-        <div class="row">
-          <div class="col py-3 text-center">
-            <h3 class="text-bg-body-secondary">Alumni</h3>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="lg:hidden bg-yale border-t border-blue-800">
+      <div class="flex flex-col px-4 pb-4 pt-2 gap-3 text-sm font-medium text-white">
+        <a href="index.html"        class="hover:text-blue-200 transition-colors">Home</a>
+        <a href="research.html"     class="hover:text-blue-200 transition-colors">Research</a>
+        <a href="people.html"       class="hover:text-blue-200 transition-colors">Lab Members</a>
+        <a href="gallery.html"      class="hover:text-blue-200 transition-colors">Gallery</a>
+        <a href="publications.html" class="hover:text-blue-200 transition-colors">Publications</a>
+        <a href="positions.html"    class="hover:text-blue-200 transition-colors">Positions</a>
+        <a href="contact.html"      class="hover:text-blue-200 transition-colors">Contact</a>
+        <a href="protocols.html"    class="hover:text-blue-200 transition-colors">Protocols</a>
+        <a href="https://bsky.app/profile/thealonlab.bsky.social"
+           target="_blank" rel="noopener"
+           class="flex items-center gap-2 hover:text-blue-200 transition-colors">
+          <img src="https://bsky.app/static/apple-touch-icon.png"
+               alt="BlueSky" class="h-4 w-4 rounded-sm" />
+          BlueSky
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========== PAGE HEADER ========== -->
+  <header class="pt-24 pb-8 bg-white border-b border-gray-200 animate-fade-in">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl sm:text-4xl font-bold text-yale section-title">Lab Members</h1>
+      <p class="mt-4 text-lg text-gray-500 font-light">
+        Meet the team behind the science.
+      </p>
+    </div>
+  </header>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 animate-fade-in">
+
+    <!-- ── Principal Investigator ── -->
+    <section class="mb-14">
+      <h2 class="text-xl font-semibold text-yale mb-6 uppercase tracking-widest text-sm">
+        Principal Investigator
+      </h2>
+
+      <!-- PI Card (wider, horizontal) -->
+      <div class="member-card bg-white rounded-2xl shadow-sm border border-gray-100 p-8
+                  flex flex-col sm:flex-row items-center sm:items-start gap-8"
+           onclick="openModal('modal-alon')">
+        <img src="people/Assaf.webp" alt="Assaf Alon"
+             class="profile-photo flex-shrink-0" />
+        <div class="text-center sm:text-left">
+          <h3 class="text-xl font-bold text-gray-900">Assaf Alon, PhD</h3>
+          <p class="text-yale-light font-medium mt-1">Principal Investigator</p>
+          <p class="text-gray-500 text-sm mt-1">
+            Department of Pharmacology · Yale School of Medicine
+          </p>
+          <p class="text-gray-600 text-sm mt-3 leading-relaxed max-w-xl">
+            Studies membrane proteins, focusing on structural biology and pharmacology,
+            particularly protein receptors that sense sex hormones and sterols.
+          </p>
+          <!-- Links -->
+          <div class="flex flex-wrap justify-center sm:justify-start gap-3 mt-4">
+            <a href="mailto:assaf.alon@yale.edu"
+               class="inline-flex items-center gap-1.5 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors"
+               onclick="event.stopPropagation()">
+              <!-- Email icon -->
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7
+                         a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              Email
+            </a>
+            <a href="documents/Assaf_biosketch.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1.5 text-xs font-medium text-yale-light
+                      hover:text-yale transition-colors"
+               onclick="event.stopPropagation()">
+              <!-- Document icon -->
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586
+                         a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              Biosketch
+            </a>
           </div>
-  </div>
-
-<div class="row justify-content-center">
-  <div class="col-md-4">
-
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item d-flex justify-content-between align-items-center bg-body-secondary">
-        <span><strong>Trisha Chapagain</strong> - Highschool Volunteer</span>
-        
-      </li>
-      <li class="list-group-item d-flex justify-content-between align-items-center bg-body-secondary">
-        <span><strong>Liatris Reevey</strong> - Postgraduate Associate</span>
-        
-      </li>
-      <!--li class="list-group-item d-flex justify-content-between align-items-center bg-body-secondary">
-        <span><strong>Anthony Vazquez</strong> - Undergraduate Student</span>
-        
-      </li-->
-    </ul>
-  </div>
-</div>
-
-			</div>
-<!-- Modals -->
-<div class="modal fade" id="Assaf_Modal" tabindex="-1" aria-labelledby="Assaf Alon" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-body">
-        <p>My lab studies how interesting and poorly understood membrane proteins sense and respond to the environment.</p>
-        <p>We study proteins through the lens of structural biology and pharmacology, aiming to both understand how they function on the molecuar level and to drug them in the context of human health and disease.</p>
-        <p>We are specifically interested in protein receptors that sense and respond to sex hormones and various other sterols</p>
+          <p class="text-xs text-gray-400 mt-4 italic">Click card for full profile</p>
+        </div>
       </div>
+    </section>
+
+    <!-- ── Postdoctoral Associates ── -->
+    <section class="mb-14">
+      <h2 class="text-sm font-semibold text-yale mb-6 uppercase tracking-widest">
+        Postdoctoral Associates
+      </h2>
+      <div class="grid sm:grid-cols-2 gap-6">
+
+        <!-- Zifang Deng -->
+        <div class="member-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6
+                    flex flex-col items-center text-center"
+             onclick="openModal('modal-zifang')">
+          <img src="people/Zifang.webp" alt="Zifang Deng" class="profile-photo mb-4" />
+          <h3 class="text-lg font-bold text-gray-900">Zifang Deng</h3>
+          <p class="text-yale-light font-medium text-sm mt-1">Postdoctoral Associate</p>
+          <a href="mailto:zifang.deng@yale.edu"
+             class="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-yale-light
+                    transition-colors mt-2"
+             onclick="event.stopPropagation()">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7
+                       a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            zifang.deng@yale.edu
+          </a>
+          <p class="text-xs text-gray-400 mt-3 italic">Click for full profile</p>
+        </div>
+
+        <!-- Qing Bo -->
+        <div class="member-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6
+                    flex flex-col items-center text-center"
+             onclick="openModal('modal-qingbo')">
+          <img src="people/Qing.webp" alt="Qing Bo" class="profile-photo mb-4" />
+          <h3 class="text-lg font-bold text-gray-900">Qing Bo</h3>
+          <p class="text-yale-light font-medium text-sm mt-1">Postdoctoral Associate</p>
+          <a href="mailto:qing.bo@yale.edu"
+             class="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-yale-light
+                    transition-colors mt-2"
+             onclick="event.stopPropagation()">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7
+                       a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            qing.bo@yale.edu
+          </a>
+          <p class="text-xs text-gray-400 mt-3 italic">Click for full profile</p>
+        </div>
+
+      </div>
+    </section>
+     <!-- ── Graduate Students ── -->
+    <section class="mb-14">
+      <h2 class="text-sm font-semibold text-yale mb-6 uppercase tracking-widest">
+        Graduate Students
+      </h2>
+      <div class="grid sm:grid-cols-2 gap-6">
+
+        <!-- Samuel Geleta -->
+        <div class="member-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6
+                    flex flex-col items-center text-center"
+             onclick="openModal('modal-sam')">
+          <img src="people/Sam.webp" alt="Samuel Geleta" class="profile-photo mb-4" />
+          <h3 class="text-lg font-bold text-gray-900">Samuel Geleta</h3>
+          <p class="text-yale-light font-medium text-sm mt-1">Graduate Student</p>
+          <a href="mailto:samuel.geleta@yale.edu"
+             class="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-yale-light
+                    transition-colors mt-2"
+             onclick="event.stopPropagation()">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7
+                       a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            samuel.geleta@yale.edu
+          </a>
+          <p class="text-xs text-gray-400 mt-3 italic">Click for full profile</p>
+        </div>
+
+      </div>
+    </section>
+    <!-- ── Postgraduate Associate ── -->
+    <section class="mb-14">
+      <h2 class="text-sm font-semibold text-yale mb-6 uppercase tracking-widest">
+        Postgraduate Associate
+      </h2>
+      <div class="grid sm:grid-cols-2 gap-6">
+
+        <!-- Claire Bryant -->
+        <div class="member-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6
+                    flex flex-col items-center text-center"
+             onclick="openModal('modal-claire')">
+          <img src="people/Claire.webp" alt="Claire Bryant" class="profile-photo mb-4" />
+          <h3 class="text-lg font-bold text-gray-900">Claire Bryant</h3>
+          <p class="text-yale-light font-medium text-sm mt-1">Postgraduate Associate</p>
+          <a href="mailto:claire.bryant@yale.edu"
+             class="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-yale-light
+                    transition-colors mt-2"
+             onclick="event.stopPropagation()">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7
+                       a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            claire.bryant@yale.edu
+          </a>
+          <p class="text-xs text-gray-400 mt-3 italic">Click for full profile</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Undergraduate Students ── -->
+    <!--
+    <section class="mb-14">
+      <h2 class="text-sm font-semibold text-yale mb-6 uppercase tracking-widest">
+        Undergraduate Students
+      </h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"> -->
+
+        <!-- Justin Mao 
+        <div class="member-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6
+                    flex flex-col items-center text-center">
+          <img src="people/Justin.webp" alt="Justin Mao" class="profile-photo mb-4" />
+          <h3 class="text-lg font-bold text-gray-900">Justin Mao</h3>
+          <p class="text-yale-light font-medium text-sm mt-1">Undergraduate Student</p>
+          <a href="mailto:justin.mao@yale.edu"
+             class="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-yale-light
+                    transition-colors mt-2">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7
+                       a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            justin.mao@yale.edu
+          </a>
+        </div>
+
+      </div>-->
+
+    </section>
+
+    <!-- ── Alumni ── -->
+    <section>
+      <h2 class="text-sm font-semibold text-yale mb-6 uppercase tracking-widest">Alumni</h2>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 divide-y divide-gray-100">
+
+        <div class="flex items-center justify-between px-6 py-4">
+          <div>
+            <p class="font-semibold text-gray-800">Trisha Chapagain</p>
+            <p class="text-sm text-gray-400">High School Volunteer</p>
+          </div>
+          <span class="text-xs text-gray-300 font-medium uppercase tracking-wide">Alumni</span>
+        </div>
+
+        <div class="flex items-center justify-between px-6 py-4">
+          <div>
+            <p class="font-semibold text-gray-800">Liatris Reevey</p>
+            <p class="text-sm text-gray-400">Postgraduate Associate</p>
+          </div>
+          <span class="text-xs text-gray-300 font-medium uppercase tracking-wide">Alumni</span>
+        </div>
+        <div class="flex items-center justify-between px-6 py-4">
+          <div>
+            <p class="font-semibold text-gray-800">Yixi Yang</p>
+            <p class="text-sm text-gray-400">Undergraduate Student</p>
+          </div>
+          <span class="text-xs text-gray-300 font-medium uppercase tracking-wide">Alumni</span>
+        </div>
+        <div class="flex items-center justify-between px-6 py-4">
+          <div>
+            <p class="font-semibold text-gray-800">Anthony Vazquez</p>
+            <p class="text-sm text-gray-400">Undergraduate Student</p>
+          </div>
+          <span class="text-xs text-gray-300 font-medium uppercase tracking-wide">Alumni</span>
+        </div>
+        <div class="flex items-center justify-between px-6 py-4">
+          <div>
+            <p class="font-semibold text-gray-800">Justin Mao</p>
+            <p class="text-sm text-gray-400">Undergraduate Student</p>
+          </div>
+          <span class="text-xs text-gray-300 font-medium uppercase tracking-wide">Alumni</span>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== MODALS ========== -->
+
+  <!-- Assaf Alon Modal -->
+  <div id="modal-alon" class="modal-backdrop" onclick="closeModal('modal-alon')">
+    <div class="modal-box bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8
+                flex flex-col items-center text-center gap-4"
+         onclick="event.stopPropagation()">
+      <img src="people/Assaf.webp" alt="Assaf Alon"
+           class="w-28 h-28 rounded-full object-cover border-4 border-yale-pale" />
+      <div>
+        <h3 class="text-xl font-bold text-gray-900">Assaf Alon, PhD</h3>
+        <p class="text-yale-light font-medium text-sm mt-1">Principal Investigator</p>
+      </div>
+      <p class="text-gray-600 text-sm leading-relaxed">
+        Assaf studies membrane proteins, focusing on structural biology and pharmacology,
+        particularly protein receptors that sense sex hormones and sterols. His work combines
+        cryo-EM, biochemistry, and cell biology to reveal the molecular mechanisms underlying
+        sterol synthesis, recognition, and signaling.
+      </p>
+      <div class="flex gap-3 flex-wrap justify-center mt-2">
+        <a href="mailto:assaf.alon@yale.edu"
+           class="px-4 py-2 bg-yale text-white text-sm rounded-lg hover:bg-yale-light transition-colors">
+          Email
+        </a>
+        <a href="documents/Assaf_biosketch.pdf" target="_blank" rel="noopener"
+           class="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-lg hover:bg-yale-pale transition-colors">
+          Biosketch
+        </a>
+      </div>
+      <button onclick="closeModal('modal-alon')"
+              class="text-xs text-gray-400 hover:text-gray-600 transition-colors mt-2">
+        Close
+      </button>
     </div>
   </div>
-</div>
-<div class="modal fade" id="zifang_Modal" tabindex="-1" aria-labelledby="Zifnag Deng" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-body">
-		  <p>Zifang earned his Ph.D. in Biochemistry, specializing in drug screening and the intricate mechanistic studies of DNA topoisomerases.</p>
-		  <p>Drawn by the enigma of the sigma-2 receptor, he transitioned to Dr. Alon's lab to delve deeper into its role in cellular signaling pathways. His current focus revolves around uncovering the partner proteins of the sigma-2 receptor and evaluating the cellular impacts of various sigma-2 receptor ligands.</p><p>Beyond the lab, Zifang is a passionate hiker, always eager to explore new corners of the globe.</p>
+
+  <!-- Zifang Deng Modal -->
+  <div id="modal-zifang" class="modal-backdrop" onclick="closeModal('modal-zifang')">
+    <div class="modal-box bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8
+                flex flex-col items-center text-center gap-4"
+         onclick="event.stopPropagation()">
+      <img src="people/Zifang.webp" alt="Zifang Deng"
+           class="w-28 h-28 rounded-full object-cover border-4 border-yale-pale" />
+      <div>
+        <h3 class="text-xl font-bold text-gray-900">Zifang Deng</h3>
+        <p class="text-yale-light font-medium text-sm mt-1">Postdoctoral Associate</p>
       </div>
+      <p class="text-gray-600 text-sm leading-relaxed">
+        Zifang earned his Ph.D. in Biochemistry specializing in drug screening and DNA
+        topoisomerases. He is currently studying the sigma-2 receptor's partner proteins
+        and the effects of different ligands on the receptor's conformation and function.
+      </p>
+      <a href="mailto:zifang.deng@yale.edu"
+         class="px-4 py-2 bg-yale text-white text-sm rounded-lg hover:bg-yale-light transition-colors">
+        Email
+      </a>
+      <button onclick="closeModal('modal-zifang')"
+              class="text-xs text-gray-400 hover:text-gray-600 transition-colors mt-2">
+        Close
+      </button>
     </div>
   </div>
-</div>
 
-		</article>
-	</main>
-	<!-- Footer -->
-	<footer class="bg-dark text-center text-lg-start">
-		<div class="container">
-			<div class="d-flex justify-content-center text-bg-dark p-2">Alon lab, SHM-B323, 333 Cedar St., New Haven, CT 06510</div>
-			<div class="d-flex justify-content-evenly p-2">
-        <a class="d-flex justify-content-end text-bg-dark" href="https://medicine.yale.edu/pharm/" target="_blank">Department of Pharmacology</a>
-        
-        <a class="d-flex justify-content-start text-bg-dark" href="https://medicine.yale.edu/" target="_blank">Yale School of Medicine</a><!--https://medicine.yale.edu/pharm/--> </div>
-    <!-- Copyright -->
-			<div class="d-flex justify-content-center text-bg-dark p-2">&#169; Assaf Alon 2024 </div>
-    <!-- Copyright -->
-		</div>
-	</footer>
-<!-- Bootstrap core JavaScript --> 
-<!-- <script src="jquery/jquery.js"></script> --> 
-<!-- <script src="js/bootstrap.bundle.min.js"></script> --> 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  <!-- Qing Bo Modal -->
+  <div id="modal-qingbo" class="modal-backdrop" onclick="closeModal('modal-qingbo')">
+    <div class="modal-box bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8
+                flex flex-col items-center text-center gap-4"
+         onclick="event.stopPropagation()">
+      <img src="people/Qing.webp" alt="Qing Bo"
+           class="w-28 h-28 rounded-full object-cover border-4 border-yale-pale" />
+      <div>
+        <h3 class="text-xl font-bold text-gray-900">Qing Bo</h3>
+        <p class="text-yale-light font-medium text-sm mt-1">Postdoctoral Associate</p>
+      </div>
+      <p class="text-gray-600 text-sm leading-relaxed">
+        Postdoctoral Associate in the Alon Lab at Yale School of Medicine.
+      </p>
+      <a href="mailto:qing.bo@yale.edu"
+         class="px-4 py-2 bg-yale text-white text-sm rounded-lg hover:bg-yale-light transition-colors">
+        Email
+      </a>
+      <button onclick="closeModal('modal-qingbo')"
+              class="text-xs text-gray-400 hover:text-gray-600 transition-colors mt-2">
+        Close
+      </button>
+    </div>
+  </div>
+
+  <!-- Samuel Geleta Modal -->
+  <div id="modal-sam" class="modal-backdrop" onclick="closeModal('modal-sam')">
+    <div class="modal-box bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8
+                flex flex-col items-center text-center gap-4"
+         onclick="event.stopPropagation()">
+      <img src="people/Sam.webp" alt="Samuel Geleta"
+           class="w-28 h-28 rounded-full object-cover border-4 border-yale-pale" />
+      <div>
+        <h3 class="text-xl font-bold text-gray-900">Samuel Geleta</h3>
+        <p class="text-yale-light font-medium text-sm mt-1">Graduate Student</p>
+      </div>
+      <p class="text-gray-600 text-sm leading-relaxed">
+        Graduate student in the Alon Lab at Yale School of Medicine.
+      </p>
+      <a href="mailto:samuel.geleta@yale.edu"
+         class="px-4 py-2 bg-yale text-white text-sm rounded-lg hover:bg-yale-light transition-colors">
+        Email
+      </a>
+      <button onclick="closeModal('modal-sam')"
+              class="text-xs text-gray-400 hover:text-gray-600 transition-colors mt-2">
+        Close
+      </button>
+    </div>
+  </div>
+
+
+  <!-- Claire Bryant Modal -->
+  <div id="modal-claire" class="modal-backdrop" onclick="closeModal('modal-claire')">
+    <div class="modal-box bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8
+                flex flex-col items-center text-center gap-4"
+         onclick="event.stopPropagation()">
+      <img src="people/Claire.webp" alt="Claire Bryant"
+           class="w-28 h-28 rounded-full object-cover border-4 border-yale-pale" />
+      <div>
+        <h3 class="text-xl font-bold text-gray-900">Claire Bryant</h3>
+        <p class="text-yale-light font-medium text-sm mt-1">Postgraduate Associate</p>
+      </div>
+      <p class="text-gray-600 text-sm leading-relaxed">
+        Postgraduate Associate in the Alon Lab at Yale School of Medicine.
+      </p>
+      <a href="mailto:claire.bryant@yale.edu"
+         class="px-4 py-2 bg-yale text-white text-sm rounded-lg hover:bg-yale-light transition-colors">
+        Email
+      </a>
+      <button onclick="closeModal('modal-claire')"
+              class="text-xs text-gray-400 hover:text-gray-600 transition-colors mt-2">
+        Close
+      </button>
+    </div>
+  </div>
+
+
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="bg-yale text-white text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8
+                flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-center sm:text-left text-blue-100 leading-relaxed">
+        <p class="font-semibold text-white">Alon Lab</p>
+        <p>SHM-B323, 333 Cedar St.</p>
+        <p>New Haven, CT 06510</p>
+      </div>
+      <div class="flex flex-col items-center sm:items-end gap-1 text-blue-200">
+        <a href="https://medicine.yale.edu/pharm/" target="_blank" rel="noopener"
+           class="hover:text-white transition-colors">Department of Pharmacology</a>
+        <a href="https://medicine.yale.edu/" target="_blank" rel="noopener"
+           class="hover:text-white transition-colors">Yale School of Medicine</a>
+        <p class="text-blue-300 text-xs mt-1">© Assaf Alon 2024</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script>
+    // ── Mobile menu ───────────────────────────────────────────────
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen   = document.getElementById('hamburger-open');
+    const iconClose  = document.getElementById('hamburger-close');
+
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      iconOpen.classList.toggle('hidden');
+      iconClose.classList.toggle('hidden');
+    });
+
+    // ── Modals ────────────────────────────────────────────────────
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-backdrop.open').forEach(m => {
+          m.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      }
+    });
+  </script>
+
 </body>
 </html>

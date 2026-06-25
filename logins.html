@@ -1,176 +1,844 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Head -->
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="The Alon lab at Yale Medical School">
-<meta name="author" content="Assaf Alon">
-<link rel="icon" type="image/x-icon" href="images/cholesterol_logo.svg" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>The Alon Lab</title>
-<!-- Bootstrap core CSS --> 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-<!-- My CSS -->
-<link href="css/styles.css" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Logins — The Alon Lab at Yale School of Medicine" />
+  <meta name="author" content="Assaf Alon" />
+  <title>Logins · The Alon Lab</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="images/cholesterol_logo.svg" />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            yale:         '#00356b',
+            'yale-light': '#286dc0',
+            'yale-pale':  '#e8f0f9',
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+          },
+          keyframes: {
+            fadeIn: {
+              '0%':   { opacity: '0', transform: 'translateY(16px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.9s ease both',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+
+    /* Navbar underline */
+    .nav-link-animated {
+      position: relative;
+      padding-bottom: 2px;
+    }
+    .nav-link-animated::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 0; height: 2px;
+      background-color: #a8c4e0;
+      transition: width 0.25s ease;
+    }
+    .nav-link-animated:hover::after,
+    .nav-link-animated.active::after { width: 100%; }
+
+    /* Mobile menu */
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: block; }
+
+    /* Section title accent */
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 3px;
+      background-color: #286dc0;
+      margin-top: 10px;
+      border-radius: 2px;
+    }
+
+    /* Lock screen */
+    #lock-screen { min-height: calc(100vh - 64px); }
+
+    /* Logins content */
+    #logins-content { display: none; }
+    #logins-content.unlocked { display: block; }
+
+    /* Login card hover */
+    .login-card {
+      transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    }
+    .login-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,53,107,0.10);
+      border-color: #286dc0;
+    }
+
+    /* Password mask */
+    .pw-masked { letter-spacing: 0.15em; }
+
+    /* Copy toast */
+    #copy-toast {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      pointer-events: none;
+      z-index: 200;
+    }
+    #copy-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
 </head>
 
-<!-- Body -->
-<body class="bg-dark">
-<!-- Navigation -->
-	<header>
-		<nav aria-label="Main navigation" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-			<div class="container-fluid">
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-				        <li class="nav-item px-3"> <a class="nav-link" href="index.html">Home</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="research.html">Research</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="people.html">Lab members</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="gallery.html">Gallery</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="publications.html">Publications</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="positions.html">Positions</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="contact.html">Contact</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link active" href="protocols.html">Protocols<span class="visually-hidden-focusable">(current)</span></a></li>
-						<!-- BlueSky Icon Link -->
-						<li class="nav-item px-3">
-							<a class="nav-link" href="https://bsky.app/profile/thealonlab.bsky.social" target="_blank" aria-label="BlueSky Profile">
-								<img src="https://bsky.app/static/apple-touch-icon.png" alt="BlueSky Profile" style="width: 20px; height: 20px; vertical-align: middle;">
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-	</header>
-	<main>
-		<!-- Banner -->
-		<section id="banner">
-			<div class="container pt-5">
-				<div class="row bg-white">
-					<div class="col ">
-						<img src="images/Alon_Lab_Logo.svg" alt="cholesterol logo" class="logo mt-3 mb-2 mx-auto d-block">
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- Page Content -->
-		<article id="content">
-			<div class="container ">
-				<div class="row justify-content-md-center bg-body-secondary py-4">
-					<div class="col-auto px-4">
-						<h3 class="text-decoration-underline text-muted">Logins</h3>						
-					</div>
-				</div>
-				<div class="row justify-content-left bg-body-secondary py-4">
-				    <div class="col-md-4 px-4">
-				        <h5><a class="d-flex text-primary" href="https://clims4.genewiz.com/CustomerHome/Index" target="_blank">Azenta</a></h5>
-				        <p class="text-wrap">We use Azenta for Sanger sequencing, full plasmid sequencing, and synthesis of gene fragments and peptides.</p>
-				        <ul>
-				            <li>Username: assaf.alon@yale.edu</li>
-				            <li>Password: <span id="azenta">password</span></li>
-				        </ul>
-				    </div>
-				    <div class="col-md-4 px-4">
-				        <h5><a class="d-flex text-primary" href="https://plasmidsaurus.com/home" target="_blank">Plasmidsaurus</a></h5>
-				        <p class="text-wrap">We use Plasmidsaurus for full plasmid sequencing.</p>
-				        <ul>
-				            <li>Username: assaf.alon@yale.edu</li>
-				            <li>Password: <span id="plasmidsaurus">password</span></li>
-				        </ul>
-				    </div>
-				    <div class="col-md-4 px-4">
-				        <h5><a class="d-flex text-primary" href="https://id.twistdna.com/" target="_blank">Twist Bioscience</a></h5>
-				        <p class="text-wrap">We use Twist for synthesis of gene fragments.</p>
-				        <ul>
-				            <li>Username: thealonlab@gmail.com</li>
-				            <li>Password: <span id="twist">password</span></li>
-				        </ul>
-				    </div>
-				</div>
-				<div class="row justify-content-left bg-body-secondary py-4">
-				    <div class="col-md-4 px-4">
-				        <h5><a class="d-flex text-primary" href="https://www.idtdna.com" target="_blank">IDT</a></h5>
-				        <p class="text-wrap">We use IDT for synthesis of gene fragments (they are not cheap).</p>
-				        <ul>
-				            <li>Username: thealonlab</li>
-				            <li>Password: <span id="idtdna">password</span></li>
-				        </ul>
-				    </div>
+<body class="bg-gray-50 font-sans text-gray-800 antialiased">
 
-				</div>
+  <!-- ========== NAVBAR ========== -->
+  <nav class="bg-yale fixed top-0 left-0 right-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
 
-				<div class="row justify-content-md-left bg-body-secondary py-4">
-					<div class="col-auto px-4">
-						<a class="d-flex justify-content-end text-primary" href="protocols.html">Back to Protocols</a>
-					</div>
-				</div>
+        <a href="index.html"
+           class="flex items-center gap-2 text-white font-semibold text-lg tracking-wide
+                  hover:opacity-80 transition-opacity">
+          <img src="images/cholesterol_logo.svg" alt="Alon Lab logo" class="h-8 w-8" />
+          The Alon Lab
+        </a>
 
-			</div>
-		</article>
-	</main>
-	<!-- Footer -->
-	<footer class="bg-dark text-center text-lg-start">
-		<div class="container">
-			<div class="d-flex justify-content-center text-bg-dark p-2">Alon lab, SHM-B323, 333 Cedar St., New Haven, CT 06510</div>
-			<div class="d-flex justify-content-evenly p-2">
-				<a class="d-flex justify-content-end text-bg-dark" href="https://medicine.yale.edu/pharm/" target="_blank">Department of Pharmacology</a>
-				
-				<a class="d-flex justify-content-start text-bg-dark" href="https://medicine.yale.edu/" target="_blank">Yale School of Medicine</a><!--https://medicine.yale.edu/pharm/--> </div>
-    <!-- Copyright -->
-			<div class="d-flex justify-content-center text-bg-dark p-2">&#169; Assaf Alon 2024 </div>
-    <!-- Copyright -->
-		</div>
-	</footer>
-<!-- Bootstrap core JavaScript --> 
-<!-- <script src="jquery/jquery.js"></script> --> 
-<!-- <script src="js/bootstrap.bundle.min.js"></script> --> 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-<script>
-    document.addEventListener("copy", function (event) {
-        const selection = window.getSelection();
-        if (!selection.rangeCount) return;
+        <div class="hidden lg:flex items-center gap-6 text-sm font-medium text-white">
+          <a href="index.html"        class="nav-link-animated">Home</a>
+          <a href="research.html"     class="nav-link-animated">Research</a>
+          <a href="people.html"       class="nav-link-animated">Lab Members</a>
+          <a href="gallery.html"      class="nav-link-animated">Gallery</a>
+          <a href="publications.html" class="nav-link-animated">Publications</a>
+          <a href="positions.html"    class="nav-link-animated">Positions</a>
+          <a href="contact.html"      class="nav-link-animated">Contact</a>
+          <a href="protocols.html"    class="nav-link-animated">Protocols</a>
+          <a href="https://bsky.app/profile/thealonlab.bsky.social"
+             target="_blank" rel="noopener" aria-label="BlueSky"
+             class="hover:opacity-75 transition-opacity">
+            <img src="https://bsky.app/static/apple-touch-icon.png"
+                 alt="BlueSky" class="h-5 w-5 rounded-sm" />
+          </a>
+        </div>
 
-        // Get the selected node and check if it's inside an element with an ID
-        let selectedElement = selection.getRangeAt(0).commonAncestorContainer;
+        <button id="hamburger" aria-label="Toggle menu"
+                class="lg:hidden text-white focus:outline-none">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24">
+            <path id="hamburger-open"  stroke-linecap="round" stroke-linejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"/>
+            <path id="hamburger-close" stroke-linecap="round" stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12" class="hidden"/>
+          </svg>
+        </button>
+      </div>
+    </div>
 
-        // Traverse up to find the nearest span with an ID
-        while (selectedElement && selectedElement.nodeType !== 1) {
-            selectedElement = selectedElement.parentElement;
-        }
+    <div id="mobile-menu" class="lg:hidden bg-yale border-t border-blue-800">
+      <div class="flex flex-col px-4 pb-4 pt-2 gap-3 text-sm font-medium text-white">
+        <a href="index.html"        class="hover:text-blue-200 transition-colors">Home</a>
+        <a href="research.html"     class="hover:text-blue-200 transition-colors">Research</a>
+        <a href="people.html"       class="hover:text-blue-200 transition-colors">Lab Members</a>
+        <a href="gallery.html"      class="hover:text-blue-200 transition-colors">Gallery</a>
+        <a href="publications.html" class="hover:text-blue-200 transition-colors">Publications</a>
+        <a href="positions.html"    class="hover:text-blue-200 transition-colors">Positions</a>
+        <a href="contact.html"      class="hover:text-blue-200 transition-colors">Contact</a>
+        <a href="protocols.html"    class="hover:text-blue-200 transition-colors">Protocols</a>
+        <a href="https://bsky.app/profile/thealonlab.bsky.social"
+           target="_blank" rel="noopener"
+           class="flex items-center gap-2 hover:text-blue-200 transition-colors">
+          <img src="https://bsky.app/static/apple-touch-icon.png"
+               alt="BlueSky" class="h-4 w-4 rounded-sm" />
+          BlueSky
+        </a>
+      </div>
+    </div>
+  </nav>
 
-        if (!selectedElement || !selectedElement.id) return;
+  <!-- ========== LOCK SCREEN ========== -->
+  <div id="lock-screen"
+       class="pt-16 flex items-center justify-center bg-gray-50 animate-fade-in">
+    <div class="w-full max-w-sm mx-auto px-4 py-16">
 
-        // Define password replacements
-        const copyMap = {
-            "azenta": "Alon_Lab22",
-            "plasmidsaurus": "jke-hvd_XGD1xew4gbe",
-            "twist":"Alon_Lab-2022",
-            "idtdna":"Yh!EwqA3.jYfAC7"
-        };
+      <div class="flex justify-center mb-6">
+        <div class="h-20 w-20 rounded-full bg-yale flex items-center justify-center shadow-lg">
+          <svg class="h-10 w-10 text-white" fill="none" stroke="currentColor"
+               stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0
+                     00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+        </div>
+      </div>
 
-        // If the copied element is in the copy map, replace the clipboard data
-        if (copyMap[selectedElement.id]) {
-            event.preventDefault();
-            event.clipboardData.setData("text/plain", copyMap[selectedElement.id]);
-        }
+      <h1 class="text-2xl font-bold text-center text-gray-900 mb-1">Lab Logins</h1>
+      <p class="text-sm text-center text-gray-500 mb-8">
+        This page is restricted to Alon Lab members.<br />
+        Please enter the password to continue.
+      </p>
+
+      <form id="password-form" class="space-y-4" autocomplete="off">
+        <div class="relative">
+          <input
+            id="password-input"
+            type="password"
+            placeholder="Enter password"
+            autocomplete="current-password"
+            class="w-full px-4 py-3 pr-12 rounded-xl border border-gray-200 bg-white
+                   text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-yale-light
+                   focus:border-transparent transition"
+          />
+          <button type="button" id="toggle-pw"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400
+                         hover:text-gray-600 transition-colors"
+                  aria-label="Toggle password visibility">
+            <svg id="eye-open" class="h-5 w-5" fill="none" stroke="currentColor"
+                 stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943
+                       9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943
+                       -9.542-7z"/>
+            </svg>
+            <svg id="eye-closed" class="h-5 w-5 hidden" fill="none" stroke="currentColor"
+                 stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943
+                       -9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243
+                       4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532
+                       7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5
+                       c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132
+                       5.411m0 0L21 21"/>
+            </svg>
+          </button>
+        </div>
+
+        <p id="pw-error" class="hidden text-xs text-red-500 text-center font-medium">
+          Incorrect password. Please try again.
+        </p>
+
+        <button type="submit"
+                class="w-full py-3 bg-yale text-white text-sm font-semibold rounded-xl
+                       hover:bg-yale-light transition-colors shadow-sm">
+          Unlock Logins
+        </button>
+      </form>
+
+      <p class="text-xs text-center text-gray-400 mt-6">
+        Contact
+        <a href="mailto:assaf.alon@yale.edu"
+           class="text-yale-light hover:text-yale transition-colors">
+          assaf.alon@yale.edu
+        </a>
+        for access.
+      </p>
+    </div>
+  </div>
+
+  <!-- ========== LOGINS CONTENT ========== -->
+  <div id="logins-content">
+
+    <!-- Page header -->
+    <header class="pt-24 pb-8 bg-white border-b border-gray-200">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8
+                  flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-bold text-yale section-title">Lab Logins</h1>
+          <p class="mt-4 text-gray-500 font-light">
+            Shared lab account credentials — Alon Lab members only.
+          </p>
+        </div>
+        <button id="lock-btn"
+                class="inline-flex items-center gap-2 px-4 py-2 border border-gray-200
+                       rounded-lg text-sm text-gray-500 hover:text-yale hover:border-yale
+                       transition-colors bg-white shadow-sm self-start sm:self-auto">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0
+                     00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+          Lock
+        </button>
+      </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-6">
+
+      <!-- Security notice -->
+      <div class="bg-amber-50 border border-amber-200 rounded-xl px-5 py-4
+                  flex items-start gap-3">
+        <svg class="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none"
+             stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667
+                   1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34
+                   16c-.77 1.333.192 3 1.732 3z"/>
+        </svg>
+        <p class="text-xs text-amber-700 leading-relaxed">
+          <strong>Security reminder:</strong> Do not share these credentials outside the lab.
+          Do not save them in personal password managers or unsecured documents.
+          Contact Assaf if you need to update a password.
+        </p>
+      </div>
+
+      <!-- ── Login Cards ── -->
+
+      <!-- Azenta -->
+      <div class="login-card bg-white rounded-2xl border border-gray-200 overflow-hidden">
+        <div class="flex items-center gap-4 px-6 py-5 border-b border-gray-100">
+          <!-- Icon -->
+          <div class="h-11 w-11 rounded-xl bg-yale-pale flex items-center justify-center
+                      flex-shrink-0">
+            <svg class="h-5 w-5 text-yale-light" fill="none" stroke="currentColor"
+                 stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0
+                       00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0
+                       00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5
+                       c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674
+                       -2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+            </svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h2 class="text-base font-bold text-gray-900">Azenta</h2>
+            <p class="text-xs text-gray-400 mt-0.5 truncate">
+              Sanger sequencing · Full plasmid sequencing · Gene fragments · Peptides
+            </p>
+          </div>
+          <a href="https://clims4.genewiz.com/CustomerHome/Index"
+             target="_blank" rel="noopener"
+             class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-yale text-white
+                    text-xs font-medium rounded-lg hover:bg-yale-light transition-colors
+                    flex-shrink-0">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                       M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            Visit
+          </a>
+        </div>
+
+        <div class="divide-y divide-gray-50">
+
+          <!-- Username -->
+          <div class="flex items-center justify-between px-6 py-3 gap-4">
+            <div class="flex items-center gap-3 min-w-0">
+              <span class="text-xs font-semibold text-gray-400 uppercase tracking-wide
+                           w-20 flex-shrink-0">Username</span>
+              <span class="text-sm text-gray-700 font-mono truncate"
+                    id="azenta-user">assaf.alon@yale.edu</span>
+            </div>
+            <button onclick="copyText('assaf.alon@yale.edu', this)"
+                    class="copy-btn flex-shrink-0 p-1.5 rounded-lg text-gray-400
+                           hover:text-yale-light hover:bg-yale-pale transition-colors"
+                    aria-label="Copy username">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                   viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2
+                         m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2
+                         2v8a2 2 0 002 2z"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Password -->
+          <div class="flex items-center justify-between px-6 py-3 gap-4">
+            <div class="flex items-center gap-3 min-w-0">
+              <span class="text-xs font-semibold text-gray-400 uppercase tracking-wide
+                           w-20 flex-shrink-0">Password</span>
+              <span class="text-sm text-gray-700 font-mono pw-masked select-none"
+                    id="azenta-pw-display"
+                    data-pw="Alon_Lab22"
+                    data-shown="false">••••••••••</span>
+            </div>
+            <div class="flex items-center gap-1 flex-shrink-0">
+              <button onclick="togglePwDisplay('azenta-pw-display')"
+                      class="p-1.5 rounded-lg text-gray-400 hover:text-yale-light
+                             hover:bg-yale-pale transition-colors"
+                      aria-label="Show/hide password">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268
+                           2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477
+                           0-8.268-2.943-9.542-7z"/>
+                </svg>
+              </button>
+              <button onclick="copyPw('azenta-pw-display', this)"
+                      class="copy-btn p-1.5 rounded-lg text-gray-400 hover:text-yale-light
+                             hover:bg-yale-pale transition-colors"
+                      aria-label="Copy password">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2
+                           m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2
+                           2v8a2 2 0 002 2z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Plasmidsaurus -->
+      <div class="login-card bg-white rounded-2xl border border-gray-200 overflow-hidden">
+        <div class="flex items-center gap-4 px-6 py-5 border-b border-gray-100">
+          <div class="h-11 w-11 rounded-xl bg-yale-pale flex items-center justify-center
+                      flex-shrink-0">
+            <svg class="h-5 w-5 text-yale-light" fill="none" stroke="currentColor"
+                 stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2
+                       M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10
+                       a2 2 0 002 2zM9 9h6v6H9V9z"/>
+            </svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h2 class="text-base font-bold text-gray-900">Plasmidsaurus</h2>
+            <p class="text-xs text-gray-400 mt-0.5">Full plasmid sequencing</p>
+          </div>
+          <a href="https://plasmidsaurus.com/home"
+             target="_blank" rel="noopener"
+             class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-yale text-white
+                    text-xs font-medium rounded-lg hover:bg-yale-light transition-colors
+                    flex-shrink-0">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                       M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            Visit
+          </a>
+        </div>
+
+        <div class="divide-y divide-gray-50">
+
+          <div class="flex items-center justify-between px-6 py-3 gap-4">
+            <div class="flex items-center gap-3 min-w-0">
+              <span class="text-xs font-semibold text-gray-400 uppercase tracking-wide
+                           w-20 flex-shrink-0">Username</span>
+              <span class="text-sm text-gray-700 font-mono truncate">
+                assaf.alon@yale.edu
+              </span>
+            </div>
+            <button onclick="copyText('assaf.alon@yale.edu', this)"
+                    class="copy-btn flex-shrink-0 p-1.5 rounded-lg text-gray-400
+                           hover:text-yale-light hover:bg-yale-pale transition-colors"
+                    aria-label="Copy username">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                   viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2
+                         m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2
+                         2v8a2 2 0 002 2z"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="flex items-center justify-between px-6 py-3 gap-4">
+            <div class="flex items-center gap-3 min-w-0">
+              <span class="text-xs font-semibold text-gray-400 uppercase tracking-wide
+                           w-20 flex-shrink-0">Password</span>
+              <span class="text-sm text-gray-700 font-mono pw-masked select-none"
+                    id="plasmi-pw-display"
+                    data-pw="jke-hvd_XGD1xew4gbe"
+                    data-shown="false">••••••••••</span>
+            </div>
+            <div class="flex items-center gap-1 flex-shrink-0">
+              <button onclick="togglePwDisplay('plasmi-pw-display')"
+                      class="p-1.5 rounded-lg text-gray-400 hover:text-yale-light
+                             hover:bg-yale-pale transition-colors"
+                      aria-label="Show/hide password">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268
+                           2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477
+                           0-8.268-2.943-9.542-7z"/>
+                </svg>
+              </button>
+              <button onclick="copyPw('plasmi-pw-display', this)"
+                      class="copy-btn p-1.5 rounded-lg text-gray-400 hover:text-yale-light
+                             hover:bg-yale-pale transition-colors"
+                      aria-label="Copy password">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2
+                           m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2
+                           2v8a2 2 0 002 2z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Twist Bioscience -->
+      <div class="login-card bg-white rounded-2xl border border-gray-200 overflow-hidden">
+        <div class="flex items-center gap-4 px-6 py-5 border-b border-gray-100">
+          <div class="h-11 w-11 rounded-xl bg-yale-pale flex items-center justify-center
+                      flex-shrink-0">
+            <svg class="h-5 w-5 text-yale-light" fill="none" stroke="currentColor"
+                 stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11
+                       11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h2 class="text-base font-bold text-gray-900">Twist Bioscience</h2>
+            <p class="text-xs text-gray-400 mt-0.5">Synthesis of gene fragments</p>
+          </div>
+          <a href="https://id.twistdna.com/"
+             target="_blank" rel="noopener"
+             class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-yale text-white
+                    text-xs font-medium rounded-lg hover:bg-yale-light transition-colors
+                    flex-shrink-0">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                       M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            Visit
+          </a>
+        </div>
+
+        <div class="divide-y divide-gray-50">
+
+          <div class="flex items-center justify-between px-6 py-3 gap-4">
+            <div class="flex items-center gap-3 min-w-0">
+              <span class="text-xs font-semibold text-gray-400 uppercase tracking-wide
+                           w-20 flex-shrink-0">Username</span>
+              <span class="text-sm text-gray-700 font-mono truncate">
+                thealonlab@gmail.com
+              </span>
+            </div>
+            <button onclick="copyText('thealonlab@gmail.com', this)"
+                    class="copy-btn flex-shrink-0 p-1.5 rounded-lg text-gray-400
+                           hover:text-yale-light hover:bg-yale-pale transition-colors"
+                    aria-label="Copy username">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                   viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2
+                         m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2
+                         2v8a2 2 0 002 2z"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="flex items-center justify-between px-6 py-3 gap-4">
+            <div class="flex items-center gap-3 min-w-0">
+              <span class="text-xs font-semibold text-gray-400 uppercase tracking-wide
+                           w-20 flex-shrink-0">Password</span>
+              <span class="text-sm text-gray-700 font-mono pw-masked select-none"
+                    id="twist-pw-display"
+                    data-pw="Alon_Lab-2022"
+                    data-shown="false">••••••••••</span>
+            </div>
+            <div class="flex items-center gap-1 flex-shrink-0">
+              <button onclick="togglePwDisplay('twist-pw-display')"
+                      class="p-1.5 rounded-lg text-gray-400 hover:text-yale-light
+                             hover:bg-yale-pale transition-colors"
+                      aria-label="Show/hide password">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268
+                           2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477
+                           0-8.268-2.943-9.542-7z"/>
+                </svg>
+              </button>
+              <button onclick="copyPw('twist-pw-display', this)"
+                      class="copy-btn p-1.5 rounded-lg text-gray-400 hover:text-yale-light
+                             hover:bg-yale-pale transition-colors"
+                      aria-label="Copy password">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2
+                           m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2
+                           2v8a2 2 0 002 2z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- IDT -->
+      <div class="login-card bg-white rounded-2xl border border-gray-200 overflow-hidden">
+        <div class="flex items-center gap-4 px-6 py-5 border-b border-gray-100">
+          <div class="h-11 w-11 rounded-xl bg-yale-pale flex items-center justify-center
+                      flex-shrink-0">
+            <svg class="h-5 w-5 text-yale-light" fill="none" stroke="currentColor"
+                 stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0
+                       00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0
+                       00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5
+                       c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674
+                       -2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+            </svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h2 class="text-base font-bold text-gray-900">IDT</h2>
+            <p class="text-xs text-gray-400 mt-0.5">
+              Integrated DNA Technologies · Synthesis of gene fragments
+            </p>
+          </div>
+          <a href="https://www.idtdna.com"
+             target="_blank" rel="noopener"
+             class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-yale text-white
+                    text-xs font-medium rounded-lg hover:bg-yale-light transition-colors
+                    flex-shrink-0">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4
+                       M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            Visit
+          </a>
+        </div>
+
+        <div class="divide-y divide-gray-50">
+
+          <div class="flex items-center justify-between px-6 py-3 gap-4">
+            <div class="flex items-center gap-3 min-w-0">
+              <span class="text-xs font-semibold text-gray-400 uppercase tracking-wide
+                           w-20 flex-shrink-0">Username</span>
+              <span class="text-sm text-gray-700 font-mono truncate">thealonlab</span>
+            </div>
+            <button onclick="copyText('thealonlab', this)"
+                    class="copy-btn flex-shrink-0 p-1.5 rounded-lg text-gray-400
+                           hover:text-yale-light hover:bg-yale-pale transition-colors"
+                    aria-label="Copy username">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                   viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2
+                         m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2
+                         2v8a2 2 0 002 2z"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="flex items-center justify-between px-6 py-3 gap-4">
+            <div class="flex items-center gap-3 min-w-0">
+              <span class="text-xs font-semibold text-gray-400 uppercase tracking-wide
+                           w-20 flex-shrink-0">Password</span>
+              <span class="text-sm text-gray-700 font-mono pw-masked select-none"
+                    id="idt-pw-display"
+                    data-pw="Yh!EwqA3.jYfAC7"
+                    data-shown="false">••••••••••</span>
+            </div>
+            <div class="flex items-center gap-1 flex-shrink-0">
+              <button onclick="togglePwDisplay('idt-pw-display')"
+                      class="p-1.5 rounded-lg text-gray-400 hover:text-yale-light
+                             hover:bg-yale-pale transition-colors"
+                      aria-label="Show/hide password">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268
+                           2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477
+                           0-8.268-2.943-9.542-7z"/>
+                </svg>
+              </button>
+              <button onclick="copyPw('idt-pw-display', this)"
+                      class="copy-btn p-1.5 rounded-lg text-gray-400 hover:text-yale-light
+                             hover:bg-yale-pale transition-colors"
+                      aria-label="Copy password">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2
+                           m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2
+                           2v8a2 2 0 002 2z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+  </div><!-- /logins-content -->
+
+  <!-- ── Copy toast ── -->
+  <div id="copy-toast"
+       class="bg-gray-900 text-white text-xs font-medium px-4 py-2 rounded-full shadow-lg">
+    ✓ Copied to clipboard
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="bg-yale text-white text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8
+                flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-center sm:text-left text-blue-100 leading-relaxed">
+        <p class="font-semibold text-white">Alon Lab</p>
+        <p>SHM-B323, 333 Cedar St.</p>
+        <p>New Haven, CT 06510</p>
+      </div>
+      <div class="flex flex-col items-center sm:items-end gap-1 text-blue-200">
+        <a href="https://medicine.yale.edu/pharm/" target="_blank" rel="noopener"
+           class="hover:text-white transition-colors">Department of Pharmacology</a>
+        <a href="https://medicine.yale.edu/" target="_blank" rel="noopener"
+           class="hover:text-white transition-colors">Yale School of Medicine</a>
+        <p class="text-blue-300 text-xs mt-1">© Assaf Alon 2024</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script>
+    // ── Mobile menu ──────────────────────────────────────────────
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen   = document.getElementById('hamburger-open');
+    const iconClose  = document.getElementById('hamburger-close');
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      iconOpen.classList.toggle('hidden');
+      iconClose.classList.toggle('hidden');
     });
 
-    // Auto-select full content when clicked
-    document.querySelectorAll("#azenta, #plasmidsaurus,#twist,#idtdna").forEach(element => {
-        element.addEventListener("mousedown", function (event) {
-            event.preventDefault();
-            let range = document.createRange();
-            range.selectNodeContents(this);
-            let selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-        });
+    // ── Password ─────────────────────────────────────────────────
+    const CORRECT_PASSWORD = 'alonlab'; // ← change to your actual password
+
+    const lockScreen    = document.getElementById('lock-screen');
+    const loginsContent = document.getElementById('logins-content');
+    const pwForm        = document.getElementById('password-form');
+    const pwInput       = document.getElementById('password-input');
+    const pwError       = document.getElementById('pw-error');
+    const lockBtn       = document.getElementById('lock-btn');
+    const togglePwBtn   = document.getElementById('toggle-pw');
+    const eyeOpen       = document.getElementById('eye-open');
+    const eyeClosed     = document.getElementById('eye-closed');
+
+    // Shared session with protocols.html and media_recipes.html
+    if (sessionStorage.getItem('alonlab_auth') === 'true') unlock();
+
+    pwForm.addEventListener('submit', e => {
+      e.preventDefault();
+      if (pwInput.value === CORRECT_PASSWORD) {
+        sessionStorage.setItem('alonlab_auth', 'true');
+        pwError.classList.add('hidden');
+        unlock();
+      } else {
+        pwError.classList.remove('hidden');
+        pwInput.value = '';
+        pwInput.focus();
+        pwInput.classList.add('border-red-400');
+        setTimeout(() => pwInput.classList.remove('border-red-400'), 1500);
+      }
     });
-</script>
 
+    function unlock() {
+      lockScreen.style.display = 'none';
+      loginsContent.classList.add('unlocked');
+    }
 
+    lockBtn.addEventListener('click', () => {
+      sessionStorage.removeItem('alonlab_auth');
+      loginsContent.classList.remove('unlocked');
+      lockScreen.style.display = '';
+      pwInput.value = '';
+    });
 
+    togglePwBtn.addEventListener('click', () => {
+      const isHidden = pwInput.type === 'password';
+      pwInput.type   = isHidden ? 'text' : 'password';
+      eyeOpen.classList.toggle('hidden',  isHidden);
+      eyeClosed.classList.toggle('hidden', !isHidden);
+    });
+
+    // ── Show/hide individual passwords ───────────────────────────
+    function togglePwDisplay(id) {
+      const el = document.getElementById(id);
+      if (el.dataset.shown === 'false') {
+        el.textContent   = el.dataset.pw;
+        el.dataset.shown = 'true';
+        el.classList.remove('pw-masked');
+      } else {
+        el.textContent   = '••••••••••';
+        el.dataset.shown = 'false';
+        el.classList.add('pw-masked');
+      }
+    }
+
+    // ── Copy helpers ─────────────────────────────────────────────
+    let toastTimer = null;
+
+    function showToast() {
+      const toast = document.getElementById('copy-toast');
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+    }
+
+    function copyText(text, btn) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast();
+        // Briefly turn icon green
+        const svg = btn.querySelector('svg');
+        svg.style.color = '#16a34a';
+        setTimeout(() => svg.style.color = '', 1200);
+      });
+    }
+
+    function copyPw(id, btn) {
+      const el = document.getElementById(id);
+      copyText(el.dataset.pw, btn);
+    }
+  </script>
 
 </body>
 </html>

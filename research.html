@@ -1,120 +1,491 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Head -->
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="The Alon lab at Yale Medical School">
-<meta name="author" content="Assaf Alon">
-<link rel="icon" type="image/x-icon" href="images/cholesterol_logo.svg" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>The Alon Lab</title>
-<!-- Bootstrap core CSS --> 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-<!-- My CSS -->
-<link href="css/styles.css" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Research — The Alon Lab at Yale School of Medicine" />
+  <meta name="author" content="Assaf Alon" />
+  <title>Research · The Alon Lab</title>
+
+  <link rel="icon" type="image/svg+xml" href="images/cholesterol_logo.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            yale:         '#00356b',
+            'yale-light': '#286dc0',
+            'yale-pale':  '#e8f0f9',
+          },
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
+          keyframes: {
+            fadeIn: {
+              '0%':   { opacity: '0', transform: 'translateY(16px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+          },
+          animation: { 'fade-in': 'fadeIn 0.9s ease both' },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+
+    .nav-link-animated { position: relative; padding-bottom: 2px; }
+    .nav-link-animated::after {
+      content: ''; position: absolute; left: 0; bottom: 0;
+      width: 0; height: 2px; background-color: #a8c4e0;
+      transition: width 0.25s ease;
+    }
+    .nav-link-animated:hover::after,
+    .nav-link-animated.active::after { width: 100%; }
+
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: block; }
+
+    .section-title::after {
+      content: ''; display: block; width: 48px; height: 3px;
+      background-color: #286dc0; margin-top: 10px; border-radius: 2px;
+    }
+
+    .research-card { transition: box-shadow 0.25s ease, transform 0.25s ease; }
+    .research-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,53,107,0.10);
+    }
+
+    /* ── Molecular viewer ── */
+    #viewer-wrapper {
+      position: relative;
+      width: 100%;
+      height: 480px;
+      overflow: hidden;
+      border-radius: 10px;
+      /*background: #0f1923;*/
+      background: #ffffff;
+    }
+    @media (max-width: 640px) {
+      #viewer-wrapper { height: 320px; }
+    }
+
+    /* web3dmol creates #w3m and appends it to <body>.
+       We move it into #viewer-wrapper after init, then pin it here. */
+    #w3m {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .viewer-btn { transition: background-color 0.2s, color 0.2s; }
+    .viewer-btn.active {
+      background-color: #00356b !important;
+      color: white !important;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
 </head>
 
-<!-- Body -->
-<body class="bg-dark">
-<!-- Navigation -->
-	<header>
-		<nav aria-label="Main navigation" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-			<div class="container-fluid">
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-						<li class="nav-item px-3"> <a class="nav-link" href="index.html">Home</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link active" href="research.html">Research<span class="visually-hidden-focusable">(current)</span></a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="people.html">Lab members</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="gallery.html">Gallery</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="publications.html">Publications</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="positions.html">Positions</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="contact.html">Contact</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="protocols.html">Protocols</a> </li>						
-						<!-- BlueSky Icon Link -->
-						<li class="nav-item px-3">
-							<a class="nav-link" href="https://bsky.app/profile/thealonlab.bsky.social" target="_blank" aria-label="BlueSky Profile">
-								<img src="https://bsky.app/static/apple-touch-icon.png" alt="BlueSky Profile" style="width: 20px; height: 20px; vertical-align: middle;">
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-	</header>
-	<main>
-		<!-- Banner -->
-		<section id="banner">
-			<div class="container pt-5">
-				<div class="row bg-white">
-					<div class="col ">
-						<img src="images/Alon_Lab_Logo.svg" alt="cholesterol logo" class="logo mt-3 mb-2 mx-auto d-block">
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- Page Content -->
-		<article id="content">
-			<div class="container bg-body-secondary ">
-				<!-- title -->
-				<div class="row pt-4">
-					<div class="col">
-						<h3 class="text-bg-body-secondary">Research overview</h3>
-					</div>
-				</div>
-				<!-- first row-->
-				<div class="row">
-					<div class="col-md-7 col-lg-9 py-2 px-3">
-						<p class="text-bg-body-secondary fs-5">Cholesterol is an essential component in mammalian cell membranes, helping to fine-tune their biophysical properties. Moreover, it is the precursor to oxysterols, vitamin D, bile acids, and hormones such as testosterone, progesterone, and estrogen. Sterols are sensed by numerous classes of receptors and synthesized by a multitude of tightly regulated enzymes. Severe disease results when dysregulation causes sterol accumulation or depletion. Our lab uses a combination of structural biology, pharmacology, biochemistry, cell biology, and computational methods to decipher the molecular mechanisms underlying sterol synthesis, recognition, and signaling.<br>We are specifically interested in how two structurally distinct novel protein families, EXPERA (EXPanded EBP superfamily) and PAQR (progestin and adipoQ receptors), sense and respond to sterols</p>
-					</div>
-					<div class="col-md-5 col-lg-3 p-2">
-						<div class="card"> <img src="images/Fig_1.png" alt="purification" class="img-fluid p-1"> </div>
-					</div>
-				</div>
-				<!-- second row-->
-				<div class="row">
-					<div class="col-md-7 col-lg-9 py-2 px-3">
-						<h4 class="text-bg-body-secondary">The EXPERA family</h4>
-						<p class="text-bg-body-secondary fs-5">EXPERA is a five-member family of membrane proteins. The hallmark of the EXPERA family is a four-helix bundle transmembrane (TM) domain. The physiological role of most EXPERA proteins is incompletely understood, but is clearly rooted in sterol recognition as all family members are predicted to adopt a similar fold with binding pocket residues that are conserved across the family.<br>The σ<sub>2</sub> receptor belongs to the EXPERA family and is involved in cholesterol homeostasis, regulation of Niemann-Pick C1 (NPC1), LDL internalization, cancer, schizophrenia, and other conditions.<br>The other well-studied member of the EXPERA family is TM6SF2. The cellular function of TM6SF2 is unknown, however a loss of function mutation (E176K) causes carriers to be susceptible to nonalcoholic fatty liver disease (NAFLD), the most common form of liver disease, caused by an aberrant accumulation of fat in the liver.</p>
-					</div>
-					<div class="col-md-5 col-lg-3 p-2">
-						<div class="card">
-							<img src="images/cholesterol_sigma-2.png" alt="purification" class="img-fluid p-1">
-						</div>
-					</div>
-				</div>
-				<!-- third row-->
-				<div class="row">
-					<div class="col-md-7 col-lg-9 py-2 px-3">
-						<h4 class="text-bg-body-secondary">The PAQR family</h4>
-						<p class="text-bg-body-secondary fs-5">Progesterone is a steroid hormone essential for ovulation and initiation of pregnancy. The classical physiological responses to progesterone are mediated by nuclear receptors that act as transcription factors. Some physiological responses, including oocyte maturation and acrosome reaction, utilize a parallel signaling pathway that initiates by progesterone binding to membrane receptors. This rapid nongenomic pathway is mediated by a subclass of the Progestin AdipoQ Receptor (PAQR) family of integral membrane proteins. These PAQRs localize to the plasma membrane, the ER, and the lysosome and are expressed in both reproductive and nonreproductive tissues, indicating a functional role in a wide variety of tissues. How these proteins selectively recognize progesterone and signal is unclear.</p>
-					</div>
-					<div class="col-md-5 col-lg-3 p-2">
-						<div class="card">
-							<img src="images/PAQRs.png" alt="purification" class="img-fluid p-1">
-						</div>
-					</div>
-				</div>
-			</div>
-		</article>
-	</main>
-	<!-- Footer -->
-	<footer class="bg-dark text-center text-lg-start">
-		<div class="container">
-			<div class="d-flex justify-content-center text-bg-dark p-2">Alon lab, SHM-B323, 333 Cedar St., New Haven, CT 06510</div>
-			<div class="d-flex justify-content-evenly p-2">
-				<a class="d-flex justify-content-end text-bg-dark" href="https://medicine.yale.edu/pharm/" target="_blank">Department of Pharmacology</a>
-				
-				<a class="d-flex justify-content-start text-bg-dark" href="https://medicine.yale.edu/" target="_blank">Yale School of Medicine</a><!--https://medicine.yale.edu/pharm/--> </div>
-    <!-- Copyright -->
-			<div class="d-flex justify-content-center text-bg-dark p-2">&#169; Assaf Alon 2024 </div>
-    <!-- Copyright -->
-		</div>
-	</footer>
-<!-- Bootstrap core JavaScript --> 
-<!-- <script src="jquery/jquery.js"></script> --> 
-<!-- <script src="js/bootstrap.bundle.min.js"></script> --> 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<body class="bg-gray-50 font-sans text-gray-800 antialiased">
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="bg-yale fixed top-0 left-0 right-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+
+        <a href="index.html"
+           class="flex items-center gap-2 text-white font-semibold text-lg tracking-wide
+                  hover:opacity-80 transition-opacity">
+          <img src="images/cholesterol_logo.svg" alt="Alon Lab logo" class="h-8 w-8" />
+          The Alon Lab
+        </a>
+
+        <div class="hidden lg:flex items-center gap-6 text-sm font-medium text-white">
+          <a href="index.html"        class="nav-link-animated">Home</a>
+          <a href="research.html"     class="nav-link-animated active">Research</a>
+          <a href="people.html"       class="nav-link-animated">Lab Members</a>
+          <a href="gallery.html"      class="nav-link-animated">Gallery</a>
+          <a href="publications.html" class="nav-link-animated">Publications</a>
+          <a href="positions.html"    class="nav-link-animated">Positions</a>
+          <a href="contact.html"      class="nav-link-animated">Contact</a>
+          <a href="protocols.html"    class="nav-link-animated">Protocols</a>
+          <a href="https://bsky.app/profile/thealonlab.bsky.social"
+             target="_blank" rel="noopener" aria-label="BlueSky"
+             class="hover:opacity-75 transition-opacity">
+            <img src="https://bsky.app/static/apple-touch-icon.png"
+                 alt="BlueSky" class="h-5 w-5 rounded-sm" />
+          </a>
+        </div>
+
+        <button id="hamburger" aria-label="Toggle menu"
+                class="lg:hidden text-white focus:outline-none">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24">
+            <path id="hamburger-open" stroke-linecap="round" stroke-linejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"/>
+            <path id="hamburger-close" stroke-linecap="round" stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12" class="hidden"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="lg:hidden bg-yale border-t border-blue-800">
+      <div class="flex flex-col px-4 pb-4 pt-2 gap-3 text-sm font-medium text-white">
+        <a href="index.html"        class="hover:text-blue-200 transition-colors">Home</a>
+        <a href="research.html"     class="hover:text-blue-200 transition-colors">Research</a>
+        <a href="people.html"       class="hover:text-blue-200 transition-colors">Lab Members</a>
+        <a href="gallery.html"      class="hover:text-blue-200 transition-colors">Gallery</a>
+        <a href="publications.html" class="hover:text-blue-200 transition-colors">Publications</a>
+        <a href="positions.html"    class="hover:text-blue-200 transition-colors">Positions</a>
+        <a href="contact.html"      class="hover:text-blue-200 transition-colors">Contact</a>
+        <a href="protocols.html"    class="hover:text-blue-200 transition-colors">Protocols</a>
+        <a href="https://bsky.app/profile/thealonlab.bsky.social"
+           target="_blank" rel="noopener"
+           class="flex items-center gap-2 hover:text-blue-200 transition-colors">
+          <img src="https://bsky.app/static/apple-touch-icon.png"
+               alt="BlueSky" class="h-4 w-4 rounded-sm" />
+          BlueSky
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========== PAGE HEADER ========== -->
+  <header class="pt-24 pb-8 bg-white border-b border-gray-200 animate-fade-in">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl sm:text-4xl font-bold text-yale section-title">Research</h1>
+      <p class="mt-4 text-lg text-gray-500 font-light max-w-3xl">
+        Structural biology · Pharmacology · Biochemistry · Cell Biology · Computational Methods
+      </p>
+    </div>
+  </header>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-20 animate-fade-in">
+
+    <!-- ── Overview ── -->
+    <section class="research-card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="grid lg:grid-cols-2 gap-0">
+        <div class="p-8 sm:p-10 flex flex-col justify-center">
+          <h2 class="text-2xl font-bold text-yale section-title mb-6">Overview</h2>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            Cholesterol is an essential component in mammalian cell membranes, helping to fine-tune
+            their biophysical properties. Moreover, it is the precursor to oxysterols, vitamin D,
+            bile acids, and hormones such as testosterone, progesterone, and estrogen. Sterols are
+            sensed by numerous classes of receptors and synthesized by a multitude of tightly
+            regulated enzymes. Severe disease results when dysregulation causes sterol accumulation
+            or depletion.
+          </p>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            Our lab uses a combination of structural biology, pharmacology, biochemistry, cell
+            biology, and computational methods to decipher the molecular mechanisms underlying sterol
+            synthesis, recognition, and signaling.
+          </p>
+          <p class="text-gray-700 leading-relaxed">
+            We are specifically interested in how two structurally distinct novel protein families,
+            <span class="font-semibold text-yale-light">EXPERA</span>
+            (EXPanded EBP superfamily) and
+            <span class="font-semibold text-yale-light">PAQR</span>
+            (progestin and adipoQ receptors), sense and respond to sterols.
+          </p>
+        </div>
+        <div class="bg-yale-pale flex items-center justify-center p-8">
+          <img src="images/Fig_1.png" alt="Sterol signaling overview"
+               class="rounded-xl shadow-md max-h-80 w-auto object-contain" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ── EXPERA ── -->
+    <section class="research-card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="grid lg:grid-cols-2 gap-0">
+        <div class="bg-yale-pale flex items-center justify-center p-8 order-2 lg:order-1">
+          <img src="images/cholesterol_sigma-2.png" alt="Sigma-2 receptor and cholesterol"
+               class="rounded-xl shadow-md max-h-80 w-auto object-contain" />
+        </div>
+        <div class="p-8 sm:p-10 flex flex-col justify-center order-1 lg:order-2">
+          <span class="inline-block text-xs font-semibold tracking-widest text-yale-light
+                       uppercase mb-3">Research Focus I</span>
+          <h2 class="text-2xl font-bold text-yale section-title mb-6">The EXPERA Family</h2>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            EXPERA is a five-member family of membrane proteins. The hallmark of the EXPERA family
+            is a four-helix bundle transmembrane (TM) domain. The physiological role of most EXPERA
+            proteins is incompletely understood, but is clearly rooted in sterol recognition as all
+            family members are predicted to adopt a similar fold with binding pocket residues that
+            are conserved across the family.
+          </p>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            The <span class="font-semibold text-yale-light">σ₂ receptor</span> belongs to the
+            EXPERA family and is involved in cholesterol homeostasis, regulation of Niemann-Pick C1
+            (NPC1), LDL internalization, cancer, schizophrenia, and other conditions.
+          </p>
+          <p class="text-gray-700 leading-relaxed">
+            The other well-studied member is
+            <span class="font-semibold text-yale-light">TM6SF2</span>.
+            A loss-of-function mutation (E176K) causes carriers to be susceptible to nonalcoholic
+            fatty liver disease (NAFLD), the most common form of liver disease.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PAQR ── -->
+    <section class="research-card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="grid lg:grid-cols-2 gap-0">
+        <div class="p-8 sm:p-10 flex flex-col justify-center">
+          <span class="inline-block text-xs font-semibold tracking-widest text-yale-light
+                       uppercase mb-3">Research Focus II</span>
+          <h2 class="text-2xl font-bold text-yale section-title mb-6">The PAQR Family</h2>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            Progesterone is a steroid hormone essential for ovulation and initiation of pregnancy.
+            The classical physiological responses to progesterone are mediated by nuclear receptors
+            that act as transcription factors.
+          </p>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            Some physiological responses utilize a parallel signaling pathway initiated by
+            progesterone binding to membrane receptors. This rapid nongenomic pathway is mediated
+            by a subclass of the
+            <span class="font-semibold text-yale-light">Progestin AdipoQ Receptor (PAQR)</span>
+            family of integral membrane proteins.
+          </p>
+          <p class="text-gray-700 leading-relaxed">
+            These PAQRs localize to the plasma membrane, the ER, and the lysosome and are expressed
+            in both reproductive and nonreproductive tissues, indicating a functional role in a wide
+            variety of tissues. How these proteins selectively recognize progesterone and signal
+            remains unclear.
+          </p>
+        </div>
+        <div class="bg-yale-pale flex items-center justify-center p-8">
+          <img src="images/PAQRs.png" alt="PAQR family receptors"
+               class="rounded-xl shadow-md max-h-80 w-auto object-contain" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Molecular Viewer ── -->
+    <section class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="p-8 sm:p-10 border-b border-gray-100">
+        <h2 class="text-2xl font-bold text-yale section-title mb-2">3D Molecular Viewer</h2>
+        <p class="text-gray-500 text-sm mt-4">
+          Interactive structure viewer — drag to rotate, scroll to zoom.
+        </p>
+      </div>
+
+      <div class="p-6 sm:p-8">
+
+        <!-- Viewer box -->
+        <div id="viewer-wrapper">
+          <!-- web3dmol reads size from this div, canvas ends up in #w3m -->
+          <div id="viewport" style="width:100%; height:480px;"></div>
+        </div>
+
+        <!-- Structure buttons -->
+        <div class="flex flex-wrap gap-2 mt-5">
+          <span class="text-xs text-gray-400 self-center mr-1">Structure:</span>
+          <button id="btn-7m93" onclick="loadMol('7M93')"
+                  class="viewer-btn active px-4 py-2 bg-yale text-white text-sm font-medium
+                         rounded-lg">
+            σ₂ bound to PB28
+          </button>
+          <button id="btn-7m94" onclick="loadMol('7M94')"
+                  class="viewer-btn active px-4 py-2 bg-yale text-white text-sm font-medium
+                         rounded-lg">
+            σ₂ bound to Roluperidone
+          </button>
+          <button id="btn-7mfi" onclick="loadMol('7MFI')"
+                  class="viewer-btn active px-4 py-2 bg-yale text-white text-sm font-medium
+                         rounded-lg">
+            σ₂ bound to cholesterol
+          </button>
+
+          <button id="btn-7m95" onclick="loadMol('7M95')"
+                  class="viewer-btn active px-4 py-2 bg-yale text-white text-sm font-medium
+                         rounded-lg">
+            σ₂ bound to Z1241145220
+          </button>
+          <button id="btn-7m96" onclick="loadMol('7M96')"
+                  class="viewer-btn px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium
+                         rounded-lg">
+            σ₂ bound to Z4857158944
+          </button>
+        </div>
+
+        <!-- Representation buttons -->
+        <div class="flex flex-wrap gap-2 mt-3">
+          <span class="text-xs text-gray-400 self-center mr-1">Style:</span>
+          <button id="repr-cartoon" onclick="setRepr('cartoon')"
+                  class="viewer-btn active px-3 py-1.5 bg-yale text-white text-xs font-medium rounded-lg">
+            Cartoon
+          </button>
+          <button id="repr-tube" onclick="setRepr('tube')"
+                  class="viewer-btn px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-lg">
+            Tube
+          </button>
+          <button id="repr-stick" onclick="setRepr('stick')"
+                  class="viewer-btn px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-lg">
+            Stick
+          </button>
+          <button id="repr-backbone" onclick="setRepr('backbone')"
+                  class="viewer-btn px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-lg">
+            Backbone
+          </button>
+          <button id="repr-sphere" onclick="setRepr('sphere')"
+                  class="viewer-btn px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-lg">
+            Sphere
+          </button>
+        </div>
+
+        <!-- Extra controls -->
+        <div class="flex flex-wrap gap-2 mt-3">
+          <span class="text-xs text-gray-400 self-center mr-1">More:</span>
+          <button onclick="w3m.api.toggleRotate('y')"
+                  class="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium
+                         rounded-lg hover:bg-yale hover:text-white transition-colors">
+            ⟳ Auto-Rotate
+          </button>
+        </div>
+
+        <p class="text-xs text-gray-400 mt-4 italic">
+          Structures loaded from the
+          <a href="https://www.rcsb.org" target="_blank" rel="noopener"
+             class="text-yale-light hover:text-yale transition-colors">RCSB Protein Data Bank</a>.
+          Uses <a href="https://web3dmol.net" target="_blank" rel="noopener"
+                  class="text-yale-light hover:text-yale transition-colors">web3dmol</a>.
+        </p>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="bg-yale text-white text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8
+                flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-center sm:text-left text-blue-100 leading-relaxed">
+        <p class="font-semibold text-white">Alon Lab</p>
+        <p>SHM-B323, 333 Cedar St.</p>
+        <p>New Haven, CT 06510</p>
+      </div>
+      <div class="flex flex-col items-center sm:items-end gap-1 text-blue-200">
+        <a href="https://medicine.yale.edu/pharm/" target="_blank" rel="noopener"
+           class="hover:text-white transition-colors">Department of Pharmacology</a>
+        <a href="https://medicine.yale.edu/" target="_blank" rel="noopener"
+           class="hover:text-white transition-colors">Yale School of Medicine</a>
+        <p class="text-blue-300 text-xs mt-1">© Assaf Alon 2024</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== SCRIPTS ========== -->
+
+  <!-- Mobile menu -->
+  <script>
+    var hamburger  = document.getElementById('hamburger');
+    var mobileMenu = document.getElementById('mobile-menu');
+    var iconOpen   = document.getElementById('hamburger-open');
+    var iconClose  = document.getElementById('hamburger-close');
+    hamburger.addEventListener('click', function() {
+      mobileMenu.classList.toggle('open');
+      iconOpen.classList.toggle('hidden');
+      iconClose.classList.toggle('hidden');
+    });
+  </script>
+
+  <!-- web3dmol — MUST be at end of <body> AND have type="text/javascript" -->
+  <script type="text/javascript" src="lib/web3dmol.js"></script>
+
+  <script>
+    var currentPDB  = '7M95';
+    var currentRepr = 'cartoon';
+
+    var reprMap = {
+      'cartoon':  w3m.CARTOON,
+      'tube':     w3m.TUBE,
+      'stick':    w3m.STICK,
+      'backbone': w3m.BACKBONE,
+      'sphere':   w3m.SPHERE
+    };
+
+    // Initialise viewer
+    /*w3m.api.init('viewport', '7M95', false, { bg: [0.06, 0.10, 0.15, 1.0] }, null);*/
+    w3m.api.init('viewport', '7M93', false, { bg: [1.0, 1.0, 1.0, 1.0] }, null);
+
+    // Poll for canvas, move #w3m into wrapper, apply defaults
+    window.addEventListener('load', function() {
+      var attempts = 0;
+      var poll = setInterval(function() {
+        attempts++;
+        var canvas = document.querySelector('#w3m canvas');
+        if (canvas) {
+          clearInterval(poll);
+
+          // Move #w3m inside our constrained wrapper
+          var wrapper = document.getElementById('viewer-wrapper');
+          var w3mDiv  = document.getElementById('w3m');
+          if (w3mDiv && w3mDiv.parentElement !== wrapper) {
+            wrapper.appendChild(w3mDiv);
+          }
+
+          applyDefaults();
+        }
+        if (attempts >= 30) clearInterval(poll);
+      }, 300);
+    });
+
+    function applyDefaults() {
+      w3m.api.switchRepModeMain(w3m.CARTOON);
+      w3m.api.switchColorModeMain(w3m.COLOR_BY_CHAIN);
+      w3m.api.switchRepModeHet(w3m.STICK);
+      w3m.api.switchColorModeHet(w3m.COLOR_BY_ELEMENT);
+      w3m.api.refresh();
+    }
+
+    function loadMol(pdbId) {
+      if (pdbId === currentPDB) return;
+      currentPDB = pdbId;
+      w3m.api.loadPDB(pdbId);
+      setTimeout(applyDefaults, 2000);
+      // Update structure buttons
+      document.querySelectorAll('[id^="btn-"]').forEach(function(btn) {
+        btn.classList.remove('active', 'bg-yale', 'text-white');
+        btn.classList.add('bg-gray-100', 'text-gray-700');
+      });
+      var active = document.getElementById('btn-' + pdbId.toLowerCase());
+      if (active) {
+        active.classList.add('active', 'bg-yale', 'text-white');
+        active.classList.remove('bg-gray-100', 'text-gray-700');
+      }
+    }
+
+    function setRepr(name) {
+      if (!reprMap[name]) return;
+      currentRepr = name;
+      w3m.api.switchRepModeMain(reprMap[name]);
+      w3m.api.refresh();
+      // Update repr buttons
+      document.querySelectorAll('[id^="repr-"]').forEach(function(btn) {
+        btn.classList.remove('active', 'bg-yale', 'text-white');
+        btn.classList.add('bg-gray-100', 'text-gray-600');
+      });
+      var active = document.getElementById('repr-' + name);
+      if (active) {
+        active.classList.add('active', 'bg-yale', 'text-white');
+        active.classList.remove('bg-gray-100', 'text-gray-600');
+      }
+    }
+  </script>
+
 </body>
 </html>

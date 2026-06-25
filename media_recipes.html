@@ -1,352 +1,1085 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Head -->
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="The Alon lab at Yale Medical School">
-<meta name="author" content="Assaf Alon">
-<link rel="icon" type="image/x-icon" href="images/cholesterol_logo.svg" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>The Alon Lab</title>
-<!-- Bootstrap core CSS --> 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-<!-- My CSS -->
-<link href="css/styles.css" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Media &amp; Buffer Recipes — The Alon Lab at Yale School of Medicine" />
+  <meta name="author" content="Assaf Alon" />
+  <title>Media &amp; Recipes · The Alon Lab</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="images/cholesterol_logo.svg" />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            yale:         '#00356b',
+            'yale-light': '#286dc0',
+            'yale-pale':  '#e8f0f9',
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+          },
+          keyframes: {
+            fadeIn: {
+              '0%':   { opacity: '0', transform: 'translateY(16px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.9s ease both',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+
+    /* Navbar underline */
+    .nav-link-animated {
+      position: relative;
+      padding-bottom: 2px;
+    }
+    .nav-link-animated::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 0; height: 2px;
+      background-color: #a8c4e0;
+      transition: width 0.25s ease;
+    }
+    .nav-link-animated:hover::after,
+    .nav-link-animated.active::after { width: 100%; }
+
+    /* Mobile menu */
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: block; }
+
+    /* Section title accent */
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 3px;
+      background-color: #286dc0;
+      margin-top: 10px;
+      border-radius: 2px;
+    }
+
+    /* Lock screen */
+    #lock-screen { min-height: calc(100vh - 64px); }
+
+    /* Recipe content */
+    #recipe-content { display: none; }
+    #recipe-content.unlocked { display: block; }
+
+    /* Recipe card hover */
+    .recipe-card {
+      transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+      cursor: pointer;
+    }
+    .recipe-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,53,107,0.10);
+      border-color: #286dc0;
+    }
+
+    /* Ingredient bullet */
+    .ingredient-list li {
+      position: relative;
+      padding-left: 1.25rem;
+    }
+    .ingredient-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 5px;
+      height: 5px;
+      border-radius: 9999px;
+      background-color: #286dc0;
+    }
+
+    /* Sub-ingredient (indented) */
+    .ingredient-list li.sub {
+      padding-left: 2.25rem;
+      color: #6b7280;
+    }
+    .ingredient-list li.sub::before {
+      left: 1rem;
+      background-color: #a8c4e0;
+      width: 4px;
+      height: 4px;
+    }
+
+    /* Modal backdrop */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    .modal-backdrop.open { display: flex; }
+
+    /* Modal animation */
+    .modal-box {
+      animation: fadeIn 0.25s ease both;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    /* Category badge colors */
+    .badge-miniprep { background-color: #ede9fe; color: #6d28d9; }
+    .badge-media    { background-color: #dcfce7; color: #15803d; }
+    .badge-buffers  { background-color: #dbeafe; color: #1d4ed8; }
+
+    /* Filter chip */
+    .filter-chip {
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+    .filter-chip.active {
+      background-color: #00356b;
+      color: white;
+      border-color: #00356b;
+    }
+
+    /* Search highlight */
+    mark {
+      background-color: #fef08a;
+      border-radius: 2px;
+      padding: 0 1px;
+    }
+  </style>
 </head>
 
-<!-- Body -->
-<body class="bg-dark">
-<!-- Navigation -->
-	<header>
-		<nav aria-label="Main navigation" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-			<div class="container-fluid">
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-				        <li class="nav-item px-3"> <a class="nav-link" href="index.html">Home</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="research.html">Research</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="people.html">Lab members</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="gallery.html">Gallery</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="publications.html">Publications</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="positions.html">Positions</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link" href="contact.html">Contact</a> </li>
-						<li class="nav-item px-3"> <a class="nav-link active" href="protocols.html">Protocols<span class="visually-hidden-focusable">(current)</span></a></li>
-						<!-- BlueSky Icon Link -->
-						<li class="nav-item px-3">
-							<a class="nav-link" href="https://bsky.app/profile/thealonlab.bsky.social" target="_blank" aria-label="BlueSky Profile">
-								<img src="https://bsky.app/static/apple-touch-icon.png" alt="BlueSky Profile" style="width: 20px; height: 20px; vertical-align: middle;">
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-	</header>
-	<main>
-		<!-- Banner -->
-		<section id="banner">
-			<div class="container pt-5">
-				<div class="row bg-white">
-					<div class="col ">
-						<img src="images/Alon_Lab_Logo.svg" alt="cholesterol logo" class="logo mt-3 mb-2 mx-auto d-block">
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- Page Content -->
-		<article id="content">
-			<div class="container ">
-				<div class="row justify-content-md-center bg-body-secondary py-4">
-					<div class="col-auto px-4">
-						<h3 class="text-decoration-underline text-muted">Media and buffers recipes</h3>						
-					</div>
-				</div>
-				<div class="row justify-content-left bg-body-secondary py-4">
-					<!-- column 1 -->
-					<div class="col-auto px-4">
-						<h5 class="text-decoration-underline text-muted">Miniprep buffers</h5>
-						<ul>
-							<li><a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#P1">P1 (resuspension buffer)</a></li>
-							<li><a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#P2">P2 (lysis buffer)</a></li>
-							<li><a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#N3">N3 (neutralization buffer)</a></li>
-							<li><a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#P3">P3 (neutralization buffer)</a></li>
-							<li><a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#PB">PB (PCR cleanup or EnoA+ removal)</a></li>
-							<li><a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#PE">PE (wash  buffer)</a></li>
-							<li><a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#QG">QG (gel extraction)</a></li>
-						</ul>
-					</div>
-					<!-- column 1 -->
-					<!-- column 2 -->
-					<div class="col-auto px-4">
-						<ul>
-							<li><a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#TB">Terific Broth (TB)</a></li>
-							<li><a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#YPAD">YPAD</a></li>
-							<li><a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#Drop-out">Drop-out media</a></li>
-						</ul>
-					</div>
-					<!-- column 2 -->
-					<!-- column 3 -->
-					<div class="col-auto px-4">
-						<ul>
-							<li><a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#HBS">10X HBS</a></li>
-						</ul>
-					</div>
-					<!-- column 3 -->
-				</div>
-				<div class="row justify-content-md-left bg-body-secondary py-4">
-					<div class="col-auto px-4">
-						<a class="d-flex justify-content-end text-primary" href="protocols.html">Back to Protocols</a>
-					</div>
-				</div>
+<body class="bg-gray-50 font-sans text-gray-800 antialiased">
 
-			</div>
-        <!-- Modal Structure -->
-        <div class="modal fade" id="TB" tabindex="-1" aria-labelledby="TBLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Terific Broth (TB)</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-   						<p>For 1 L of media:</p>
-						<ul>
-							<li>47.6 TB mix</li>
-							<li>4 ml glycerol</li>
-						</ul>
-						<p>Add water to 1 L and autoclave at 121°C for 15–20 minutes.</p>
-						<p><strong>After autoclave</strong> add:
-						<ul>
-							<li>0.1% - 1% glucose</li>
-							<li>10 mM MgSO<sub>4</sub></li>
-							<li>antibiotics</li>
-						</ul>
-                    </div>
-                </div>
-            </div>
+  <!-- ========== NAVBAR ========== -->
+  <nav class="bg-yale fixed top-0 left-0 right-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+
+        <a href="index.html"
+           class="flex items-center gap-2 text-white font-semibold text-lg tracking-wide
+                  hover:opacity-80 transition-opacity">
+          <img src="images/cholesterol_logo.svg" alt="Alon Lab logo" class="h-8 w-8" />
+          The Alon Lab
+        </a>
+
+        <div class="hidden lg:flex items-center gap-6 text-sm font-medium text-white">
+          <a href="index.html"        class="nav-link-animated">Home</a>
+          <a href="research.html"     class="nav-link-animated">Research</a>
+          <a href="people.html"       class="nav-link-animated">Lab Members</a>
+          <a href="gallery.html"      class="nav-link-animated">Gallery</a>
+          <a href="publications.html" class="nav-link-animated">Publications</a>
+          <a href="positions.html"    class="nav-link-animated">Positions</a>
+          <a href="contact.html"      class="nav-link-animated">Contact</a>
+          <a href="protocols.html"    class="nav-link-animated">Protocols</a>
+          <a href="https://bsky.app/profile/thealonlab.bsky.social"
+             target="_blank" rel="noopener" aria-label="BlueSky"
+             class="hover:opacity-75 transition-opacity">
+            <img src="https://bsky.app/static/apple-touch-icon.png"
+                 alt="BlueSky" class="h-5 w-5 rounded-sm" />
+          </a>
         </div>
-        <!-- Modal End -->
-        <!-- Modal Structure -->
-        <div class="modal fade" id="YPAD" tabindex="-1" aria-labelledby="YPADLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">YPAD</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-   						<p>For 1 L of media:</p>
-						<ul>
-							<li>10 gr <strong>Y</strong>east extract</li>
-							<li>20 gr <strong>P</strong>eptone</li>
-							<li>80 mg <strong>A</strong>denine sulfate</li>
-							<li>20 gr Agar (for plates)</li>
-						</ul>
-						<p>Dissolve in 950 ml water and autoclave</p>
-						<p><strong>After autoclave</strong> add:</p>
-						<ul>
-							<li>20 gr <strong>D</strong>extrose (Glucose) dissolved in 50 ml water and filter sterilized</li>
-						</ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal End -->
-        <!-- Modal Structure -->
-        <div class="modal fade" id="Drop-out" tabindex="-1" aria-labelledby="Drop-outLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">yeast drop-out media</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-   						<p>For 1 L of media:</p>
-						<ul>
-							<li>1.92 gr drop-out mix</li>
-							<li>6.7 gr yeast nitrogen base w/o AA</li>
-							<li>20 gr carbohydrate (glucose/galactose)</li>
-						</ul>
-						<p><strong>For plates</strong> add:
-						<ul>
-							<li>20 gr Agar</li>
-						</ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal End -->
-        <!-- Modal Structure -->
-        <div class="modal fade" id="P1" tabindex="-1" aria-labelledby="P1Label" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">P1 (resuspension buffer)</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                    	<p><strong>Keep refrigirated<br>Shake well before using</strong></p>
-						<ul>
-							<li>50 mM Tris-HCl pH 8.0</li>
-							<li>10 mM EDTA</li>
-							<li>100 µg/ml RNase A</li>
-							<li>43 µg/ml Thymophthalein (blue pH indicator)</li>
-						</ul>
-						<p>1000X Blue pH indicator dye:<br>
-						43 mg/ml Thymophthalein in 100% ethanol</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal End -->
-        <!-- Modal Structure -->
-        <div class="modal fade" id="P2" tabindex="-1" aria-labelledby="P2Label" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">P2 (lysis buffer)</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-						<ul>
-							<li>200 mM NaOH</li>
-							<li>1% SDS</li>
-						</ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal End -->
-        <!-- Modal Structure -->
-        <div class="modal fade" id="N3" tabindex="-1" aria-labelledby="N3Label" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">N3 (neutralization buffer)</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                    	<p>Neutralization buffer for spin columns</p>
-						<ul>
-							<li>4.2M guanidine hydrochloride (GuHCl)</li>
-							<li>0.9M potassium acetate pH 4.8</li>
-						</ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal End -->
-        <!-- Modal Structure -->
-        <div class="modal fade" id="P3" tabindex="-1" aria-labelledby="P3Label" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">P3 (neutralization buffer)</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                    	<p>Neutralization buffer for bacmid purification, midi, maxi, giga preps<br><strong>Do not use with spin columns!</strong></p>
-						<ul>
-							<li>3.0 M potassium acetate pH 5.5</li>
-						</ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal End -->
-        <!-- Modal Structure -->
-        <div class="modal fade" id="PB" tabindex="-1" aria-labelledby="PBLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">PB buffer</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                    	<p>extra wash step for EndA+ removal or PCR purification</p>
-						<ul>
-							<li>5M guanidine hydrochloride (Gu-HCL)</li>
-							<li>30% isopropanol</li>
-						</ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal End -->
-        <!-- Modal Structure -->
-        <div class="modal fade" id="QG" tabindex="-1" aria-labelledby="QGLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">QG (gel extraction buffer)</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-						<ul>
-							<li>5.5 M guanidine thiocyanate (GuSCN)</li>
-							<li>20 mM Tris-HCl, pH 6.6 (25ºC)</li>
-						</ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal End -->
-        <!-- Modal Structure -->
-        <div class="modal fade" id="PE" tabindex="-1" aria-labelledby="PELabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">PE (wash buffer)</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-						<ul>
-							<li>80% ethanol</li>
-							<li>10mM Tris-HCl pH 7.5 (25ºC)</li>
-						</ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal End -->
-		<!-- Modal Structure -->
-        <div class="modal fade" id="HBS" tabindex="-1" aria-labelledby="HBSLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">10X HEPES buffered saline (HBS)</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-						<ul>
-							<li>200 mM HEPES pH 7.5</li>
-							<li>1.5 M NaCl</li>
-						</ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal End -->
+
+        <button id="hamburger" aria-label="Toggle menu"
+                class="lg:hidden text-white focus:outline-none">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24">
+            <path id="hamburger-open"  stroke-linecap="round" stroke-linejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"/>
+            <path id="hamburger-close" stroke-linecap="round" stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12" class="hidden"/>
+          </svg>
+        </button>
+      </div>
     </div>
-		</article>
-	</main>
-	<!-- Footer -->
-	<footer class="bg-dark text-center text-lg-start">
-		<div class="container">
-			<div class="d-flex justify-content-center text-bg-dark p-2">Alon lab, SHM-B323, 333 Cedar St., New Haven, CT 06510</div>
-			<div class="d-flex justify-content-evenly p-2">
-				<a class="d-flex justify-content-end text-bg-dark" href="https://medicine.yale.edu/pharm/" target="_blank">Department of Pharmacology</a>
-				
-				<a class="d-flex justify-content-start text-bg-dark" href="https://medicine.yale.edu/" target="_blank">Yale School of Medicine</a><!--https://medicine.yale.edu/pharm/--> </div>
-    <!-- Copyright -->
-			<div class="d-flex justify-content-center text-bg-dark p-2">&#169; Assaf Alon 2024 </div>
-    <!-- Copyright -->
-		</div>
-	</footer>
-<!-- Bootstrap core JavaScript --> 
-<!-- <script src="jquery/jquery.js"></script> --> 
-<!-- <script src="js/bootstrap.bundle.min.js"></script> --> 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+    <div id="mobile-menu" class="lg:hidden bg-yale border-t border-blue-800">
+      <div class="flex flex-col px-4 pb-4 pt-2 gap-3 text-sm font-medium text-white">
+        <a href="index.html"        class="hover:text-blue-200 transition-colors">Home</a>
+        <a href="research.html"     class="hover:text-blue-200 transition-colors">Research</a>
+        <a href="people.html"       class="hover:text-blue-200 transition-colors">Lab Members</a>
+        <a href="gallery.html"      class="hover:text-blue-200 transition-colors">Gallery</a>
+        <a href="publications.html" class="hover:text-blue-200 transition-colors">Publications</a>
+        <a href="positions.html"    class="hover:text-blue-200 transition-colors">Positions</a>
+        <a href="contact.html"      class="hover:text-blue-200 transition-colors">Contact</a>
+        <a href="protocols.html"    class="hover:text-blue-200 transition-colors">Protocols</a>
+        <a href="https://bsky.app/profile/thealonlab.bsky.social"
+           target="_blank" rel="noopener"
+           class="flex items-center gap-2 hover:text-blue-200 transition-colors">
+          <img src="https://bsky.app/static/apple-touch-icon.png"
+               alt="BlueSky" class="h-4 w-4 rounded-sm" />
+          BlueSky
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========== LOCK SCREEN ========== -->
+  <div id="lock-screen"
+       class="pt-16 flex items-center justify-center bg-gray-50 animate-fade-in">
+    <div class="w-full max-w-sm mx-auto px-4 py-16">
+
+      <div class="flex justify-center mb-6">
+        <div class="h-20 w-20 rounded-full bg-yale flex items-center justify-center shadow-lg">
+          <svg class="h-10 w-10 text-white" fill="none" stroke="currentColor"
+               stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0
+                     00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+        </div>
+      </div>
+
+      <h1 class="text-2xl font-bold text-center text-gray-900 mb-1">
+        Media &amp; Buffer Recipes
+      </h1>
+      <p class="text-sm text-center text-gray-500 mb-8">
+        This page is restricted to Alon Lab members.<br />
+        Please enter the password to continue.
+      </p>
+
+      <form id="password-form" class="space-y-4" autocomplete="off">
+        <div class="relative">
+          <input
+            id="password-input"
+            type="password"
+            placeholder="Enter password"
+            autocomplete="current-password"
+            class="w-full px-4 py-3 pr-12 rounded-xl border border-gray-200 bg-white
+                   text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-yale-light
+                   focus:border-transparent transition"
+          />
+          <button type="button" id="toggle-pw"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400
+                         hover:text-gray-600 transition-colors"
+                  aria-label="Toggle password visibility">
+            <svg id="eye-open" class="h-5 w-5" fill="none" stroke="currentColor"
+                 stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943
+                       9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943
+                       -9.542-7z"/>
+            </svg>
+            <svg id="eye-closed" class="h-5 w-5 hidden" fill="none" stroke="currentColor"
+                 stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943
+                       -9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243
+                       4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532
+                       7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5
+                       c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132
+                       5.411m0 0L21 21"/>
+            </svg>
+          </button>
+        </div>
+
+        <p id="pw-error" class="hidden text-xs text-red-500 text-center font-medium">
+          Incorrect password. Please try again.
+        </p>
+
+        <button type="submit"
+                class="w-full py-3 bg-yale text-white text-sm font-semibold rounded-xl
+                       hover:bg-yale-light transition-colors shadow-sm">
+          Unlock Recipes
+        </button>
+      </form>
+
+      <p class="text-xs text-center text-gray-400 mt-6">
+        Contact
+        <a href="mailto:assaf.alon@yale.edu"
+           class="text-yale-light hover:text-yale transition-colors">
+          assaf.alon@yale.edu
+        </a>
+        for access.
+      </p>
+    </div>
+  </div>
+
+  <!-- ========== RECIPE CONTENT ========== -->
+  <div id="recipe-content">
+
+    <!-- Page header -->
+    <header class="pt-24 pb-8 bg-white border-b border-gray-200">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8
+                  flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-bold text-yale section-title">
+            Media &amp; Buffer Recipes
+          </h1>
+          <p class="mt-4 text-gray-500 font-light">
+            Internal lab recipes — Alon Lab members only.
+          </p>
+        </div>
+        <button id="lock-btn"
+                class="inline-flex items-center gap-2 px-4 py-2 border border-gray-200
+                       rounded-lg text-sm text-gray-500 hover:text-yale hover:border-yale
+                       transition-colors bg-white shadow-sm self-start sm:self-auto">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0
+                     00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+          Lock
+        </button>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+      <!-- Search + Filter -->
+      <div class="flex flex-col sm:flex-row gap-4 mb-6">
+        <div class="relative flex-1">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400"
+               fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <input id="recipe-search" type="search" placeholder="Search recipes…"
+                 class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 bg-white
+                        text-sm shadow-sm focus:outline-none focus:ring-2
+                        focus:ring-yale-light focus:border-transparent transition" />
+        </div>
+        <div class="flex flex-wrap gap-2 items-center">
+          <button class="filter-chip active px-3 py-1.5 rounded-full border border-gray-200
+                         bg-white text-xs font-medium text-gray-600" data-cat="all">
+            All
+          </button>
+          <button class="filter-chip px-3 py-1.5 rounded-full border border-gray-200
+                         bg-white text-xs font-medium text-gray-600" data-cat="miniprep">
+            Miniprep Buffers
+          </button>
+          <button class="filter-chip px-3 py-1.5 rounded-full border border-gray-200
+                         bg-white text-xs font-medium text-gray-600" data-cat="media">
+            Growth Media
+          </button>
+          <button class="filter-chip px-3 py-1.5 rounded-full border border-gray-200
+                         bg-white text-xs font-medium text-gray-600" data-cat="buffers">
+            Other Buffers
+          </button>
+        </div>
+      </div>
+
+      <p id="results-count" class="text-xs text-gray-400 mb-6"></p>
+
+      <!-- ── Recipe Grid ── -->
+      <div id="recipe-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
+        <!-- ══ MINIPREP BUFFERS ══ -->
+
+        <!-- P1 -->
+        <div class="recipe-card bg-white rounded-xl border border-gray-200 p-5
+                    flex flex-col gap-3"
+             data-cat="miniprep" data-title="P1 — Resuspension Buffer"
+             onclick="openModal('modal-p1')">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-violet-400 mt-1.5 flex-shrink-0"></span>
+            <span class="badge-miniprep text-xs font-semibold px-2.5 py-0.5
+                         rounded-full ml-auto">Miniprep</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug recipe-title">
+            P1 — Resuspension Buffer
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto">Click to view recipe</p>
+        </div>
+
+        <!-- P2 -->
+        <div class="recipe-card bg-white rounded-xl border border-gray-200 p-5
+                    flex flex-col gap-3"
+             data-cat="miniprep" data-title="P2 — Lysis Buffer"
+             onclick="openModal('modal-p2')">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-violet-400 mt-1.5 flex-shrink-0"></span>
+            <span class="badge-miniprep text-xs font-semibold px-2.5 py-0.5
+                         rounded-full ml-auto">Miniprep</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug recipe-title">
+            P2 — Lysis Buffer
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto">Click to view recipe</p>
+        </div>
+
+        <!-- N3 -->
+        <div class="recipe-card bg-white rounded-xl border border-gray-200 p-5
+                    flex flex-col gap-3"
+             data-cat="miniprep" data-title="N3 — Neutralization Buffer (spin columns)"
+             onclick="openModal('modal-n3')">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-violet-400 mt-1.5 flex-shrink-0"></span>
+            <span class="badge-miniprep text-xs font-semibold px-2.5 py-0.5
+                         rounded-full ml-auto">Miniprep</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug recipe-title">
+            N3 — Neutralization Buffer
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto">Click to view recipe</p>
+        </div>
+
+        <!-- P3 -->
+        <div class="recipe-card bg-white rounded-xl border border-gray-200 p-5
+                    flex flex-col gap-3"
+             data-cat="miniprep" data-title="P3 — Neutralization Buffer (bacmid / midi / maxi)"
+             onclick="openModal('modal-p3')">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-violet-400 mt-1.5 flex-shrink-0"></span>
+            <span class="badge-miniprep text-xs font-semibold px-2.5 py-0.5
+                         rounded-full ml-auto">Miniprep</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug recipe-title">
+            P3 — Neutralization Buffer
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto">Click to view recipe</p>
+        </div>
+
+        <!-- PB -->
+        <div class="recipe-card bg-white rounded-xl border border-gray-200 p-5
+                    flex flex-col gap-3"
+             data-cat="miniprep" data-title="PB — PCR Cleanup / EndA+ Removal"
+             onclick="openModal('modal-pb')">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-violet-400 mt-1.5 flex-shrink-0"></span>
+            <span class="badge-miniprep text-xs font-semibold px-2.5 py-0.5
+                         rounded-full ml-auto">Miniprep</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug recipe-title">
+            PB — PCR Cleanup / EndA+ Removal
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto">Click to view recipe</p>
+        </div>
+
+        <!-- PE -->
+        <div class="recipe-card bg-white rounded-xl border border-gray-200 p-5
+                    flex flex-col gap-3"
+             data-cat="miniprep" data-title="PE — Wash Buffer"
+             onclick="openModal('modal-pe')">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-violet-400 mt-1.5 flex-shrink-0"></span>
+            <span class="badge-miniprep text-xs font-semibold px-2.5 py-0.5
+                         rounded-full ml-auto">Miniprep</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug recipe-title">
+            PE — Wash Buffer
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto">Click to view recipe</p>
+        </div>
+
+        <!-- QG -->
+        <div class="recipe-card bg-white rounded-xl border border-gray-200 p-5
+                    flex flex-col gap-3"
+             data-cat="miniprep" data-title="QG — Gel Extraction Buffer"
+             onclick="openModal('modal-qg')">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-violet-400 mt-1.5 flex-shrink-0"></span>
+            <span class="badge-miniprep text-xs font-semibold px-2.5 py-0.5
+                         rounded-full ml-auto">Miniprep</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug recipe-title">
+            QG — Gel Extraction Buffer
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto">Click to view recipe</p>
+        </div>
+
+        <!-- ══ GROWTH MEDIA ══ -->
+
+        <!-- TB -->
+        <div class="recipe-card bg-white rounded-xl border border-gray-200 p-5
+                    flex flex-col gap-3"
+             data-cat="media" data-title="Terrific Broth (TB)"
+             onclick="openModal('modal-tb')">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0"></span>
+            <span class="badge-media text-xs font-semibold px-2.5 py-0.5
+                         rounded-full ml-auto">Growth Media</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug recipe-title">
+            Terrific Broth (TB)
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto">Click to view recipe</p>
+        </div>
+
+        <!-- YPAD -->
+        <div class="recipe-card bg-white rounded-xl border border-gray-200 p-5
+                    flex flex-col gap-3"
+             data-cat="media" data-title="YPAD"
+             onclick="openModal('modal-ypad')">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0"></span>
+            <span class="badge-media text-xs font-semibold px-2.5 py-0.5
+                         rounded-full ml-auto">Growth Media</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug recipe-title">
+            YPAD
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto">Click to view recipe</p>
+        </div>
+
+        <!-- Yeast Drop-out -->
+        <div class="recipe-card bg-white rounded-xl border border-gray-200 p-5
+                    flex flex-col gap-3"
+             data-cat="media" data-title="Yeast Drop-out Media"
+             onclick="openModal('modal-dropout')">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0"></span>
+            <span class="badge-media text-xs font-semibold px-2.5 py-0.5
+                         rounded-full ml-auto">Growth Media</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug recipe-title">
+            Yeast Drop-out Media
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto">Click to view recipe</p>
+        </div>
+
+        <!-- ══ OTHER BUFFERS ══ -->
+
+        <!-- HBS -->
+        <div class="recipe-card bg-white rounded-xl border border-gray-200 p-5
+                    flex flex-col gap-3"
+             data-cat="buffers" data-title="10X HEPES Buffered Saline (HBS)"
+             onclick="openModal('modal-hbs')">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"></span>
+            <span class="badge-buffers text-xs font-semibold px-2.5 py-0.5
+                         rounded-full ml-auto">Other Buffers</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug recipe-title">
+            20X HEPES Buffered Saline (HBS)
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto">Click to view recipe</p>
+        </div>
+
+      </div><!-- /recipe-grid -->
+
+      <!-- No results -->
+      <div id="no-results" class="hidden text-center py-16">
+        <svg class="h-12 w-12 text-gray-300 mx-auto mb-4" fill="none"
+             stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <p class="text-gray-400 text-sm">No recipes found matching your search.</p>
+        <button onclick="resetSearch()"
+                class="mt-3 text-xs text-yale-light hover:text-yale transition-colors">
+          Clear search
+        </button>
+      </div>
+
+    </main>
+  </div><!-- /recipe-content -->
+
+  <!-- ========================================
+       MODALS
+  ======================================== -->
+
+  <!-- ── P1 ── -->
+  <div id="modal-p1" class="modal-backdrop" onclick="closeModal('modal-p1')">
+    <div class="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8"
+         onclick="event.stopPropagation()">
+      <div class="flex items-start justify-between mb-5">
+        <div>
+          <span class="badge-miniprep text-xs font-semibold px-2.5 py-1 rounded-full">
+            Miniprep Buffer
+          </span>
+          <h2 class="text-xl font-bold text-gray-900 mt-2">P1 — Resuspension Buffer</h2>
+        </div>
+        <button onclick="closeModal('modal-p1')"
+                class="text-gray-400 hover:text-gray-600 transition-colors ml-4 flex-shrink-0">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="ingredient-list space-y-2 text-sm text-gray-700 mb-5">
+        <li>50 mM Tris-HCl pH 8.0</li>
+        <li>10 mM EDTA</li>
+        <li>100 µg/ml RNase A</li>
+        <li>43 µg/ml Thymophthalein (blue pH indicator)</li>
+      </ul>
+      <div class="bg-yale-pale rounded-xl p-4 text-xs text-yale leading-relaxed space-y-1">
+        <p>⚠️ Keep refrigerated. Shake well before using.</p>
+        <p><strong>1000X Blue pH indicator dye:</strong> 43 mg/ml Thymophthalein in 100% ethanol</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── P2 ── -->
+  <div id="modal-p2" class="modal-backdrop" onclick="closeModal('modal-p2')">
+    <div class="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8"
+         onclick="event.stopPropagation()">
+      <div class="flex items-start justify-between mb-5">
+        <div>
+          <span class="badge-miniprep text-xs font-semibold px-2.5 py-1 rounded-full">
+            Miniprep Buffer
+          </span>
+          <h2 class="text-xl font-bold text-gray-900 mt-2">P2 — Lysis Buffer</h2>
+        </div>
+        <button onclick="closeModal('modal-p2')"
+                class="text-gray-400 hover:text-gray-600 transition-colors ml-4 flex-shrink-0">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="ingredient-list space-y-2 text-sm text-gray-700">
+        <li>200 mM NaOH</li>
+        <li>1% SDS</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── N3 ── -->
+  <div id="modal-n3" class="modal-backdrop" onclick="closeModal('modal-n3')">
+    <div class="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8"
+         onclick="event.stopPropagation()">
+      <div class="flex items-start justify-between mb-5">
+        <div>
+          <span class="badge-miniprep text-xs font-semibold px-2.5 py-1 rounded-full">
+            Miniprep Buffer
+          </span>
+          <h2 class="text-xl font-bold text-gray-900 mt-2">N3 — Neutralization Buffer</h2>
+          <p class="text-xs text-gray-400 mt-1">For spin columns</p>
+        </div>
+        <button onclick="closeModal('modal-n3')"
+                class="text-gray-400 hover:text-gray-600 transition-colors ml-4 flex-shrink-0">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="ingredient-list space-y-2 text-sm text-gray-700">
+        <li>4.2 M guanidine hydrochloride (GuHCl)</li>
+        <li>0.9 M potassium acetate pH 4.8</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── P3 ── -->
+  <div id="modal-p3" class="modal-backdrop" onclick="closeModal('modal-p3')">
+    <div class="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8"
+         onclick="event.stopPropagation()">
+      <div class="flex items-start justify-between mb-5">
+        <div>
+          <span class="badge-miniprep text-xs font-semibold px-2.5 py-1 rounded-full">
+            Miniprep Buffer
+          </span>
+          <h2 class="text-xl font-bold text-gray-900 mt-2">P3 — Neutralization Buffer</h2>
+          <p class="text-xs text-gray-400 mt-1">For bacmid / midi / maxi / giga preps</p>
+        </div>
+        <button onclick="closeModal('modal-p3')"
+                class="text-gray-400 hover:text-gray-600 transition-colors ml-4 flex-shrink-0">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="ingredient-list space-y-2 text-sm text-gray-700 mb-5">
+        <li>3.0 M potassium acetate pH 5.5</li>
+      </ul>
+      <div class="bg-red-50 rounded-xl p-4 text-xs text-red-700 leading-relaxed">
+        ⚠️ <strong>Do not use with spin columns!</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PB ── -->
+  <div id="modal-pb" class="modal-backdrop" onclick="closeModal('modal-pb')">
+    <div class="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8"
+         onclick="event.stopPropagation()">
+      <div class="flex items-start justify-between mb-5">
+        <div>
+          <span class="badge-miniprep text-xs font-semibold px-2.5 py-1 rounded-full">
+            Miniprep Buffer
+          </span>
+          <h2 class="text-xl font-bold text-gray-900 mt-2">PB — PCR Cleanup / EndA+ Removal</h2>
+          <p class="text-xs text-gray-400 mt-1">Extra wash step for EndA+ removal or PCR purification</p>
+        </div>
+        <button onclick="closeModal('modal-pb')"
+                class="text-gray-400 hover:text-gray-600 transition-colors ml-4 flex-shrink-0">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="ingredient-list space-y-2 text-sm text-gray-700">
+        <li>5 M guanidine hydrochloride (Gu-HCL)</li>
+        <li>30% isopropanol</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── PE ── -->
+  <div id="modal-pe" class="modal-backdrop" onclick="closeModal('modal-pe')">
+    <div class="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8"
+         onclick="event.stopPropagation()">
+      <div class="flex items-start justify-between mb-5">
+        <div>
+          <span class="badge-miniprep text-xs font-semibold px-2.5 py-1 rounded-full">
+            Miniprep Buffer
+          </span>
+          <h2 class="text-xl font-bold text-gray-900 mt-2">PE — Wash Buffer</h2>
+        </div>
+        <button onclick="closeModal('modal-pe')"
+                class="text-gray-400 hover:text-gray-600 transition-colors ml-4 flex-shrink-0">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="ingredient-list space-y-2 text-sm text-gray-700">
+        <li>80% ethanol</li>
+        <li>10 mM Tris-HCl pH 7.5 (25°C)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── QG ── -->
+  <div id="modal-qg" class="modal-backdrop" onclick="closeModal('modal-qg')">
+    <div class="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8"
+         onclick="event.stopPropagation()">
+      <div class="flex items-start justify-between mb-5">
+        <div>
+          <span class="badge-miniprep text-xs font-semibold px-2.5 py-1 rounded-full">
+            Miniprep Buffer
+          </span>
+          <h2 class="text-xl font-bold text-gray-900 mt-2">QG — Gel Extraction Buffer</h2>
+        </div>
+        <button onclick="closeModal('modal-qg')"
+                class="text-gray-400 hover:text-gray-600 transition-colors ml-4 flex-shrink-0">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="ingredient-list space-y-2 text-sm text-gray-700">
+        <li>5.5 M guanidine thiocyanate (GuSCN)</li>
+        <li>20 mM Tris-HCl, pH 6.6 (25°C)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── Terrific Broth ── -->
+  <div id="modal-tb" class="modal-backdrop" onclick="closeModal('modal-tb')">
+    <div class="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8"
+         onclick="event.stopPropagation()">
+      <div class="flex items-start justify-between mb-5">
+        <div>
+          <span class="badge-media text-xs font-semibold px-2.5 py-1 rounded-full">
+            Growth Media
+          </span>
+          <h2 class="text-xl font-bold text-gray-900 mt-2">Terrific Broth (TB)</h2>
+          <p class="text-xs text-gray-400 mt-1">For 1 L</p>
+        </div>
+        <button onclick="closeModal('modal-tb')"
+                class="text-gray-400 hover:text-gray-600 transition-colors ml-4 flex-shrink-0">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="ingredient-list space-y-2 text-sm text-gray-700 mb-5">
+        <li>47.6 g TB mix</li>
+        <li>4 ml glycerol</li>
+        <li>Add water to 1 L</li>
+        <li>Autoclave at 121°C for 15–20 minutes</li>
+      </ul>
+      <div class="bg-yale-pale rounded-xl p-4 text-xs text-yale leading-relaxed">
+        <p class="font-semibold mb-2">After autoclave add:</p>
+        <ul class="ingredient-list space-y-1.5">
+          <li>0.1%–1% glucose</li>
+          <li>10 mM MgSO₄</li>
+          <li>Antibiotics</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── YPAD ── -->
+  <div id="modal-ypad" class="modal-backdrop" onclick="closeModal('modal-ypad')">
+    <div class="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8"
+         onclick="event.stopPropagation()">
+      <div class="flex items-start justify-between mb-5">
+        <div>
+          <span class="badge-media text-xs font-semibold px-2.5 py-1 rounded-full">
+            Growth Media
+          </span>
+          <h2 class="text-xl font-bold text-gray-900 mt-2">YPAD</h2>
+          <p class="text-xs text-gray-400 mt-1">For 1 L</p>
+        </div>
+        <button onclick="closeModal('modal-ypad')"
+                class="text-gray-400 hover:text-gray-600 transition-colors ml-4 flex-shrink-0">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="ingredient-list space-y-2 text-sm text-gray-700 mb-5">
+        <li>10 g Yeast extract</li>
+        <li>20 g Peptone</li>
+        <li>80 mg Adenine sulfate</li>
+        <li>20 g Agar (for plates only)</li>
+        <li>Dissolve in 950 ml water and autoclave</li>
+      </ul>
+      <div class="bg-yale-pale rounded-xl p-4 text-xs text-yale leading-relaxed">
+        <p class="font-semibold mb-2">After autoclave add:</p>
+        <ul class="ingredient-list space-y-1.5">
+          <li>20 g Dextrose (Glucose) dissolved in 50 ml water and filter sterilized</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Yeast Drop-out ── -->
+  <div id="modal-dropout" class="modal-backdrop" onclick="closeModal('modal-dropout')">
+    <div class="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8"
+         onclick="event.stopPropagation()">
+      <div class="flex items-start justify-between mb-5">
+        <div>
+          <span class="badge-media text-xs font-semibold px-2.5 py-1 rounded-full">
+            Growth Media
+          </span>
+          <h2 class="text-xl font-bold text-gray-900 mt-2">Yeast Drop-out Media</h2>
+          <p class="text-xs text-gray-400 mt-1">For 1 L</p>
+        </div>
+        <button onclick="closeModal('modal-dropout')"
+                class="text-gray-400 hover:text-gray-600 transition-colors ml-4 flex-shrink-0">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="ingredient-list space-y-2 text-sm text-gray-700 mb-5">
+        <li>1.92 g drop-out mix</li>
+        <li>6.7 g yeast nitrogen base w/o AA</li>
+        <li>20 g carbohydrate (glucose/galactose)</li>
+      </ul>
+      <div class="bg-yale-pale rounded-xl p-4 text-xs text-yale leading-relaxed">
+        <p class="font-semibold mb-1">For plates add:</p>
+        <ul class="ingredient-list space-y-1.5">
+          <li>20 g Agar</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── HBS ── -->
+  <div id="modal-hbs" class="modal-backdrop" onclick="closeModal('modal-hbs')">
+    <div class="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8"
+         onclick="event.stopPropagation()">
+      <div class="flex items-start justify-between mb-5">
+        <div>
+          <span class="badge-buffers text-xs font-semibold px-2.5 py-1 rounded-full">
+            Other Buffers
+          </span>
+          <h2 class="text-xl font-bold text-gray-900 mt-2">20X HEPES Buffered Saline (HBS)</h2>
+        </div>
+        <button onclick="closeModal('modal-hbs')"
+                class="text-gray-400 hover:text-gray-600 transition-colors ml-4 flex-shrink-0">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="ingredient-list space-y-2 text-sm text-gray-700">
+        <li>400 mM HEPES pH 7.5</li>
+        <li>3 M NaCl</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="bg-yale text-white text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8
+                flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-center sm:text-left text-blue-100 leading-relaxed">
+        <p class="font-semibold text-white">Alon Lab</p>
+        <p>SHM-B323, 333 Cedar St.</p>
+        <p>New Haven, CT 06510</p>
+      </div>
+      <div class="flex flex-col items-center sm:items-end gap-1 text-blue-200">
+        <a href="https://medicine.yale.edu/pharm/" target="_blank" rel="noopener"
+           class="hover:text-white transition-colors">Department of Pharmacology</a>
+        <a href="https://medicine.yale.edu/" target="_blank" rel="noopener"
+           class="hover:text-white transition-colors">Yale School of Medicine</a>
+        <p class="text-blue-300 text-xs mt-1">© Assaf Alon 2024</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script>
+    // ── Mobile menu ──────────────────────────────────────────────
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen   = document.getElementById('hamburger-open');
+    const iconClose  = document.getElementById('hamburger-close');
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      iconOpen.classList.toggle('hidden');
+      iconClose.classList.toggle('hidden');
+    });
+
+    // ── Password ─────────────────────────────────────────────────
+    const CORRECT_PASSWORD = 'alonlab'; // ← change to your actual password
+
+    const lockScreen    = document.getElementById('lock-screen');
+    const recipeContent = document.getElementById('recipe-content');
+    const pwForm        = document.getElementById('password-form');
+    const pwInput       = document.getElementById('password-input');
+    const pwError       = document.getElementById('pw-error');
+    const lockBtn       = document.getElementById('lock-btn');
+    const togglePw      = document.getElementById('toggle-pw');
+    const eyeOpen       = document.getElementById('eye-open');
+    const eyeClosed     = document.getElementById('eye-closed');
+
+    // Shared session with protocols.html
+    if (sessionStorage.getItem('alonlab_auth') === 'true') unlock();
+
+    pwForm.addEventListener('submit', e => {
+      e.preventDefault();
+      if (pwInput.value === CORRECT_PASSWORD) {
+        sessionStorage.setItem('alonlab_auth', 'true');
+        pwError.classList.add('hidden');
+        unlock();
+      } else {
+        pwError.classList.remove('hidden');
+        pwInput.value = '';
+        pwInput.focus();
+        pwInput.classList.add('border-red-400');
+        setTimeout(() => pwInput.classList.remove('border-red-400'), 1500);
+      }
+    });
+
+    function unlock() {
+      lockScreen.style.display = 'none';
+      recipeContent.classList.add('unlocked');
+      updateCount();
+    }
+
+    lockBtn.addEventListener('click', () => {
+      sessionStorage.removeItem('alonlab_auth');
+      recipeContent.classList.remove('unlocked');
+      lockScreen.style.display = '';
+      pwInput.value = '';
+    });
+
+    togglePw.addEventListener('click', () => {
+      const isHidden = pwInput.type === 'password';
+      pwInput.type = isHidden ? 'text' : 'password';
+      eyeOpen.classList.toggle('hidden', isHidden);
+      eyeClosed.classList.toggle('hidden', !isHidden);
+    });
+
+    // ── Modals ────────────────────────────────────────────────────
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-backdrop.open').forEach(m => {
+          m.classList.remove('open');
+        });
+        document.body.style.overflow = '';
+      }
+    });
+
+    // ── Search + Filter ───────────────────────────────────────────
+    const recipeSearch = document.getElementById('recipe-search');
+    const filterChips  = document.querySelectorAll('.filter-chip');
+    const recipeCards  = document.querySelectorAll('.recipe-card');
+    const noResults    = document.getElementById('no-results');
+    const resultsCount = document.getElementById('results-count');
+    let   activeCategory = 'all';
+
+    recipeSearch.addEventListener('input', applyFilters);
+
+    filterChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        filterChips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        activeCategory = chip.dataset.cat;
+        applyFilters();
+      });
+    });
+
+    function applyFilters() {
+      const query = recipeSearch.value.toLowerCase().trim();
+      let visible = 0;
+      recipeCards.forEach(card => {
+        const title    = card.dataset.title.toLowerCase();
+        const cat      = card.dataset.cat;
+        const matchCat = activeCategory === 'all' || cat === activeCategory;
+        const matchQ   = !query || title.includes(query);
+        if (matchCat && matchQ) {
+          card.style.display = '';
+          visible++;
+          const titleEl = card.querySelector('.recipe-title');
+          if (query) {
+            const re = new RegExp(`(${query})`, 'gi');
+            titleEl.innerHTML = card.dataset.title.replace(re, '<mark>$1</mark>');
+          } else {
+            titleEl.textContent = card.dataset.title;
+          }
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      noResults.classList.toggle('hidden', visible > 0);
+      updateCount(visible);
+    }
+
+    function updateCount(n) {
+      const total = recipeCards.length;
+      const shown = n !== undefined ? n : total;
+      resultsCount.textContent = shown === total
+        ? `Showing all ${total} recipes`
+        : `Showing ${shown} of ${total} recipes`;
+    }
+
+    function resetSearch() {
+      recipeSearch.value = '';
+      filterChips.forEach(c => c.classList.remove('active'));
+      document.querySelector('[data-cat="all"]').classList.add('active');
+      activeCategory = 'all';
+      applyFilters();
+    }
+  </script>
+
 </body>
 </html>
