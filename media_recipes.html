@@ -519,6 +519,24 @@
           <p class="text-xs text-gray-400 mt-auto">Click to view recipe</p>
         </div>
 
+
+        <!-- SOB -->
+        <div class="recipe-card bg-white rounded-xl border border-gray-200 p-5
+                    flex flex-col gap-3"
+             data-cat="media" data-title="Super Optimal Broth (SOB)"
+             onclick="openModal('modal-sob')">
+          <div class="flex items-start justify-between gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0"></span>
+            <span class="badge-media text-xs font-semibold px-2.5 py-0.5
+                         rounded-full ml-auto">Growth Media</span>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900 leading-snug recipe-title">
+            Super Optimal Broth (SOB)
+          </h3>
+          <p class="text-xs text-gray-400 mt-auto">Click to view recipe</p>
+        </div>
+
+
         <!-- YPAD -->
         <div class="recipe-card bg-white rounded-xl border border-gray-200 p-5
                     flex flex-col gap-3"
@@ -821,6 +839,45 @@
       </div>
     </div>
   </div>
+
+  <!-- ── Terrific Broth ── -->
+  <div id="modal-sob" class="modal-backdrop" onclick="closeModal('modal-tsob')">
+    <div class="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8"
+         onclick="event.stopPropagation()">
+      <div class="flex items-start justify-between mb-5">
+        <div>
+          <span class="badge-media text-xs font-semibold px-2.5 py-1 rounded-full">
+            Growth Media
+          </span>
+          <h2 class="text-xl font-bold text-gray-900 mt-2">Super Optimal Broth (SOB)</h2>
+          <p class="text-xs text-gray-400 mt-1">For 1 L</p>
+        </div>
+        <button onclick="closeModal('modal-sob')"
+                class="text-gray-400 hover:text-gray-600 transition-colors ml-4 flex-shrink-0">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="ingredient-list space-y-2 text-sm text-gray-700 mb-5">
+        <li>20 g Tryptone</li>
+        <li>5 g Yeast Extract</li>
+        <li>0.5 g NaCl (~8.5 mM)</li>
+        <li>0.186 g KCl (2.5 mM)</li>
+        <li>Add water to 1 L</li>
+        <li>Autoclave at 121°C for 15–20 minutes</li>
+      </ul>
+      <div class="bg-yale-pale rounded-xl p-4 text-xs text-yale leading-relaxed">
+        <p class="font-semibold mb-2">After autoclave add:</p>
+        <ul class="ingredient-list space-y-1.5">
+          <li>5 ml  of sterile 2 M MgCl<sub>2</sub></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
 
   <!-- ── YPAD ── -->
   <div id="modal-ypad" class="modal-backdrop" onclick="closeModal('modal-ypad')">
