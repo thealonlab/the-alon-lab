@@ -112,6 +112,7 @@
       object-fit: cover;
       display: block;
       border-radius: 16px;
+      cursor: zoom-in;
     }
 
     /* Caption overlay */
@@ -121,6 +122,7 @@
       background: linear-gradient(transparent, rgba(0,0,0,0.55));
       padding: 1.5rem 1.5rem 1rem;
       border-radius: 0 0 16px 16px;
+      pointer-events: none;
     }
 
     /* Arrow buttons */
@@ -281,54 +283,55 @@
 <!-- Main slide track -->
 <div class="carousel-track shadow-xl" id="carousel-track">
 <!-- Slide 1 -->
-
 <div class="carousel-slide active" data-index="0">
 <img alt="Summer get together" src="gallery/2026_lab_get_together.jpg"/>
 <div class="slide-caption">
 <p class="text-white text-sm font-medium drop-shadow">Summer get together</p>
 </div>
-</div><div class="carousel-slide" data-index="1">
+</div>
+
+<div class="carousel-slide" data-index="1">
+<img alt="Jony get together" src="gallery/2026_lab_get_together_2.png"/>
+<div class="slide-caption">
+<p class="text-white text-sm font-medium drop-shadow">Welcome Jony</p>
+</div>
+</div>
+
+<div class="carousel-slide" data-index="2">
 <img alt="2026_ASPET" src="gallery/2026_ASPET.jpg"/>
 <div class="slide-caption">
 <p class="text-white text-sm font-medium drop-shadow">2026 ASPET</p>
 </div>
 </div>
-<!-- Slide 2 -->
-<div class="carousel-slide" data-index="2">
+
+<div class="carousel-slide" data-index="3">
 <img alt="2025_ASPET" src="gallery/2025_ASPET.jpg"/>
 <div class="slide-caption">
 <p class="text-white text-sm font-medium drop-shadow">2025 ASPET</p>
 </div>
 </div>
-<!-- Slide 3 -->
-<div class="carousel-slide" data-index="3">
-<img alt="Freezer" src="gallery/freezer.jpg"/>
-<div class="slide-caption">
-<p class="text-white text-sm font-medium drop-shadow">Freezer</p>
-</div>
-</div>
-<!-- Slide 4 -->
+
 <div class="carousel-slide" data-index="4">
 <img alt="In Lab Uniform" src="gallery/in_lab_uniform.jpg"/>
 <div class="slide-caption">
 <p class="text-white text-sm font-medium drop-shadow">In Lab Uniform</p>
 </div>
 </div>
-<!-- Slide 5 -->
+
 <div class="carousel-slide" data-index="5">
 <img alt="2024 Pharmacology Retreat" src="gallery/2024_retreat.jpg"/>
 <div class="slide-caption">
 <p class="text-white text-sm font-medium drop-shadow">2024 Pharmacology Retreat</p>
 </div>
 </div>
-<!-- Slide 6 -->
+
 <div class="carousel-slide" data-index="6">
 <img alt="2024 Summer Lunch" src="gallery/2024_summer_lunch.jpg"/>
 <div class="slide-caption">
 <p class="text-white text-sm font-medium drop-shadow">2024 Summer Lunch</p>
 </div>
 </div>
-<!-- ← Add more slides here following the same pattern → -->
+
 <!-- Prev / Next buttons -->
 <button aria-label="Previous slide" class="carousel-btn carousel-btn-prev" id="btn-prev">
 <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24">
@@ -342,48 +345,35 @@
 </button>
 <!-- Dot indicators -->
 <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10" id="dot-container">
-<button aria-label="Go to slide 1" class="dot active" data-dot="0"></button><button aria-label="Go to slide 1" class="dot" data-dot="1"></button>
-<button aria-label="Go to slide 2" class="dot" data-dot="2"></button>
-<button aria-label="Go to slide 3" class="dot" data-dot="3"></button>
-<button aria-label="Go to slide 4" class="dot" data-dot="4"></button>
-<button aria-label="Go to slide 5" class="dot" data-dot="5"></button>
-<button aria-label="Go to slide 6" class="dot" data-dot="6"></button>
+<button aria-label="Go to slide 1" class="dot active" data-dot="0"></button>
+<button aria-label="Go to slide 2" class="dot" data-dot="1"></button>
+<button aria-label="Go to slide 3" class="dot" data-dot="2"></button>
+<button aria-label="Go to slide 4" class="dot" data-dot="3"></button>
+<button aria-label="Go to slide 5" class="dot" data-dot="4"></button>
+<button aria-label="Go to slide 6" class="dot" data-dot="5"></button>
+<button aria-label="Go to slide 7" class="dot" data-dot="6"></button>
 </div>
-<!-- Lightbox trigger (click image) -->
-<div aria-label="Click to enlarge" class="absolute inset-0 cursor-zoom-in z-[5]" id="lightbox-trigger"></div>
 </div><!-- /carousel-track -->
+
 <!-- Slide counter badge -->
 <div class="absolute top-3 right-3 bg-black/40 backdrop-blur-sm text-white text-xs font-medium px-2.5 py-1 rounded-full z-10 pointer-events-none">
-<span id="slide-counter">1</span> / <span id="slide-total">6</span>
+<span id="slide-counter">1</span> / <span id="slide-total">7</span>
 </div>
 </div><!-- /relative wrapper -->
-<!-- ── Thumbnail Strip ── -->
-<div class="flex gap-3 mt-4 overflow-x-auto pb-1" id="thumb-strip">
 
-<button aria-label="Thumbnail 1" class="thumb-btn active" data-thumb="0">
-<img alt="Summer get together" src="gallery/2026_lab_get_together.jpg"/>
-</button><button aria-label="Thumbnail 1" class="thumb-btn" data-thumb="1">
-<img alt="2026 ASPET" src="gallery/2026_ASPET.jpg"/>
-</button>
-<button aria-label="Thumbnail 2" class="thumb-btn" data-thumb="2">
-<img alt="2025 ASPET" src="gallery/2025_ASPET.jpg"/>
-</button>
-<button aria-label="Thumbnail 3" class="thumb-btn" data-thumb="3">
-<img alt="Freezer" src="gallery/freezer.jpg"/>
-</button>
-<button aria-label="Thumbnail 4" class="thumb-btn" data-thumb="4">
-<img alt="In Lab Uniform" src="gallery/in_lab_uniform.jpg"/>
-</button>
-<button aria-label="Thumbnail 5" class="thumb-btn" data-thumb="5">
-<img alt="2024 Pharmacology Retreat" src="gallery/2024_retreat.jpg"/>
-</button>
-<button aria-label="Thumbnail 6" class="thumb-btn" data-thumb="6">
-<img alt="2024 Summer Lunch" src="gallery/2024_summer_lunch.jpg"/>
-</button>
-<!-- Add more thumbnails here to match new slides -->
+<!-- Thumbnail Strip -->
+<div class="flex items-center gap-3 overflow-x-auto py-3 mt-4 scrollbar-thin" id="thumbnail-strip">
+<button class="thumb-btn active" data-thumb="0"><img alt="Summer get together" src="gallery/2026_lab_get_together.jpg"/></button>
+<button class="thumb-btn" data-thumb="1"><img alt="Welcome Jony" src="gallery/2026_lab_get_together_2.png"/></button>
+<button class="thumb-btn" data-thumb="2"><img alt="2026 ASPET" src="gallery/2026_ASPET.jpg"/></button>
+<button class="thumb-btn" data-thumb="3"><img alt="2025 ASPET" src="gallery/2025_ASPET.jpg"/></button>
+<button class="thumb-btn" data-thumb="4"><img alt="In Lab Uniform" src="gallery/in_lab_uniform.jpg"/></button>
+<button class="thumb-btn" data-thumb="5"><img alt="2024 Pharmacology Retreat" src="gallery/2024_retreat.jpg"/></button>
+<button class="thumb-btn" data-thumb="6"><img alt="2024 Summer Lunch" src="gallery/2024_summer_lunch.jpg"/></button>
 </div>
+
 <!-- ── Autoplay toggle ── -->
-<div class="flex items-center justify-between mt-5">
+<div class="flex items-center justify-between mt-3">
 <p class="text-xs text-gray-400 italic">
         Click image to enlarge · Use arrows or thumbnails to navigate
       </p>
@@ -400,6 +390,7 @@
 </button>
 </div>
 </main>
+
 <!-- ========== LIGHTBOX ========== -->
 <div aria-label="Image lightbox" aria-modal="true" id="lightbox" role="dialog">
 <button aria-label="Close lightbox" id="lightbox-close">
@@ -424,6 +415,7 @@
 <p class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white text-sm bg-black/40 backdrop-blur-sm px-4 py-1.5 rounded-full whitespace-nowrap" id="lightbox-caption">
 </p>
 </div>
+
 <!-- ========== FOOTER ========== -->
 <footer class="bg-yale text-white text-sm">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -435,10 +427,11 @@
 <div class="flex flex-col items-center sm:items-end gap-1 text-blue-200">
 <a class="hover:text-white transition-colors" href="https://medicine.yale.edu/pharm/" rel="noopener" target="_blank">Department of Pharmacology</a>
 <a class="hover:text-white transition-colors" href="https://medicine.yale.edu/" rel="noopener" target="_blank">Yale School of Medicine</a>
-<p class="text-blue-300 text-xs mt-1">© Assaf Alon 2024</p>
+<p class="text-blue-300 text-xs mt-1">© Assaf Alon 2026</p>
 </div>
 </div>
 </footer>
+
 <!-- ========== SCRIPTS ========== -->
 <script>
     // ── Mobile menu ──────────────────────────────────────────────
@@ -481,18 +474,20 @@
         if (idx < 0 || idx >= slides.length) return;
       }
       slides[current].classList.remove('active');
-      dots[current].classList.remove('active');
-      thumbs[current].classList.remove('active');
+      if (dots[current]) dots[current].classList.remove('active');
+      if (thumbs[current]) thumbs[current].classList.remove('active');
 
       current = idx;
 
       slides[current].classList.add('active');
-      dots[current].classList.add('active');
-      thumbs[current].classList.add('active');
+      if (dots[current]) dots[current].classList.add('active');
+      if (thumbs[current]) thumbs[current].classList.add('active');
       counter.textContent = current + 1;
 
       // Scroll thumbnail into view
-      thumbs[current].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      if (thumbs[current]) {
+        thumbs[current].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
     }
 
     // Arrows
@@ -603,7 +598,11 @@
       if (playing) startTimer();
     }
 
-    document.getElementById('lightbox-trigger').addEventListener('click', openLightbox);
+    slides.forEach(slide => {
+      const img = slide.querySelector('img');
+      if (img) img.addEventListener('click', openLightbox);
+    });
+
     document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', e => {
       if (e.target === lightbox) closeLightbox();
@@ -619,7 +618,6 @@
       goTo(current + 1);
       updateLightbox();
     });
-
   </script>
 </body>
 </html>
